@@ -18,10 +18,18 @@ describe('ProgressRail', () => {
     const active = screen.getByRole('button', { name: /predict/i })
     expect(active.style.boxShadow).toContain('rgba(157, 78, 221')
   })
-  it('calls onJump with the scene id when clicked', async () => {
+  it('calls onJump with the scene id when clicked on an implemented scene', async () => {
     const onJump = vi.fn()
     render(<ProgressRail activeId="predict" onJump={onJump} />)
-    await userEvent.click(screen.getByRole('button', { name: /tokenize/i }))
-    expect(onJump).toHaveBeenCalledWith('tokenize')
+    await userEvent.click(screen.getByRole('button', { name: /next-token/i }))
+    expect(onJump).toHaveBeenCalledWith('predict')
+  })
+  it('does not call onJump when clicking an unimplemented scene', async () => {
+    const onJump = vi.fn()
+    render(<ProgressRail activeId="predict" onJump={onJump} />)
+    const tokenize = screen.getByRole('button', { name: /tokeniz/i })
+    expect(tokenize).toBeDisabled()
+    await userEvent.click(tokenize)
+    expect(onJump).not.toHaveBeenCalled()
   })
 })

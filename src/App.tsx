@@ -7,9 +7,9 @@ import { ProgressRail } from '@/components/ProgressRail'
 import { TopBar } from '@/components/TopBar'
 import { PredictScene } from '@/scenes/PredictScene'
 import { AboutScene } from '@/scenes/AboutScene'
-import { getSceneById, type SceneId } from '@/scenes/scenes.config'
+import { getSceneById, getMountedSceneIds, type SceneId } from '@/scenes/scenes.config'
 
-const MOUNTED_IDS: SceneId[] = ['predict', 'about']
+const MOUNTED_IDS: SceneId[] = getMountedSceneIds()
 
 export function App() {
   return (
