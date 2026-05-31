@@ -8,6 +8,8 @@ import { ProgressRail } from '@/components/ProgressRail'
 import { TopBar } from '@/components/TopBar'
 import { PromptScene } from '@/scenes/PromptScene'
 import { TokenizeScene } from '@/scenes/TokenizeScene'
+import { EmbedScene } from '@/scenes/EmbedScene'
+import { AttentionScene } from '@/scenes/AttentionScene'
 import { PredictScene } from '@/scenes/PredictScene'
 import { DecodeScene } from '@/scenes/DecodeScene'
 import { AssembleScene } from '@/scenes/AssembleScene'
@@ -69,6 +71,8 @@ function Shell() {
         <main className="stations" aria-label="LLM pipeline scenes">
           <PromptScene />
           <TokenizeScene />
+          <EmbedScene />
+          <AttentionScene />
           <PredictScene />
           <DecodeScene />
           <AssembleScene />

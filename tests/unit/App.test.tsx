@@ -9,10 +9,12 @@ describe('App', () => {
     expect(screen.getAllByText(/inside an llm/i).length).toBeGreaterThan(0)
     expect(screen.getByRole('heading', { level: 2, name: /prompt input/i })).toBeInTheDocument()
   })
-  it('renders all six mounted scene headings', () => {
+  it('renders all eight mounted scene headings', () => {
     render(<App />)
     expect(screen.getByRole('heading', { level: 2, name: /prompt input/i })).toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 2, name: /tokenization/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 2, name: /embeddings/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 2, name: /attention/i })).toBeInTheDocument()
     expect(
       screen.getByRole('heading', { level: 2, name: /next-token prediction/i }),
     ).toBeInTheDocument()
