@@ -19,7 +19,7 @@ export function TokenizeScene() {
   const stage = (
     <div
       style={{
-        padding: 48,
+        padding: 'var(--stage-padding)',
         display: 'flex',
         flexDirection: 'column',
         gap: 36,

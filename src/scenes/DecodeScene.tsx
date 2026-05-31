@@ -33,7 +33,15 @@ export function DecodeScene() {
   const [temperature, setTemperature] = useState(1)
 
   const stage = (
-    <div style={{ padding: 40, display: 'flex', flexDirection: 'column', gap: 24, height: '100%' }}>
+    <div
+      style={{
+        padding: 'var(--stage-padding)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 24,
+        height: '100%',
+      }}
+    >
       <EyebrowLabel>One token at a time</EyebrowLabel>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
         <Chip variant="token">The</Chip>

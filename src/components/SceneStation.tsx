@@ -1,7 +1,10 @@
 import { useState, type ReactNode } from 'react'
 import { useDepth } from '@/app/DepthContext'
+import { useSceneNav } from '@/app/SceneNavContext'
 import { AccentRule } from './AccentRule'
+import { DeepPanel } from './DeepPanel'
 import { DeepToggle } from './DeepToggle'
+import { SceneNav } from './SceneNav'
 import type { AccentToken, SceneId } from '@/scenes/scenes.config'
 
 interface SceneStationProps {
@@ -15,9 +18,14 @@ interface SceneStationProps {
 
 export function SceneStation({ id, title, accent, stage, surface, deeper }: SceneStationProps) {
   const { globalDepth } = useDepth()
+  const nav = useSceneNav()
   const [localOverride, setLocalOverride] = useState<boolean | null>(null)
   const expanded = deeper !== undefined && (localOverride ?? globalDepth === 'deep')
   const deepPanelId = `${id}-deep`
+
+  const idx = nav ? nav.ids.indexOf(id) : -1
+  const canPrev = idx > 0
+  const canNext = idx >= 0 && idx < nav!.ids.length - 1
 
   return (
     <section id={id} aria-labelledby={`${id}-title`}>
@@ -25,19 +33,20 @@ export function SceneStation({ id, title, accent, stage, surface, deeper }: Scen
         style={{
           position: 'relative',
           minHeight: '100vh',
-          paddingLeft: 104,
+          paddingLeft: 'var(--gutter-left)',
           paddingTop: 104,
-          paddingRight: 32,
+          paddingRight: 'var(--gutter-right)',
           paddingBottom: 24,
           display: 'grid',
-          gridTemplateColumns: '758px 40px 506px',
+          gridTemplateColumns: 'minmax(var(--stage-min-w), 1fr) var(--col-gap) var(--col-right)',
         }}
       >
         <div
           data-stage-frame
           style={{
-            width: 758,
-            height: 800,
+            width: '100%',
+            minWidth: 0,
+            height: 'var(--stage-h)',
             background: 'var(--color-surface-card)',
             border: '1px solid var(--color-border)',
             borderRadius: 'var(--radius-card)',
@@ -48,7 +57,7 @@ export function SceneStation({ id, title, accent, stage, surface, deeper }: Scen
           {stage}
         </div>
         <div />
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: 'relative', minWidth: 0 }}>
           <h2
             id={`${id}-title`}
             tabIndex={-1}
@@ -67,20 +76,34 @@ export function SceneStation({ id, title, accent, stage, surface, deeper }: Scen
           <div style={{ marginTop: 24 }}>
             <AccentRule accent={accent} />
           </div>
-          <div style={{ marginTop: 18, maxWidth: 506 }}>{surface}</div>
+          <div style={{ marginTop: 18, width: '100%', maxWidth: 'var(--surface-max-w)' }}>
+            {surface}
+          </div>
           {deeper !== undefined && (
             <div style={{ marginTop: 24 }}>
               <DeepToggle
                 expanded={expanded}
                 onToggle={() => setLocalOverride(!expanded)}
                 controlsId={deepPanelId}
+                accent={accent}
               />
               {expanded && (
-                <div id={deepPanelId} style={{ marginTop: 18, maxWidth: 506 }}>
-                  {deeper}
+                <div
+                  id={deepPanelId}
+                  style={{ marginTop: 18, width: '100%', maxWidth: 'var(--surface-max-w)' }}
+                >
+                  <DeepPanel>{deeper}</DeepPanel>
                 </div>
               )}
             </div>
+          )}
+          {nav && idx >= 0 && (
+            <SceneNav
+              onPrev={() => canPrev && nav.goTo(nav.ids[idx - 1])}
+              onNext={() => canNext && nav.goTo(nav.ids[idx + 1])}
+              canPrev={canPrev}
+              canNext={canNext}
+            />
           )}
         </div>
       </div>

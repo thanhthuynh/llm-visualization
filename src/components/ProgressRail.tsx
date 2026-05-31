@@ -34,33 +34,67 @@ export function ProgressRail({ activeId, onJump }: ProgressRailProps) {
           isActive && scene.accent
             ? { background: accentHex(scene.accent), boxShadow: accentGlow(scene.accent, 'rail') }
             : { background: 'var(--color-rail-inactive)', boxShadow: 'none' as const }
+        const labelColor =
+          isActive && scene.accent ? accentHex(scene.accent) : 'var(--color-text-muted)'
         return (
-          <button
+          <div
             key={scene.id}
-            type="button"
-            onClick={isImplemented ? () => onJump(scene.id) : undefined}
-            disabled={!isImplemented}
-            aria-label={`${idx + 1} ${scene.railLabel ?? scene.title} ${scene.title}`}
-            {...(isActive ? { 'aria-current': 'step' as const } : {})}
             style={{
-              minWidth: 44,
-              minHeight: 44,
-              width: isActive ? 44 : 30,
-              height: isActive ? 44 : 34,
-              borderRadius: isActive ? 'var(--radius-rail-active)' : 'var(--radius-rail-inactive)',
-              border: '1px solid var(--color-border)',
-              color: isActive ? '#fff' : 'var(--color-text-muted)',
-              fontFamily: 'var(--font-mono)',
-              fontWeight: isActive ? 700 : 400,
-              fontSize: 14,
-              cursor: isImplemented ? 'pointer' : 'not-allowed',
-              padding: 0,
-              opacity: isImplemented ? 1 : 0.4,
-              ...accentStyle,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 4,
             }}
           >
-            {idx + 1}
-          </button>
+            <button
+              type="button"
+              onClick={isImplemented ? () => onJump(scene.id) : undefined}
+              disabled={!isImplemented}
+              aria-label={`${idx + 1} ${scene.railLabel ?? scene.title} ${scene.title}`}
+              {...(isActive ? { 'aria-current': 'step' as const } : {})}
+              style={{
+                minWidth: 44,
+                minHeight: 44,
+                width: isActive ? 44 : 30,
+                height: isActive ? 44 : 34,
+                borderRadius: isActive
+                  ? 'var(--radius-rail-active)'
+                  : 'var(--radius-rail-inactive)',
+                border: '1px solid var(--color-border)',
+                color: isActive ? '#fff' : 'var(--color-text-muted)',
+                fontFamily: 'var(--font-mono)',
+                fontWeight: isActive ? 700 : 400,
+                fontSize: 14,
+                cursor: isImplemented ? 'pointer' : 'not-allowed',
+                padding: 0,
+                opacity: isImplemented ? 1 : 0.4,
+                ...accentStyle,
+              }}
+            >
+              {idx + 1}
+            </button>
+            {isActive && scene.railLabel && (
+              <span
+                aria-hidden="true"
+                style={{
+                  fontFamily: 'var(--font-body)',
+                  fontWeight: 600,
+                  fontSize: 9,
+                  letterSpacing: '0.5px',
+                  color: labelColor,
+                  textAlign: 'center',
+                  width: 72,
+                  maxWidth: 72,
+                  lineHeight: '12px',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+              >
+                {scene.railLabel.charAt(0) + scene.railLabel.slice(1).toLowerCase()}
+              </span>
+            )}
+          </div>
         )
       })}
       <button

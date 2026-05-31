@@ -10,16 +10,15 @@ export function CaveatNote({ children }: CaveatNoteProps) {
       role="note"
       style={{
         display: 'flex',
-        gap: 10,
+        gap: 12,
         alignItems: 'flex-start',
-        padding: '10px 14px',
+        padding: '14px 16px',
         marginTop: 12,
-        borderRadius: 10,
+        borderRadius: 12,
         borderWidth: 1,
         borderStyle: 'solid',
         borderColor: 'var(--color-accent-caveat)',
-        backgroundColor:
-          'color-mix(in srgb, var(--color-accent-caveat) 8%, var(--color-surface-card))',
+        backgroundColor: 'var(--color-surface-card)',
         fontFamily: 'var(--font-body)',
         fontSize: 14,
         lineHeight: '20px',
@@ -28,7 +27,7 @@ export function CaveatNote({ children }: CaveatNoteProps) {
       <span aria-hidden="true" style={{ color: 'var(--color-accent-caveat)', fontSize: 16 }}>
         ⚐
       </span>
-      <span>{children}</span>
+      <span style={{ color: 'var(--color-text-muted)' }}>{children}</span>
     </div>
   )
 }
