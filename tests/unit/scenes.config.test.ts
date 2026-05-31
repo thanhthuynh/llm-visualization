@@ -36,6 +36,7 @@ describe('scenes.config', () => {
       'prompt',
       'tokenize',
       'embed',
+      'attention',
       'predict',
       'decode',
       'output',
