@@ -1,10 +1,21 @@
 export type SceneId =
-  | 'prompt' | 'tokenize' | 'embed' | 'attention'
-  | 'predict' | 'decode' | 'output' | 'about'
+  | 'prompt'
+  | 'tokenize'
+  | 'embed'
+  | 'attention'
+  | 'predict'
+  | 'decode'
+  | 'output'
+  | 'about'
 
 export type AccentToken =
-  | 'prompt' | 'tokenize' | 'embed' | 'attention'
-  | 'predict' | 'decode' | 'output'
+  | 'prompt'
+  | 'tokenize'
+  | 'embed'
+  | 'attention'
+  | 'predict'
+  | 'decode'
+  | 'output'
 
 export interface SceneConfig {
   id: SceneId
@@ -15,14 +26,50 @@ export interface SceneConfig {
 }
 
 export const SCENES: ReadonlyArray<SceneConfig> = [
-  { id: 'prompt',    title: 'Prompt Input',         accent: 'prompt',    prompt: 'The sky is', railLabel: 'PROMPT' },
-  { id: 'tokenize',  title: 'Tokenization',         accent: 'tokenize',  prompt: 'The sky is', railLabel: 'TOKENIZE' },
-  { id: 'embed',     title: 'Embeddings',           accent: 'embed',     prompt: 'The sky is', railLabel: 'EMBED' },
-  { id: 'attention', title: 'Attention',            accent: 'attention', prompt: 'The cat sat down because it was tired', railLabel: 'ATTENTION' },
-  { id: 'predict',   title: 'Next-Token Prediction',accent: 'predict',   prompt: 'The sky is', railLabel: 'PREDICT' },
-  { id: 'decode',    title: 'Decoding Loop',        accent: 'decode',    prompt: 'The sky is', railLabel: 'DECODE' },
-  { id: 'output',    title: 'Output Assembly',      accent: 'output',    prompt: 'The sky is', railLabel: 'OUTPUT' },
-  { id: 'about',     title: 'About this explainer', accent: null,        prompt: '',           railLabel: null },
+  {
+    id: 'prompt',
+    title: 'Prompt Input',
+    accent: 'prompt',
+    prompt: 'The sky is',
+    railLabel: 'PROMPT',
+  },
+  {
+    id: 'tokenize',
+    title: 'Tokenization',
+    accent: 'tokenize',
+    prompt: 'The sky is',
+    railLabel: 'TOKENIZE',
+  },
+  { id: 'embed', title: 'Embeddings', accent: 'embed', prompt: 'The sky is', railLabel: 'EMBED' },
+  {
+    id: 'attention',
+    title: 'Attention',
+    accent: 'attention',
+    prompt: 'The cat sat down because it was tired',
+    railLabel: 'ATTENTION',
+  },
+  {
+    id: 'predict',
+    title: 'Next-Token Prediction',
+    accent: 'predict',
+    prompt: 'The sky is',
+    railLabel: 'PREDICT',
+  },
+  {
+    id: 'decode',
+    title: 'Decoding Loop',
+    accent: 'decode',
+    prompt: 'The sky is',
+    railLabel: 'DECODE',
+  },
+  {
+    id: 'output',
+    title: 'Output Assembly',
+    accent: 'output',
+    prompt: 'The sky is',
+    railLabel: 'OUTPUT',
+  },
+  { id: 'about', title: 'About this explainer', accent: null, prompt: '', railLabel: null },
 ] as const
 
 export function getSceneById(id: SceneId): SceneConfig {

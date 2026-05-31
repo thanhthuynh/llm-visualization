@@ -7,7 +7,9 @@ describe('App', () => {
     render(<App />)
     expect(screen.getByRole('navigation', { name: /scenes/i })).toBeInTheDocument()
     expect(screen.getAllByText(/inside an llm/i).length).toBeGreaterThan(0)
-    expect(screen.getByRole('heading', { level: 2, name: /next-token prediction/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { level: 2, name: /next-token prediction/i }),
+    ).toBeInTheDocument()
   })
   it('renders the about section', () => {
     render(<App />)

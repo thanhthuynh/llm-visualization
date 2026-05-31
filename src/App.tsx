@@ -59,7 +59,9 @@ function Shell() {
 
   return (
     <>
-      <a className="skip-link" href="#predict">Skip to content</a>
+      <a className="skip-link" href="#predict">
+        Skip to content
+      </a>
       <ProgressRail
         activeId={activeId}
         onJump={(id) => {

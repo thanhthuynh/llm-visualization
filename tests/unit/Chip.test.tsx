@@ -16,7 +16,11 @@ describe('Chip', () => {
     expect(screen.getByText('The')).toBeInTheDocument()
   })
   it('marks the active state via aria-pressed', () => {
-    render(<Chip onClick={() => {}} active>sky</Chip>)
+    render(
+      <Chip onClick={() => {}} active>
+        sky
+      </Chip>,
+    )
     expect(screen.getByRole('button', { name: 'sky' })).toHaveAttribute('aria-pressed', 'true')
   })
 })

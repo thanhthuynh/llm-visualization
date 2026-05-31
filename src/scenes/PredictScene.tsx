@@ -42,8 +42,11 @@ export function PredictScene() {
 
   const stage = (
     <div style={{ padding: 32, display: 'flex', flexDirection: 'column', gap: 16, height: '100%' }}>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 15, color: 'var(--color-text-muted)' }}>
-        P( next token | <span style={{ color: 'var(--color-text-primary)' }}>&quot;{dataset.prompt}&quot;</span> )
+      <div
+        style={{ fontFamily: 'var(--font-mono)', fontSize: 15, color: 'var(--color-text-muted)' }}
+      >
+        P( next token |{' '}
+        <span style={{ color: 'var(--color-text-primary)' }}>&quot;{dataset.prompt}&quot;</span> )
       </div>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         {candidates.map((c, i) => (
@@ -58,8 +61,12 @@ export function PredictScene() {
         ))}
       </div>
       <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 6 }}>
-        <label htmlFor="temperature" style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 14 }}>
-          Temperature: <span style={{ fontFamily: 'var(--font-mono)' }}>{temperature.toFixed(1)}</span>
+        <label
+          htmlFor="temperature"
+          style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 14 }}
+        >
+          Temperature:{' '}
+          <span style={{ fontFamily: 'var(--font-mono)' }}>{temperature.toFixed(1)}</span>
         </label>
         <input
           id="temperature"
@@ -80,7 +87,8 @@ export function PredictScene() {
     <>
       <EyebrowLabel>Next-token prediction</EyebrowLabel>
       <p style={{ marginTop: 12 }}>
-        The model produces a probability for every possible next token. Here are the most likely few.
+        The model produces a probability for every possible next token. Here are the most likely
+        few.
       </p>
     </>
   )
@@ -100,24 +108,32 @@ export function PredictScene() {
         }}
       >
         <span style={{ color: 'var(--color-text-muted)' }}>logits</span>
-        <span aria-hidden="true" style={{ color: 'var(--color-text-muted)' }}>→</span>
+        <span aria-hidden="true" style={{ color: 'var(--color-text-muted)' }}>
+          →
+        </span>
         <span style={{ color: 'var(--color-text-muted)' }}>softmax</span>
         <span>3.1</span>
-        <span aria-hidden="true" style={{ color: 'var(--color-text-muted)' }}>→</span>
+        <span aria-hidden="true" style={{ color: 'var(--color-text-muted)' }}>
+          →
+        </span>
         <span>0.71</span>
         <span>0.9</span>
-        <span aria-hidden="true" style={{ color: 'var(--color-text-muted)' }}>→</span>
+        <span aria-hidden="true" style={{ color: 'var(--color-text-muted)' }}>
+          →
+        </span>
         <span>0.06</span>
         <span>0.4</span>
-        <span aria-hidden="true" style={{ color: 'var(--color-text-muted)' }}>→</span>
+        <span aria-hidden="true" style={{ color: 'var(--color-text-muted)' }}>
+          →
+        </span>
         <span>0.04</span>
       </div>
       <div>
         <DataBar label="+50k more" value="≈14%" fraction={0.14} />
       </div>
       <CaveatNote>
-        The probabilities are illustrative — taken from a small open reference model (GPT-2 small) run
-        offline, not live Claude or ChatGPT internals.
+        The probabilities are illustrative — taken from a small open reference model (GPT-2 small)
+        run offline, not live Claude or ChatGPT internals.
       </CaveatNote>
     </div>
   )

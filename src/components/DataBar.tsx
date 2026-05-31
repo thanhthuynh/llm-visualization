@@ -51,7 +51,9 @@ export function DataBar({ label, value, fraction, dominant = false, accent }: Da
           }}
         />
       </div>
-      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 15, textAlign: 'right' }}>{value}</span>
+      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 15, textAlign: 'right' }}>
+        {value}
+      </span>
     </div>
   )
 }

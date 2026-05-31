@@ -15,7 +15,11 @@ function Probe() {
 
 describe('RunningExampleContext', () => {
   it('exposes the sky dataset by default', () => {
-    render(<RunningExampleProvider><Probe /></RunningExampleProvider>)
+    render(
+      <RunningExampleProvider>
+        <Probe />
+      </RunningExampleProvider>,
+    )
     expect(screen.getByTestId('id')).toHaveTextContent('sky')
     expect(screen.getByTestId('prompt')).toHaveTextContent('The sky is')
     expect(screen.getByTestId('source').textContent).toMatch(/illustrative|gpt-2/i)

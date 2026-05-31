@@ -6,8 +6,14 @@ describe('scenes.config', () => {
     expect(SCENES).toHaveLength(8)
     const ids = SCENES.map((s) => s.id)
     expect(ids).toEqual([
-      'prompt', 'tokenize', 'embed', 'attention',
-      'predict', 'decode', 'output', 'about',
+      'prompt',
+      'tokenize',
+      'embed',
+      'attention',
+      'predict',
+      'decode',
+      'output',
+      'about',
     ])
   })
 

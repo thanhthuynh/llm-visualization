@@ -26,7 +26,9 @@ describe('SceneStation', () => {
   })
   it('renders the title as level-2 heading', () => {
     renderStation()
-    expect(screen.getByRole('heading', { level: 2, name: 'Next-Token Prediction' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Next-Token Prediction' }),
+    ).toBeInTheDocument()
   })
   it('renders surface text by default', () => {
     renderStation()
