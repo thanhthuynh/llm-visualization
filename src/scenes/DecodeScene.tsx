@@ -67,7 +67,9 @@ export function DecodeScene() {
         the model · predict next token
       </div>
       <Chip variant="example">Updated: &ldquo;The sky is blue&rdquo;</Chip>
-      <div style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--color-text-muted)' }}>
+      <div
+        style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--color-text-muted)' }}
+      >
         feeds back in →
       </div>
       <div
@@ -161,8 +163,8 @@ export function DecodeScene() {
       </div>
       <CaveatNote>
         Temperature is a randomness dial, not a creativity or intelligence dial. Lowering it makes
-        the model more predictable; raising it makes the model more random — neither makes the
-        model smarter.
+        the model more predictable; raising it makes the model more random — neither makes the model
+        smarter.
       </CaveatNote>
     </div>
   )

@@ -80,7 +80,9 @@ describe('AssembleScene', () => {
     renderScene()
     await userEvent.click(screen.getByRole('button', { name: /go deeper/i }))
     const note = screen.getByRole('note')
-    expect(note.textContent?.toLowerCase()).toMatch(/stored outline|one token at a time|fresh decision/)
+    expect(note.textContent?.toLowerCase()).toMatch(
+      /stored outline|one token at a time|fresh decision/,
+    )
   })
 
   it('shows token chips in Deep when as-tokens view is selected', async () => {

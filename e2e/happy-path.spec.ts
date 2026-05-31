@@ -5,7 +5,8 @@ test('loads PredictScene, toggles Deep, jumps to About', async ({ page }) => {
   await expect(page.getByText('Inside an LLM').first()).toBeVisible()
 
   // Navigate to Predict scene via the rail (default scene is now Prompt).
-  await page.getByRole('button', { name: /next-token prediction/i })
+  await page
+    .getByRole('button', { name: /next-token prediction/i })
     .first()
     .click()
   await expect(page.getByRole('heading', { level: 2, name: 'Next-Token Prediction' })).toBeVisible()

@@ -14,13 +14,7 @@ interface DistributionPairProps {
   arrowCaption?: string
 }
 
-function DistributionColumn({
-  data,
-  accent,
-}: {
-  data: DistributionBars
-  accent: AccentToken
-}) {
+function DistributionColumn({ data, accent }: { data: DistributionBars; accent: AccentToken }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8, minWidth: 0 }}>
       <EyebrowLabel>{data.label}</EyebrowLabel>

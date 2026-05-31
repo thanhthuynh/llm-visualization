@@ -8,9 +8,12 @@ function setReducedMotion(value: boolean) {
     configurable: true,
     value: (query: string) => ({
       matches: query.includes('reduce') ? value : false,
-      media: query, onchange: null,
-      addEventListener: () => {}, removeEventListener: () => {},
-      addListener: () => {}, removeListener: () => {},
+      media: query,
+      onchange: null,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      addListener: () => {},
+      removeListener: () => {},
       dispatchEvent: () => false,
     }),
   })

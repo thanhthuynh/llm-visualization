@@ -7,27 +7,17 @@ describe('App', () => {
     render(<App />)
     expect(screen.getByRole('navigation', { name: /scenes/i })).toBeInTheDocument()
     expect(screen.getAllByText(/inside an llm/i).length).toBeGreaterThan(0)
-    expect(
-      screen.getByRole('heading', { level: 2, name: /prompt input/i }),
-    ).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 2, name: /prompt input/i })).toBeInTheDocument()
   })
   it('renders all six mounted scene headings', () => {
     render(<App />)
-    expect(
-      screen.getByRole('heading', { level: 2, name: /prompt input/i }),
-    ).toBeInTheDocument()
-    expect(
-      screen.getByRole('heading', { level: 2, name: /tokenization/i }),
-    ).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 2, name: /prompt input/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 2, name: /tokenization/i })).toBeInTheDocument()
     expect(
       screen.getByRole('heading', { level: 2, name: /next-token prediction/i }),
     ).toBeInTheDocument()
-    expect(
-      screen.getByRole('heading', { level: 2, name: /decoding loop/i }),
-    ).toBeInTheDocument()
-    expect(
-      screen.getByRole('heading', { level: 2, name: /output assembly/i }),
-    ).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 2, name: /decoding loop/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 2, name: /output assembly/i })).toBeInTheDocument()
     expect(
       screen.getByRole('heading', { level: 2, name: /about this explainer/i }),
     ).toBeInTheDocument()
