@@ -10,8 +10,8 @@ describe('AboutScene', () => {
   })
   it('names the reference model in plain text', () => {
     render(<RunningExampleProvider><AboutScene /></RunningExampleProvider>)
-    expect(screen.getByText(/GPT-2/i)).toBeInTheDocument()
-    expect(screen.getByText(/illustrative/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/GPT-2/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/illustrative/i).length).toBeGreaterThan(0)
   })
   it('explains why live Claude or ChatGPT internals are not shown', () => {
     render(<RunningExampleProvider><AboutScene /></RunningExampleProvider>)

@@ -36,10 +36,10 @@ export function AboutScene() {
             fontFamily: 'var(--font-mono)',
             fontSize: 13,
             color: 'var(--color-text-muted)',
+            lineHeight: '20px',
           }}
-          data-provenance={dataset.source}
         >
-          Dataset prompt: &quot;{dataset.prompt}&quot;
+          Source: {dataset.source}
         </p>
       </div>
     </section>
