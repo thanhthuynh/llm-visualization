@@ -1,7 +1,5 @@
 node_modules
 dist
-dist-tsbuildinfo
-*.tsbuildinfo
 coverage
 playwright-report
 test-results
