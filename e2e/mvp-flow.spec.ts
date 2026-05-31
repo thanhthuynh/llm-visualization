@@ -3,8 +3,8 @@ import { test, expect } from '@playwright/test'
 test('keyboard ArrowDown advances through the pipeline to About', async ({ page }) => {
   await page.goto('/')
   await expect(page.getByRole('heading', { level: 2, name: 'Prompt Input' })).toBeVisible()
-  // 5 ArrowDowns to get from prompt → tokenize → predict → decode → output → about
-  for (let i = 0; i < 5; i++) {
+  // 7 ArrowDowns to walk prompt → tokenize → embed → attention → predict → decode → output → about
+  for (let i = 0; i < 7; i++) {
     await page.locator('body').press('ArrowDown')
   }
   await expect(page).toHaveURL(/#about$/)

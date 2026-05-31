@@ -24,13 +24,9 @@ describe('ProgressRail', () => {
     await userEvent.click(screen.getByRole('button', { name: /next-token/i }))
     expect(onJump).toHaveBeenCalledWith('predict')
   })
-  it('does not call onJump when clicking an unimplemented scene', async () => {
-    const onJump = vi.fn()
-    render(<ProgressRail activeId="predict" onJump={onJump} />)
-    // 'embed' is unimplemented in Plan 2; will land in Plan 3.
-    const embed = screen.getByRole('button', { name: /embed/i })
-    expect(embed).toBeDisabled()
-    await userEvent.click(embed)
-    expect(onJump).not.toHaveBeenCalled()
+  it('renders Compare as a disabled placeholder', () => {
+    render(<ProgressRail activeId="predict" onJump={() => {}} />)
+    const compare = screen.getByRole('button', { name: /compare/i })
+    expect(compare).toBeDisabled()
   })
 })
