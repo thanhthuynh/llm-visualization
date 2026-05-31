@@ -5,7 +5,11 @@ import { useHashSync, SCENE_JUMP_EVENT } from '@/app/useHashSync'
 import { useKeyboardNav } from '@/app/useKeyboardNav'
 import { ProgressRail } from '@/components/ProgressRail'
 import { TopBar } from '@/components/TopBar'
+import { PromptScene } from '@/scenes/PromptScene'
+import { TokenizeScene } from '@/scenes/TokenizeScene'
 import { PredictScene } from '@/scenes/PredictScene'
+import { DecodeScene } from '@/scenes/DecodeScene'
+import { AssembleScene } from '@/scenes/AssembleScene'
 import { AboutScene } from '@/scenes/AboutScene'
 import { getSceneById, getMountedSceneIds, type SceneId } from '@/scenes/scenes.config'
 
@@ -22,7 +26,7 @@ export function App() {
 }
 
 function Shell() {
-  const [activeId, setActiveId] = useState<SceneId>('predict')
+  const [activeId, setActiveId] = useState<SceneId>('prompt')
   useHashSync(activeId)
 
   useEffect(() => {
@@ -59,7 +63,7 @@ function Shell() {
 
   return (
     <>
-      <a className="skip-link" href="#predict">
+      <a className="skip-link" href="#prompt">
         Skip to content
       </a>
       <ProgressRail
@@ -73,7 +77,11 @@ function Shell() {
       />
       <TopBar prompt={prompt} />
       <main className="stations" aria-label="LLM pipeline scenes">
+        <PromptScene />
+        <TokenizeScene />
         <PredictScene />
+        <DecodeScene />
+        <AssembleScene />
         <AboutScene />
       </main>
     </>
