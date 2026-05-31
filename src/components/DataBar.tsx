@@ -1,5 +1,6 @@
 import { accentHex, accentGlow } from '@/utils/accent'
 import type { AccentToken } from '@/scenes/scenes.config'
+import { useReducedMotionPref } from '@/app/useReducedMotionPref'
 
 interface DataBarProps {
   label: string
@@ -10,6 +11,7 @@ interface DataBarProps {
 }
 
 export function DataBar({ label, value, fraction, dominant = false, accent }: DataBarProps) {
+  const reduce = useReducedMotionPref()
   const useAccent = dominant && accent
   const fillColor = useAccent ? accentHex(accent) : 'rgb(74, 74, 92)'
   const glow = useAccent ? accentGlow(accent, 'bar') : 'none'
@@ -45,7 +47,7 @@ export function DataBar({ label, value, fraction, dominant = false, accent }: Da
             height: '100%',
             backgroundColor: fillColor,
             boxShadow: glow,
-            transition: 'width 240ms ease-out',
+            transition: reduce ? 'none' : 'width 240ms ease-out',
           }}
         />
       </div>
