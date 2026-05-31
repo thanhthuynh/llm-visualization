@@ -41,7 +41,7 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     accent: 'tokenize',
     prompt: 'The sky is',
     railLabel: 'TOKENIZE',
-    implemented: false,
+    implemented: true,
   },
   {
     id: 'embed',
