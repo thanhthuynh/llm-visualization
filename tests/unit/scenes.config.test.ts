@@ -30,8 +30,8 @@ describe('scenes.config', () => {
     expect(() => getSceneById('nope' as SceneId)).toThrow(/unknown scene/i)
   })
 
-  it('marks only predict + about as implemented in Plan 1 baseline', () => {
+  it('marks the currently-mounted scenes as implemented', () => {
     const implementedIds = SCENES.filter((s) => s.implemented).map((s) => s.id)
-    expect(implementedIds).toEqual(['predict', 'about'])
+    expect(implementedIds).toEqual(['prompt', 'predict', 'about'])
   })
 })

@@ -33,7 +33,7 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     accent: 'prompt',
     prompt: 'The sky is',
     railLabel: 'PROMPT',
-    implemented: false,
+    implemented: true,
   },
   {
     id: 'tokenize',
