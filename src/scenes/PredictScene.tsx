@@ -5,6 +5,7 @@ import { CaveatNote } from '@/components/CaveatNote'
 import { EyebrowLabel } from '@/components/EyebrowLabel'
 import { useRunningExample } from '@/app/RunningExampleContext'
 import { getSceneById } from '@/scenes/scenes.config'
+import { accentHex, accentRgba } from '@/utils/accent'
 import type { NextTokenCandidate } from '@/data/schema'
 
 const SCENE = getSceneById('predict')
@@ -41,7 +42,15 @@ export function PredictScene() {
   )
 
   const stage = (
-    <div style={{ padding: 32, display: 'flex', flexDirection: 'column', gap: 16, height: '100%' }}>
+    <div
+      style={{
+        padding: 'var(--stage-padding)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 16,
+        height: '100%',
+      }}
+    >
       <div
         style={{ fontFamily: 'var(--font-mono)', fontSize: 15, color: 'var(--color-text-muted)' }}
       >
@@ -93,42 +102,81 @@ export function PredictScene() {
     </>
   )
 
+  const accentColor = accentHex('predict')
+  const accentTint = accentRgba('predict', 0.14)
+
+  const numberBoxStyle = {
+    background: 'var(--color-surface-card)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 10,
+    padding: '8px 10px',
+    display: 'flex',
+    flexDirection: 'column' as const,
+    gap: 2,
+    alignItems: 'center' as const,
+    fontFamily: 'var(--font-mono)',
+    fontSize: 12,
+    color: 'var(--color-text-primary)',
+  }
+  const tinyLabel = {
+    fontFamily: 'var(--font-body)',
+    fontWeight: 500,
+    fontSize: 9,
+    letterSpacing: '0.54px',
+    textTransform: 'uppercase' as const,
+    color: 'var(--color-text-muted)',
+  }
+  const arrowStyle = {
+    fontFamily: 'var(--font-mono)',
+    fontSize: 18,
+    color: 'var(--color-text-muted)',
+  }
+
   const deeper = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-      <EyebrowLabel>How the bars are made</EyebrowLabel>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'auto auto auto',
-          columnGap: 16,
-          rowGap: 6,
-          alignItems: 'center',
-          fontFamily: 'var(--font-mono)',
-          fontSize: 14,
-        }}
-      >
-        <span style={{ color: 'var(--color-text-muted)' }}>logits</span>
-        <span aria-hidden="true" style={{ color: 'var(--color-text-muted)' }}>
+      <EyebrowLabel>How those numbers are made</EyebrowLabel>
+      <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'center' }}>
+          <span style={tinyLabel}>logits</span>
+          <div style={numberBoxStyle}>
+            <span>3.1</span>
+            <span>0.9</span>
+            <span>0.4</span>
+          </div>
+        </div>
+        <span aria-hidden="true" style={arrowStyle}>
           →
         </span>
-        <span style={{ color: 'var(--color-text-muted)' }}>softmax</span>
-        <span>3.1</span>
-        <span aria-hidden="true" style={{ color: 'var(--color-text-muted)' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'center' }}>
+          <span style={tinyLabel}>normalize</span>
+          <div
+            style={{
+              border: `1.5px solid ${accentColor}`,
+              background: accentTint,
+              borderRadius: 'var(--radius-pill)',
+              padding: '8px 14px',
+              color: accentColor,
+              fontFamily: 'var(--font-body)',
+              fontWeight: 600,
+              fontSize: 12,
+            }}
+          >
+            softmax
+          </div>
+        </div>
+        <span aria-hidden="true" style={arrowStyle}>
           →
         </span>
-        <span>0.71</span>
-        <span>0.9</span>
-        <span aria-hidden="true" style={{ color: 'var(--color-text-muted)' }}>
-          →
-        </span>
-        <span>0.06</span>
-        <span>0.4</span>
-        <span aria-hidden="true" style={{ color: 'var(--color-text-muted)' }}>
-          →
-        </span>
-        <span>0.04</span>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'center' }}>
+          <span style={tinyLabel}>probs</span>
+          <div style={numberBoxStyle}>
+            <span>0.71</span>
+            <span>0.06</span>
+            <span>0.04</span>
+          </div>
+        </div>
       </div>
-      <div>
+      <div style={{ marginTop: 4 }}>
         <DataBar label="+50k more" value="≈14%" fraction={0.14} />
       </div>
       <CaveatNote>

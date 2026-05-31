@@ -6,7 +6,14 @@ export function AboutScene() {
     <section
       id="about"
       aria-labelledby="about-title"
-      style={{ minHeight: '100vh', padding: '104px 32px 32px 104px', maxWidth: 760 }}
+      style={{
+        minHeight: '100vh',
+        paddingTop: 104,
+        paddingRight: 'var(--gutter-right)',
+        paddingBottom: 32,
+        paddingLeft: 'var(--gutter-left)',
+        maxWidth: 'calc(760px + var(--gutter-left))',
+      }}
     >
       <h2
         id="about-title"

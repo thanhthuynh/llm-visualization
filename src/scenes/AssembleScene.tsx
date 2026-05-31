@@ -22,7 +22,7 @@ export function AssembleScene() {
   const stage = (
     <div
       style={{
-        padding: 40,
+        padding: 'var(--stage-padding)',
         display: 'flex',
         flexDirection: 'column',
         gap: 24,

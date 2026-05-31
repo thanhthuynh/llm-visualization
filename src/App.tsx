@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { DepthProvider } from '@/app/DepthContext'
 import { RunningExampleProvider } from '@/app/RunningExampleContext'
+import { SceneNavProvider } from '@/app/SceneNavContext'
 import { useHashSync, SCENE_JUMP_EVENT } from '@/app/useHashSync'
 import { useKeyboardNav } from '@/app/useKeyboardNav'
 import { ProgressRail } from '@/components/ProgressRail'
@@ -29,33 +30,29 @@ function Shell() {
   const [activeId, setActiveId] = useState<SceneId>('prompt')
   useHashSync(activeId)
 
+  const goTo = useCallback((id: SceneId) => {
+    if (MOUNTED_IDS.includes(id)) {
+      setActiveId(id)
+      document.getElementById(id)?.scrollIntoView()
+    }
+  }, [])
+
   useEffect(() => {
     function handle(e: globalThis.Event) {
       const id = (e as globalThis.CustomEvent<{ id: string }>).detail.id as SceneId
-      if (MOUNTED_IDS.includes(id)) {
-        setActiveId(id)
-        document.getElementById(id)?.scrollIntoView()
-      }
+      goTo(id)
     }
     window.addEventListener(SCENE_JUMP_EVENT, handle as globalThis.EventListener)
     return () => window.removeEventListener(SCENE_JUMP_EVENT, handle as globalThis.EventListener)
-  }, [])
+  }, [goTo])
 
   const idx = MOUNTED_IDS.indexOf(activeId)
   useKeyboardNav({
     onPrev: () => {
-      if (idx > 0) {
-        const next = MOUNTED_IDS[idx - 1]
-        setActiveId(next)
-        document.getElementById(next)?.scrollIntoView()
-      }
+      if (idx > 0) goTo(MOUNTED_IDS[idx - 1])
     },
     onNext: () => {
-      if (idx < MOUNTED_IDS.length - 1) {
-        const next = MOUNTED_IDS[idx + 1]
-        setActiveId(next)
-        document.getElementById(next)?.scrollIntoView()
-      }
+      if (idx < MOUNTED_IDS.length - 1) goTo(MOUNTED_IDS[idx + 1])
     },
   })
 
@@ -66,24 +63,18 @@ function Shell() {
       <a className="skip-link" href="#prompt">
         Skip to content
       </a>
-      <ProgressRail
-        activeId={activeId}
-        onJump={(id) => {
-          if (MOUNTED_IDS.includes(id)) {
-            setActiveId(id)
-            document.getElementById(id)?.scrollIntoView()
-          }
-        }}
-      />
+      <ProgressRail activeId={activeId} onJump={goTo} />
       <TopBar prompt={prompt} />
-      <main className="stations" aria-label="LLM pipeline scenes">
-        <PromptScene />
-        <TokenizeScene />
-        <PredictScene />
-        <DecodeScene />
-        <AssembleScene />
-        <AboutScene />
-      </main>
+      <SceneNavProvider ids={MOUNTED_IDS} goTo={goTo}>
+        <main className="stations" aria-label="LLM pipeline scenes">
+          <PromptScene />
+          <TokenizeScene />
+          <PredictScene />
+          <DecodeScene />
+          <AssembleScene />
+          <AboutScene />
+        </main>
+      </SceneNavProvider>
     </>
   )
 }

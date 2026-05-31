@@ -3,6 +3,7 @@
 @theme {
   --color-bg-base: #0a0a12;
   --color-surface-card: #16161f;
+  --color-surface-deep: #0e0e18;
   --color-surface-track: #22222e;
   --color-rail-inactive: #1e1e2a;
   --color-bar-inactive: #4a4a5c;
@@ -25,9 +26,20 @@
 
   --radius-pill: 999px;
   --radius-card: 18px;
+  --radius-deep-panel: 16px;
+  --radius-caveat: 12px;
   --radius-accent-rule: 2px;
   --radius-rail-active: 14px;
   --radius-rail-inactive: 10px;
+
+  --gutter-left: clamp(96px, calc(72px + 2vw), 168px);
+  --gutter-right: clamp(32px, 3vw, 96px);
+  --col-gap: clamp(24px, 3vw, 64px);
+  --col-right: clamp(420px, 30vw, 506px);
+  --stage-min-w: 600px;
+  --stage-h: clamp(640px, 76vh, 820px);
+  --surface-max-w: 506px;
+  --stage-padding: clamp(24px, 3vw, 48px);
 }
 
 html, body, #root {

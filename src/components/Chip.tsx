@@ -12,14 +12,14 @@ export function Chip({ children, onClick, active = false, accent, variant = 'tok
   const style: CSSProperties = {
     display: 'inline-flex',
     alignItems: 'center',
-    padding: variant === 'example' ? '8px 14px' : '4px 10px',
+    padding: variant === 'example' ? '10px 16px' : '10px 16px',
     borderRadius: 'var(--radius-pill)',
     border: `1px solid ${active && accent ? accent : 'var(--color-border)'}`,
     background: 'var(--color-surface-card)',
     color: 'var(--color-text-primary)',
     fontFamily: variant === 'token' ? 'var(--font-mono)' : 'var(--font-body)',
     fontSize: variant === 'token' ? 15 : 14,
-    lineHeight: 1.3,
+    lineHeight: variant === 'token' ? '22px' : 1.3,
     cursor: onClick ? 'pointer' : 'default',
     boxShadow: active && accent ? `0 0 8px 1px ${accent}66` : 'none',
   }
