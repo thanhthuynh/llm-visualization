@@ -3,13 +3,23 @@ import { test, expect } from '@playwright/test'
 test('loads PredictScene, toggles Deep, jumps to About', async ({ page }) => {
   await page.goto('/')
   await expect(page.getByText('Inside an LLM').first()).toBeVisible()
+
+  // Navigate to Predict scene via the rail (default scene is now Prompt).
+  await page.getByRole('button', { name: /next-token prediction/i })
+    .first()
+    .click()
   await expect(page.getByRole('heading', { level: 2, name: 'Next-Token Prediction' })).toBeVisible()
 
   const blueBar = page.getByRole('progressbar', { name: 'blue' })
   await expect(blueBar).toHaveAttribute('aria-valuenow', '71')
 
-  await page.getByRole('button', { name: /go deeper/i }).click()
-  await expect(page.getByRole('note')).toContainText(/illustrative|gpt-2/i)
+  await page
+    .getByLabel('Next-Token Prediction', { exact: true })
+    .getByRole('button', { name: /go deeper/i })
+    .click()
+  await expect(
+    page.getByLabel('Next-Token Prediction', { exact: true }).getByRole('note'),
+  ).toContainText(/illustrative|gpt-2/i)
   await expect(page.getByText('softmax')).toBeVisible()
 
   await page.getByLabel('Temperature').fill('0.2')
@@ -21,10 +31,11 @@ test('loads PredictScene, toggles Deep, jumps to About', async ({ page }) => {
   await expect(page).toHaveURL(/#about$/)
 })
 
-test('keyboard nav advances from Predict to About', async ({ page }) => {
+test('keyboard nav advances scene-by-scene', async ({ page }) => {
   await page.goto('/')
+  // Default is Prompt; one ArrowDown should land on Tokenize.
   await page.locator('body').press('ArrowDown')
-  await expect(page).toHaveURL(/#about$/)
+  await expect(page).toHaveURL(/#tokenize$/)
 })
 
 test('skip link is the first focusable element', async ({ page }) => {
