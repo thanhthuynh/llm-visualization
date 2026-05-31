@@ -20,9 +20,9 @@ function renderStation(opts: { withDeeper?: boolean } = {}) {
 }
 
 describe('SceneStation', () => {
-  it('renders the visual stage as aria-hidden', () => {
+  it('renders the visual stage inside a stage frame container', () => {
     renderStation()
-    expect(screen.getByTestId('stage').parentElement).toHaveAttribute('aria-hidden', 'true')
+    expect(screen.getByTestId('stage').parentElement).toHaveAttribute('data-stage-frame')
   })
   it('renders the title as level-2 heading', () => {
     renderStation()

@@ -34,7 +34,7 @@ export function SceneStation({ id, title, accent, stage, surface, deeper }: Scen
         }}
       >
         <div
-          aria-hidden="true"
+          data-stage-frame
           style={{
             width: 758,
             height: 800,
