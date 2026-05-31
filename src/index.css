@@ -66,3 +66,8 @@ body { margin: 0; }
   z-index: 100;
 }
 .skip-link:focus { top: 8px; }
+
+@keyframes blink-caret {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}

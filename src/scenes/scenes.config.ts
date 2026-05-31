@@ -23,6 +23,7 @@ export interface SceneConfig {
   accent: AccentToken | null
   prompt: string
   railLabel: string | null
+  implemented: boolean
 }
 
 export const SCENES: ReadonlyArray<SceneConfig> = [
@@ -32,6 +33,7 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     accent: 'prompt',
     prompt: 'The sky is',
     railLabel: 'PROMPT',
+    implemented: true,
   },
   {
     id: 'tokenize',
@@ -39,14 +41,23 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     accent: 'tokenize',
     prompt: 'The sky is',
     railLabel: 'TOKENIZE',
+    implemented: true,
   },
-  { id: 'embed', title: 'Embeddings', accent: 'embed', prompt: 'The sky is', railLabel: 'EMBED' },
+  {
+    id: 'embed',
+    title: 'Embeddings',
+    accent: 'embed',
+    prompt: 'The sky is',
+    railLabel: 'EMBED',
+    implemented: false,
+  },
   {
     id: 'attention',
     title: 'Attention',
     accent: 'attention',
     prompt: 'The cat sat down because it was tired',
     railLabel: 'ATTENTION',
+    implemented: false,
   },
   {
     id: 'predict',
@@ -54,6 +65,7 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     accent: 'predict',
     prompt: 'The sky is',
     railLabel: 'PREDICT',
+    implemented: true,
   },
   {
     id: 'decode',
@@ -61,6 +73,7 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     accent: 'decode',
     prompt: 'The sky is',
     railLabel: 'DECODE',
+    implemented: true,
   },
   {
     id: 'output',
@@ -68,14 +81,26 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     accent: 'output',
     prompt: 'The sky is',
     railLabel: 'OUTPUT',
+    implemented: true,
   },
-  { id: 'about', title: 'About this explainer', accent: null, prompt: '', railLabel: null },
+  {
+    id: 'about',
+    title: 'About this explainer',
+    accent: null,
+    prompt: '',
+    railLabel: null,
+    implemented: true,
+  },
 ] as const
 
 export function getSceneById(id: SceneId): SceneConfig {
   const scene = SCENES.find((s) => s.id === id)
   if (!scene) throw new Error(`unknown scene: ${id}`)
   return scene
+}
+
+export function getMountedSceneIds(): SceneId[] {
+  return SCENES.filter((s) => s.implemented).map((s) => s.id)
 }
 
 export const ACCENT_HEX: Record<AccentToken, string> = {

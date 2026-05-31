@@ -29,6 +29,7 @@ export function ProgressRail({ activeId, onJump }: ProgressRailProps) {
     >
       {pipeline.map((scene, idx) => {
         const isActive = scene.id === activeId
+        const isImplemented = scene.implemented
         const accentStyle =
           isActive && scene.accent
             ? { background: accentHex(scene.accent), boxShadow: accentGlow(scene.accent, 'rail') }
@@ -37,7 +38,8 @@ export function ProgressRail({ activeId, onJump }: ProgressRailProps) {
           <button
             key={scene.id}
             type="button"
-            onClick={() => onJump(scene.id)}
+            onClick={isImplemented ? () => onJump(scene.id) : undefined}
+            disabled={!isImplemented}
             aria-label={`${idx + 1} ${scene.railLabel ?? scene.title} ${scene.title}`}
             {...(isActive ? { 'aria-current': 'step' as const } : {})}
             style={{
@@ -51,8 +53,9 @@ export function ProgressRail({ activeId, onJump }: ProgressRailProps) {
               fontFamily: 'var(--font-mono)',
               fontWeight: isActive ? 700 : 400,
               fontSize: 14,
-              cursor: 'pointer',
+              cursor: isImplemented ? 'pointer' : 'not-allowed',
               padding: 0,
+              opacity: isImplemented ? 1 : 0.4,
               ...accentStyle,
             }}
           >

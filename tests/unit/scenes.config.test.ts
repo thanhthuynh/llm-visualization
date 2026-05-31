@@ -29,4 +29,9 @@ describe('scenes.config', () => {
   it('throws for an unknown scene id', () => {
     expect(() => getSceneById('nope' as SceneId)).toThrow(/unknown scene/i)
   })
+
+  it('marks the currently-mounted scenes as implemented', () => {
+    const implementedIds = SCENES.filter((s) => s.implemented).map((s) => s.id)
+    expect(implementedIds).toEqual(['prompt', 'tokenize', 'predict', 'decode', 'output', 'about'])
+  })
 })
