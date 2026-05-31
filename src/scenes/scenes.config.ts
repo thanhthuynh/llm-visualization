@@ -73,7 +73,7 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     accent: 'decode',
     prompt: 'The sky is',
     railLabel: 'DECODE',
-    implemented: false,
+    implemented: true,
   },
   {
     id: 'output',
