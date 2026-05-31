@@ -32,6 +32,14 @@ describe('scenes.config', () => {
 
   it('marks the currently-mounted scenes as implemented', () => {
     const implementedIds = SCENES.filter((s) => s.implemented).map((s) => s.id)
-    expect(implementedIds).toEqual(['prompt', 'tokenize', 'predict', 'decode', 'output', 'about'])
+    expect(implementedIds).toEqual([
+      'prompt',
+      'tokenize',
+      'embed',
+      'predict',
+      'decode',
+      'output',
+      'about',
+    ])
   })
 })

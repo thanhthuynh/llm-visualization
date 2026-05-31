@@ -27,10 +27,10 @@ describe('ProgressRail', () => {
   it('does not call onJump when clicking an unimplemented scene', async () => {
     const onJump = vi.fn()
     render(<ProgressRail activeId="predict" onJump={onJump} />)
-    // 'embed' is unimplemented in Plan 2; will land in Plan 3.
-    const embed = screen.getByRole('button', { name: /embed/i })
-    expect(embed).toBeDisabled()
-    await userEvent.click(embed)
+    // 'attention' is still unimplemented in Plan 3 Task 4; lands later in Plan 3.
+    const attention = screen.getByRole('button', { name: /attention/i })
+    expect(attention).toBeDisabled()
+    await userEvent.click(attention)
     expect(onJump).not.toHaveBeenCalled()
   })
 })

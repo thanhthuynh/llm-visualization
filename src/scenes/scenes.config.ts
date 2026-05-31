@@ -49,7 +49,7 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     accent: 'embed',
     prompt: 'The sky is',
     railLabel: 'EMBED',
-    implemented: false,
+    implemented: true,
   },
   {
     id: 'attention',
