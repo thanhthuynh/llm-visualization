@@ -27,9 +27,10 @@ describe('ProgressRail', () => {
   it('does not call onJump when clicking an unimplemented scene', async () => {
     const onJump = vi.fn()
     render(<ProgressRail activeId="predict" onJump={onJump} />)
-    const tokenize = screen.getByRole('button', { name: /tokeniz/i })
-    expect(tokenize).toBeDisabled()
-    await userEvent.click(tokenize)
+    // 'embed' is unimplemented in Plan 2; will land in Plan 3.
+    const embed = screen.getByRole('button', { name: /embed/i })
+    expect(embed).toBeDisabled()
+    await userEvent.click(embed)
     expect(onJump).not.toHaveBeenCalled()
   })
 })
