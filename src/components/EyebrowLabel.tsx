@@ -6,19 +6,7 @@ interface EyebrowLabelProps {
 }
 
 export function EyebrowLabel({ children, className }: EyebrowLabelProps) {
-  return (
-    <span
-      className={className}
-      style={{
-        fontFamily: 'var(--font-body)',
-        fontWeight: 500,
-        fontSize: 10,
-        letterSpacing: '1px',
-        textTransform: 'uppercase',
-        color: 'var(--color-text-muted)',
-      }}
-    >
-      {children}
-    </span>
-  )
+  const base =
+    'font-[family-name:--font-body] font-medium text-[10px] tracking-widest uppercase text-(--color-text-muted)'
+  return <span className={className ? `${base} ${className}` : base}>{children}</span>
 }
