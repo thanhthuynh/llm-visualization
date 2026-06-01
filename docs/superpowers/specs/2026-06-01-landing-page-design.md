@@ -314,11 +314,11 @@ The hero is the only ambient motion.
 
 ---
 
-## 10. Open Questions
+## 10. Resolved Decisions
 
-1. **Domain of the page.** Does the landing page live at `/` (existing app moves to `/explorer`?) or at a separate path? Spec assumes it lives at `/` and the existing scroll-snap app is reached via the hero CTA → `#prompt`.
-2. **Provenance commit hash.** Should the implementer wire the real GPT-2 reference data commit, or leave as static placeholder for v1?
-3. **GitHub link target.** Spec assumes `https://github.com/thanhthuynh/llm-visualization` (inferred from PR titles in `git log`). Confirm.
+1. **Domain of the page.** ✅ **Landing page lives at `/`. The existing scroll-snap explainer app moves to `/explorer`.** The hero CTA navigates to `/explorer#prompt`. No `react-router-dom` dependency — pathname-based switch in `main.tsx` selects which root component renders.
+2. **Provenance commit hash.** ✅ **Wired at build time.** `vite.config.ts` exposes `__BUILD_COMMIT__` (short SHA from `git rev-parse HEAD`) via `define`; `ProvenanceBlock.tsx` reads it. This means the visible `refresh — commit XXXXXXX` row always reflects the commit the visitor's bundle was built from.
+3. **GitHub link target.** ✅ Confirmed: `https://github.com/thanhthuynh/llm-visualization`.
 
 ---
 

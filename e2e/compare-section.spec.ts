@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test('Compare rail jump shows Claude vs ChatGPT framing + tier badges + caveat', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/explorer')
 
   await page.getByRole('button', { name: /^compare$/i }).first().click()
   await expect(page).toHaveURL(/#compare$/)
@@ -25,7 +25,7 @@ test('Compare rail jump shows Claude vs ChatGPT framing + tier badges + caveat',
 })
 
 test('keyboard ArrowDown reaches Compare after the 7 pipeline scenes', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/explorer')
   for (let i = 0; i < 7; i++) {
     await page.locator('body').press('ArrowDown')
   }
