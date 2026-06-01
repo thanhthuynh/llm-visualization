@@ -5,6 +5,7 @@ interface SceneNavProps {
   onNext: () => void
   canPrev: boolean
   canNext: boolean
+  label?: string
 }
 
 const baseStyle: CSSProperties = {

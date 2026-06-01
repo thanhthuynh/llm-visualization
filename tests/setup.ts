@@ -3,6 +3,7 @@ import { afterEach, expect } from 'vitest'
 import { cleanup } from '@testing-library/react'
 import * as axeMatchers from 'vitest-axe/matchers'
 
+// Type augmentation for the matcher lives in tests/vitest-axe.d.ts.
 expect.extend(axeMatchers)
 
 afterEach(() => cleanup())
