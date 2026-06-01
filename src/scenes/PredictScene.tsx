@@ -43,9 +43,9 @@ export function PredictScene() {
 
   const stage = (
     <div className="p-(--stage-padding) flex flex-col gap-4 h-full">
-      <div className="font-[family-name:--font-mono] text-[15px] text-(--color-text-muted)">
+      <div className="font-mono text-[15px] text-text-muted">
         P( next token |{' '}
-        <span className="text-(--color-text-primary)">&quot;{dataset.prompt}&quot;</span> )
+        <span className="text-text-primary">&quot;{dataset.prompt}&quot;</span> )
       </div>
       <div className="flex flex-col">
         {candidates.map((c, i) => (
@@ -62,10 +62,10 @@ export function PredictScene() {
       <div className="mt-auto flex flex-col gap-1.5">
         <label
           htmlFor="temperature"
-          className="font-[family-name:--font-body] font-semibold text-sm"
+          className="font-body font-semibold text-sm"
         >
           Temperature:{' '}
-          <span className="font-[family-name:--font-mono]">{temperature.toFixed(1)}</span>
+          <span className="font-mono">{temperature.toFixed(1)}</span>
         </label>
         <input
           id="temperature"
@@ -96,10 +96,10 @@ export function PredictScene() {
   const accentTint = accentRgba('predict', 0.14)
 
   const numberBoxClass =
-    'flex flex-col items-center gap-0.5 px-2.5 py-2 rounded-[10px] bg-(--color-surface-card) border border-(--color-border) font-[family-name:--font-mono] text-xs text-(--color-text-primary)'
+    'flex flex-col items-center gap-0.5 px-2.5 py-2 rounded-[10px] bg-surface-card border border-border font-mono text-xs text-text-primary'
   const tinyLabelClass =
-    'font-[family-name:--font-body] font-medium text-[9px] tracking-[0.54px] uppercase text-(--color-text-muted)'
-  const arrowClass = 'font-[family-name:--font-mono] text-lg text-(--color-text-muted)'
+    'font-body font-medium text-[9px] tracking-[0.54px] uppercase text-text-muted'
+  const arrowClass = 'font-mono text-lg text-text-muted'
 
   const softmaxStyle = {
     '--sm-color': accentColor,
@@ -125,7 +125,7 @@ export function PredictScene() {
           <span className={tinyLabelClass}>normalize</span>
           <div
             style={softmaxStyle}
-            className="border-[1.5px] border-(--sm-color) bg-(--sm-bg) text-(--sm-color) rounded-(--radius-pill) px-[14px] py-2 font-[family-name:--font-body] font-semibold text-xs"
+            className="border-[1.5px] border-(--sm-color) bg-(--sm-bg) text-(--sm-color) rounded-pill px-3.5 py-2 font-body font-semibold text-xs"
           >
             softmax
           </div>

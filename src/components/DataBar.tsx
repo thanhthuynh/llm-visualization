@@ -29,10 +29,10 @@ export function DataBar({ label, value, fraction, dominant = false, accent }: Da
 
   return (
     <div
-      className="grid items-center gap-[14px] my-1.5"
+      className="grid items-center gap-3.5 my-1.5"
       style={{ gridTemplateColumns: '70px 1fr 52px' }}
     >
-      <span className="font-[family-name:--font-mono] text-[15px] leading-[22px] text-right">
+      <span className="font-mono text-[15px] leading-[22px] text-right">
         {label}
       </span>
       <div
@@ -41,17 +41,17 @@ export function DataBar({ label, value, fraction, dominant = false, accent }: Da
         aria-valuenow={pct}
         aria-valuemin={0}
         aria-valuemax={100}
-        className="h-7 rounded-(--radius-pill) bg-(--color-surface-track) overflow-hidden"
+        className="h-7 rounded-pill bg-surface-track overflow-hidden"
       >
         <div
           data-testid="databar-fill"
           style={fillStyle}
-          className="h-full w-[var(--bar-w)] rounded-(--radius-pill) bg-(--bar-fill) shadow-[var(--bar-glow)]"
+          className="h-full w-[var(--bar-w)] rounded-pill bg-(--bar-fill) shadow-[var(--bar-glow)]"
         />
       </div>
       <span
         style={valueStyle}
-        className="font-[family-name:--font-mono] text-[15px] leading-[22px] text-(--bar-value-color)"
+        className="font-mono text-[15px] leading-[22px] text-(--bar-value-color)"
       >
         {value}
       </span>

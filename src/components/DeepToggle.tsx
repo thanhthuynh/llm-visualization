@@ -29,7 +29,7 @@ export function DeepToggle({ expanded, onToggle, controlsId, accent }: DeepToggl
       aria-expanded={expanded}
       {...(controlsId ? { 'aria-controls': controlsId } : {})}
       style={dynamicStyle}
-      className="inline-flex items-center gap-2.5 pl-[18px] pr-4 py-3 rounded-(--radius-pill) bg-(--color-surface-card) border border-(--dt-border) text-(--dt-label) font-[family-name:--font-body] font-semibold text-sm cursor-pointer min-h-[44px] shadow-[var(--dt-shadow)]"
+      className="inline-flex items-center gap-2.5 pl-4.5 pr-4 py-3 rounded-pill bg-surface-card border border-(--dt-border) text-(--dt-label) font-body font-semibold text-sm cursor-pointer min-h-11 shadow-[var(--dt-shadow)]"
     >
       <span>{expanded ? 'Collapse' : 'Go deeper'}</span>
       <span aria-hidden="true">{expanded ? '⌃' : '⌄'}</span>

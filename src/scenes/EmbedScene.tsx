@@ -9,7 +9,7 @@ const SCENE = getSceneById('embed')
 
 export function EmbedScene() {
   const tagClass =
-    'px-2.5 py-1 rounded-(--radius-pill) border border-(--color-border) text-(--color-text-muted)'
+    'px-2.5 py-1 rounded-pill border border-border text-text-muted'
 
   const stage = (
     <div className="p-(--stage-padding) flex flex-col gap-4 h-full">
@@ -23,7 +23,7 @@ export function EmbedScene() {
           height={420}
         />
       </div>
-      <p className="font-[family-name:--font-body] text-[13px] text-(--color-text-muted)">
+      <p className="font-body text-[13px] text-text-muted">
         Each token gets a position in a shared meaning space. Neighbours are related.
       </p>
     </div>
@@ -51,7 +51,7 @@ export function EmbedScene() {
           height={300}
         />
       </div>
-      <div className="flex flex-wrap gap-2.5 font-[family-name:--font-mono] text-xs">
+      <div className="flex flex-wrap gap-2.5 font-mono text-xs">
         <span className={tagClass}>768–4096 dims</span>
         <span className={tagClass}>2D = projection</span>
         <span className={tagClass}>+ position</span>

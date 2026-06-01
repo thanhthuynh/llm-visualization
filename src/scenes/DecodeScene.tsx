@@ -39,22 +39,22 @@ export function DecodeScene() {
         <Chip variant="token">The</Chip>
         <Chip variant="token">·sky</Chip>
         <Chip variant="token">·is</Chip>
-        <span className="font-[family-name:--font-mono] text-lg">+</span>
+        <span className="font-mono text-lg">+</span>
         <div className="flex flex-col items-center gap-1">
           <Chip variant="token">·blue</Chip>
-          <span className="font-[family-name:--font-mono] text-[11px] text-(--color-text-muted)">
+          <span className="font-mono text-[11px] text-text-muted">
             ↑ just chosen
           </span>
         </div>
       </div>
-      <div className="px-[14px] py-2.5 bg-(--color-surface-card) border border-(--color-border) rounded-(--radius-card) font-[family-name:--font-body] text-[13px] text-(--color-text-muted)">
+      <div className="px-3.5 py-2.5 bg-surface-card border border-border rounded-card font-body text-[13px] text-text-muted">
         the model · predict next token
       </div>
       <Chip variant="example">Updated: &ldquo;The sky is blue&rdquo;</Chip>
-      <div className="font-[family-name:--font-body] text-[13px] text-(--color-text-muted)">
+      <div className="font-body text-[13px] text-text-muted">
         feeds back in →
       </div>
-      <div className="mt-auto flex items-center gap-3 font-[family-name:--font-mono] text-[13px] text-(--color-text-muted)">
+      <div className="mt-auto flex items-center gap-3 font-mono text-[13px] text-text-muted">
         <span aria-hidden="true">↻</span>
         <span>loop until done</span>
       </div>
@@ -77,10 +77,10 @@ export function DecodeScene() {
       <div className="flex flex-col gap-1.5">
         <label
           htmlFor="decode-temperature"
-          className="font-[family-name:--font-body] font-semibold text-sm"
+          className="font-body font-semibold text-sm"
         >
           Temperature:{' '}
-          <span className="font-[family-name:--font-mono]">{temperature.toFixed(1)}</span>
+          <span className="font-mono">{temperature.toFixed(1)}</span>
         </label>
         <input
           id="decode-temperature"
@@ -93,7 +93,7 @@ export function DecodeScene() {
           onChange={(e) => setTemperature(Number(e.target.value))}
           aria-label="Temperature"
         />
-        <div className="flex justify-between font-[family-name:--font-body] text-[11px] text-(--color-text-muted)">
+        <div className="flex justify-between font-body text-[11px] text-text-muted">
           <span>sharp &amp; predictable</span>
           <span>flat &amp; random</span>
         </div>
@@ -102,19 +102,19 @@ export function DecodeScene() {
       <div className="flex flex-col gap-2">
         <EyebrowLabel>More sampling controls</EyebrowLabel>
         <div
-          className="grid gap-x-4 gap-y-1.5 font-[family-name:--font-body] text-[13px]"
+          className="grid gap-x-4 gap-y-1.5 font-body text-[13px]"
           style={{ gridTemplateColumns: 'max-content 1fr' }}
         >
-          <span className="font-[family-name:--font-mono]">top-k = 40</span>
-          <span className="text-(--color-text-muted)">
+          <span className="font-mono">top-k = 40</span>
+          <span className="text-text-muted">
             only the 40 likeliest tokens are eligible
           </span>
-          <span className="font-[family-name:--font-mono]">top-p = 0.9</span>
-          <span className="text-(--color-text-muted)">
+          <span className="font-mono">top-p = 0.9</span>
+          <span className="text-text-muted">
             keep the smallest set covering 90% of probability
           </span>
-          <span className="font-[family-name:--font-mono]">&lt;eos&gt;</span>
-          <span className="text-(--color-text-muted)">
+          <span className="font-mono">&lt;eos&gt;</span>
+          <span className="text-text-muted">
             when the model emits this end-of-sequence token, the loop stops
           </span>
         </div>

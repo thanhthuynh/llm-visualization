@@ -82,7 +82,7 @@ export function AttentionScene() {
           </g>
         ))}
       </svg>
-      <p className="m-0 font-[family-name:--font-body] text-[13px] text-(--color-text-muted)">
+      <p className="m-0 font-body text-[13px] text-text-muted">
         Simplified — open Go deeper to see what&apos;s really going on.
       </p>
     </div>
@@ -106,27 +106,27 @@ export function AttentionScene() {
       <div className="overflow-x-auto">
         <AttentionMatrix tokens={tokens} weights={headWeights} queryIndex={QUERY_INDEX} />
       </div>
-      <p className="font-[family-name:--font-body] text-[13px] text-(--color-text-muted)">
+      <p className="font-body text-[13px] text-text-muted">
         Darker = more attention. The upper triangle is blank — a token can only attend to itself
         and earlier tokens, never the future.
       </p>
       <div className="flex flex-col gap-1.5">
         <EyebrowLabel>Under the hood</EyebrowLabel>
         <div
-          className="grid items-center gap-2 font-[family-name:--font-mono] text-[13px]"
+          className="grid items-center gap-2 font-mono text-[13px]"
           style={{ gridTemplateColumns: 'auto auto auto' }}
         >
           <span>q·k (SCORE)</span>
-          <span className="text-(--color-text-muted)">→</span>
+          <span className="text-text-muted">→</span>
           <span>softmax (WEIGHTS)</span>
         </div>
         <div
-          className="grid items-center gap-2 font-[family-name:--font-mono] text-[13px]"
+          className="grid items-center gap-2 font-mono text-[13px]"
           style={{ gridTemplateColumns: 'auto auto auto' }}
         >
           <span>Σ w·v (BLEND VALUES)</span>
-          <span className="text-(--color-text-muted)">→</span>
-          <span className="text-(--color-text-muted)">context-aware output</span>
+          <span className="text-text-muted">→</span>
+          <span className="text-text-muted">context-aware output</span>
         </div>
       </div>
       <CaveatNote>

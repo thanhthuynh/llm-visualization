@@ -12,15 +12,15 @@ export function PhilosophyCard({ title, description, publicDoc, vendor }: Philos
   return (
     <div
       style={{ '--vendor-color': titleColor } as CSSProperties}
-      className="flex flex-col gap-2.5 p-4 min-w-0 border border-(--color-border) rounded-(--radius-card) bg-(--color-surface-card)"
+      className="flex flex-col gap-2.5 p-4 min-w-0 border border-border rounded-card bg-surface-card"
     >
-      <div className="font-[family-name:--font-display] font-bold text-[17px] text-(--vendor-color)">
+      <div className="font-display font-bold text-[17px] text-(--vendor-color)">
         {title}
       </div>
-      <p className="m-0 font-[family-name:--font-body] text-sm leading-[22px] text-(--color-text-primary)">
+      <p className="m-0 font-body text-sm leading-[22px] text-text-primary">
         {description}
       </p>
-      <div className="font-[family-name:--font-mono] text-xs text-(--color-text-muted)">
+      <div className="font-mono text-xs text-text-muted">
         ref: {publicDoc}
       </div>
     </div>

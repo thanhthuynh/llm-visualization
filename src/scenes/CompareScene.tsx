@@ -28,11 +28,11 @@ export function CompareScene() {
     <div className="p-(--stage-padding) flex flex-col gap-5 h-full">
       <EyebrowLabel>The honest comparison</EyebrowLabel>
 
-      <div className="p-[14px] border border-(--color-border) rounded-(--radius-card) bg-(--color-surface-card)">
-        <div className="flex items-center gap-2 font-[family-name:--font-body] font-bold text-[15px]">
+      <div className="p-3.5 border border-border rounded-card bg-surface-card">
+        <div className="flex items-center gap-2 font-body font-bold text-[15px]">
           Architecture: both <ClaimTier tier="a" />
         </div>
-        <p className="mt-1.5 mb-0 font-[family-name:--font-body] text-[13px] text-(--color-text-muted) leading-5">
+        <p className="mt-1.5 mb-0 font-body text-[13px] text-text-muted leading-5">
           Decoder-only autoregressive transformers, pretrained then post-trained. Everything you
           watched in scenes 1–6 applies to both.
         </p>
@@ -43,7 +43,7 @@ export function CompareScene() {
         <div className="mt-2">
           <ContextWindowBar rows={contextRows} maxTokens={maxTokens} />
         </div>
-        <p className="mt-2 mb-0 font-[family-name:--font-body] text-xs text-(--color-text-muted)">
+        <p className="mt-2 mb-0 font-body text-xs text-text-muted">
           The honest story here is <strong>convergence</strong>, not &ldquo;X is bigger.&rdquo;{' '}
           <ClaimTier tier="a" />
         </p>
@@ -54,7 +54,7 @@ export function CompareScene() {
         <div className="mt-2">
           <TokenizerCount examples={[...COMPARE_CONFIG.tokenizerExamples]} />
         </div>
-        <p className="mt-2 mb-0 font-[family-name:--font-body] text-xs text-(--color-text-muted)">
+        <p className="mt-2 mb-0 font-body text-xs text-text-muted">
           Best hard difference. Ties back to Scene 1 (Tokenization). <ClaimTier tier="a" />
         </p>
       </div>
@@ -74,7 +74,7 @@ export function CompareScene() {
   )
 
   const deeper = (
-    <div className="flex flex-col gap-[18px]">
+    <div className="flex flex-col gap-4.5">
       <div>
         <EyebrowLabel>Post-training philosophy</EyebrowLabel>
         <div className="mt-2 grid grid-cols-2 gap-3">
@@ -88,7 +88,7 @@ export function CompareScene() {
             />
           ))}
         </div>
-        <p className="mt-2 mb-0 font-[family-name:--font-body] text-xs text-(--color-text-muted)">
+        <p className="mt-2 mb-0 font-body text-xs text-text-muted">
           The existence of each program is public <ClaimTier tier="a" />. Current recipes are
           partial / historical <ClaimTier tier="b" />.
         </p>
@@ -107,7 +107,7 @@ export function CompareScene() {
         change month-to-month.
       </CaveatNote>
 
-      <p className="font-[family-name:--font-mono] text-xs text-(--color-text-muted)">
+      <p className="font-mono text-xs text-text-muted">
         Last updated {COMPARE_CONFIG.lastUpdated}
       </p>
     </div>
