@@ -6,6 +6,7 @@ export type SceneId =
   | 'predict'
   | 'decode'
   | 'output'
+  | 'compare'
   | 'about'
 
 export type AccentToken =
@@ -81,6 +82,14 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     accent: 'output',
     prompt: 'The sky is',
     railLabel: 'OUTPUT',
+    implemented: true,
+  },
+  {
+    id: 'compare',
+    title: 'Claude vs ChatGPT',
+    accent: 'predict',
+    prompt: '',
+    railLabel: 'COMPARE',
     implemented: true,
   },
   {

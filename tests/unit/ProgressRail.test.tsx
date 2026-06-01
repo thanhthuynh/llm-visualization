@@ -24,9 +24,12 @@ describe('ProgressRail', () => {
     await userEvent.click(screen.getByRole('button', { name: /next-token/i }))
     expect(onJump).toHaveBeenCalledWith('predict')
   })
-  it('renders Compare as a disabled placeholder', () => {
-    render(<ProgressRail activeId="predict" onJump={() => {}} />)
+  it('renders the Compare dot as an active scene link', async () => {
+    const onJump = vi.fn()
+    render(<ProgressRail activeId="predict" onJump={onJump} />)
     const compare = screen.getByRole('button', { name: /compare/i })
-    expect(compare).toBeDisabled()
+    expect(compare).not.toBeDisabled()
+    await userEvent.click(compare)
+    expect(onJump).toHaveBeenCalledWith('compare')
   })
 })
