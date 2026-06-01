@@ -1,4 +1,4 @@
-import { useState, type CSSProperties } from 'react'
+import { useState } from 'react'
 import { SceneStation } from '@/components/SceneStation'
 import { Chip } from '@/components/Chip'
 import { CaveatNote } from '@/components/CaveatNote'
@@ -20,42 +20,20 @@ export function AssembleScene() {
   const [view, setView] = useState<'text' | 'tokens'>('text')
 
   const stage = (
-    <div
-      style={{
-        padding: 'var(--stage-padding)',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 24,
-        height: '100%',
-        justifyContent: 'center',
-      }}
-    >
+    <div className="p-(--stage-padding) flex flex-col gap-6 h-full justify-center">
       <EyebrowLabel>Streaming the reply</EyebrowLabel>
-      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+      <div className="flex gap-2.5 flex-wrap">
         {FULL_TOKENS.map((t) => (
           <Chip key={t} variant="token">
             {chipDisplay(t)}
           </Chip>
         ))}
       </div>
-      <div
-        style={{
-          fontFamily: 'var(--font-body)',
-          fontSize: 13,
-          color: 'var(--color-text-muted)',
-        }}
-      >
+      <div className="font-[family-name:--font-body] text-[13px] text-(--color-text-muted)">
         detokenize ↓
       </div>
       <ReplyBubble text={REPLY_TEXT} streaming />
-      <p
-        style={{
-          fontFamily: 'var(--font-body)',
-          fontSize: 13,
-          color: 'var(--color-text-muted)',
-          margin: 0,
-        }}
-      >
+      <p className="m-0 font-[family-name:--font-body] text-[13px] text-(--color-text-muted)">
         Each token becomes characters and joins the reply — you see it appear word by word.
       </p>
     </div>
@@ -64,60 +42,47 @@ export function AssembleScene() {
   const surface = (
     <>
       <EyebrowLabel>From tokens to text</EyebrowLabel>
-      <p style={{ marginTop: 12 }}>
+      <p className="mt-3">
         Each token becomes characters and joins the reply — you see it appear word by word.
       </p>
     </>
   )
 
-  const toggleButtonStyle = (active: boolean): CSSProperties => ({
-    padding: '6px 12px',
-    borderRadius: 'var(--radius-pill)',
-    border: `1px solid ${active ? 'var(--color-accent-output)' : 'var(--color-border)'}`,
-    background: active
-      ? 'color-mix(in srgb, var(--color-accent-output) 16%, var(--color-surface-card))'
-      : 'var(--color-surface-card)',
-    color: 'var(--color-text-primary)',
-    fontFamily: 'var(--font-body)',
-    fontWeight: 600,
-    fontSize: 13,
-    cursor: 'pointer',
-    minHeight: 44,
-  })
+  const toggleButtonClass = (active: boolean): string => {
+    const border = active ? 'border-(--color-accent-output)' : 'border-(--color-border)'
+    const bg = active
+      ? 'bg-[color-mix(in_srgb,var(--color-accent-output)_16%,var(--color-surface-card))]'
+      : 'bg-(--color-surface-card)'
+    return `px-3 py-1.5 rounded-(--radius-pill) border ${border} ${bg} text-(--color-text-primary) font-[family-name:--font-body] font-semibold text-[13px] cursor-pointer min-h-[44px]`
+  }
 
   const deeper = (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <div className="flex flex-col gap-4">
       <EyebrowLabel>Detokenize chain</EyebrowLabel>
       <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'auto auto auto auto auto',
-          gap: 8,
-          alignItems: 'center',
-          fontFamily: 'var(--font-mono)',
-          fontSize: 14,
-        }}
+        className="grid items-center gap-2 font-[family-name:--font-mono] text-sm"
+        style={{ gridTemplateColumns: 'auto auto auto auto auto' }}
       >
-        <span style={{ color: 'var(--color-text-muted)' }}>TOKEN ID</span>
-        <span style={{ color: 'var(--color-text-muted)' }}>→</span>
-        <span style={{ color: 'var(--color-text-muted)' }}>BYTES</span>
-        <span style={{ color: 'var(--color-text-muted)' }}>→</span>
-        <span style={{ color: 'var(--color-text-muted)' }}>TEXT</span>
+        <span className="text-(--color-text-muted)">TOKEN ID</span>
+        <span className="text-(--color-text-muted)">→</span>
+        <span className="text-(--color-text-muted)">BYTES</span>
+        <span className="text-(--color-text-muted)">→</span>
+        <span className="text-(--color-text-muted)">TEXT</span>
 
         <span>318</span>
-        <span style={{ color: 'var(--color-text-muted)' }}>→</span>
+        <span className="text-(--color-text-muted)">→</span>
         <span>{dataset.bytes[' blue']}</span>
-        <span style={{ color: 'var(--color-text-muted)' }}>→</span>
+        <span className="text-(--color-text-muted)">→</span>
         <span>blue</span>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <div className="flex flex-col gap-2">
         <EyebrowLabel>View</EyebrowLabel>
-        <div style={{ display: 'flex', gap: 8 }}>
+        <div className="flex gap-2">
           <button
             type="button"
             onClick={() => setView('text')}
             aria-pressed={view === 'text'}
-            style={toggleButtonStyle(view === 'text')}
+            className={toggleButtonClass(view === 'text')}
           >
             as text
           </button>
@@ -125,7 +90,7 @@ export function AssembleScene() {
             type="button"
             onClick={() => setView('tokens')}
             aria-pressed={view === 'tokens'}
-            style={toggleButtonStyle(view === 'tokens')}
+            className={toggleButtonClass(view === 'tokens')}
           >
             as tokens
           </button>
@@ -133,33 +98,20 @@ export function AssembleScene() {
         {view === 'text' ? (
           <div
             data-testid="assembly-text-view"
-            style={{
-              padding: '12px 16px',
-              background: 'var(--color-surface-card)',
-              border: '1px solid var(--color-border)',
-              borderRadius: 'var(--radius-card)',
-              fontFamily: 'var(--font-body)',
-              fontSize: 15,
-            }}
+            className="px-4 py-3 bg-(--color-surface-card) border border-(--color-border) rounded-(--radius-card) font-[family-name:--font-body] text-[15px]"
           >
             {REPLY_TEXT}
           </div>
         ) : (
           <div
             data-testid="assembly-tokens-view"
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, max-content)',
-              columnGap: 12,
-              rowGap: 6,
-              fontFamily: 'var(--font-mono)',
-              fontSize: 13,
-            }}
+            className="grid gap-x-3 gap-y-1.5 font-[family-name:--font-mono] text-[13px]"
+            style={{ gridTemplateColumns: 'repeat(3, max-content)' }}
           >
             {dataset.tokens.map((t) => (
-              <div key={t.id} style={{ display: 'contents' }}>
+              <div key={t.id} className="contents">
                 <span>{chipDisplay(t.text)}</span>
-                <span style={{ color: 'var(--color-text-muted)' }}>→</span>
+                <span className="text-(--color-text-muted)">→</span>
                 <span>{t.id}</span>
               </div>
             ))}

@@ -33,64 +33,28 @@ export function DecodeScene() {
   const [temperature, setTemperature] = useState(1)
 
   const stage = (
-    <div
-      style={{
-        padding: 'var(--stage-padding)',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 24,
-        height: '100%',
-      }}
-    >
+    <div className="p-(--stage-padding) flex flex-col gap-6 h-full">
       <EyebrowLabel>One token at a time</EyebrowLabel>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+      <div className="flex items-center gap-2.5 flex-wrap">
         <Chip variant="token">The</Chip>
         <Chip variant="token">·sky</Chip>
         <Chip variant="token">·is</Chip>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 18 }}>+</span>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+        <span className="font-[family-name:--font-mono] text-lg">+</span>
+        <div className="flex flex-col items-center gap-1">
           <Chip variant="token">·blue</Chip>
-          <span
-            style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: 11,
-              color: 'var(--color-text-muted)',
-            }}
-          >
+          <span className="font-[family-name:--font-mono] text-[11px] text-(--color-text-muted)">
             ↑ just chosen
           </span>
         </div>
       </div>
-      <div
-        style={{
-          padding: '10px 14px',
-          background: 'var(--color-surface-card)',
-          border: '1px solid var(--color-border)',
-          borderRadius: 'var(--radius-card)',
-          fontFamily: 'var(--font-body)',
-          fontSize: 13,
-          color: 'var(--color-text-muted)',
-        }}
-      >
+      <div className="px-[14px] py-2.5 bg-(--color-surface-card) border border-(--color-border) rounded-(--radius-card) font-[family-name:--font-body] text-[13px] text-(--color-text-muted)">
         the model · predict next token
       </div>
       <Chip variant="example">Updated: &ldquo;The sky is blue&rdquo;</Chip>
-      <div
-        style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--color-text-muted)' }}
-      >
+      <div className="font-[family-name:--font-body] text-[13px] text-(--color-text-muted)">
         feeds back in →
       </div>
-      <div
-        style={{
-          marginTop: 'auto',
-          display: 'flex',
-          gap: 12,
-          alignItems: 'center',
-          fontFamily: 'var(--font-mono)',
-          fontSize: 13,
-          color: 'var(--color-text-muted)',
-        }}
-      >
+      <div className="mt-auto flex items-center gap-3 font-[family-name:--font-mono] text-[13px] text-(--color-text-muted)">
         <span aria-hidden="true">↻</span>
         <span>loop until done</span>
       </div>
@@ -100,7 +64,7 @@ export function DecodeScene() {
   const surface = (
     <>
       <EyebrowLabel>The autoregressive loop</EyebrowLabel>
-      <p style={{ marginTop: 12 }}>
+      <p className="mt-3">
         The model writes the reply token by token. It chooses, appends, and runs the network again
         to pick the next token. Repeat until done.
       </p>
@@ -108,15 +72,15 @@ export function DecodeScene() {
   )
 
   const deeper = (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <div className="flex flex-col gap-4">
       <EyebrowLabel>Temperature reshapes the odds</EyebrowLabel>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+      <div className="flex flex-col gap-1.5">
         <label
           htmlFor="decode-temperature"
-          style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 14 }}
+          className="font-[family-name:--font-body] font-semibold text-sm"
         >
           Temperature:{' '}
-          <span style={{ fontFamily: 'var(--font-mono)' }}>{temperature.toFixed(1)}</span>
+          <span className="font-[family-name:--font-mono]">{temperature.toFixed(1)}</span>
         </label>
         <input
           id="decode-temperature"
@@ -129,42 +93,28 @@ export function DecodeScene() {
           onChange={(e) => setTemperature(Number(e.target.value))}
           aria-label="Temperature"
         />
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            fontFamily: 'var(--font-body)',
-            fontSize: 11,
-            color: 'var(--color-text-muted)',
-          }}
-        >
+        <div className="flex justify-between font-[family-name:--font-body] text-[11px] text-(--color-text-muted)">
           <span>sharp &amp; predictable</span>
           <span>flat &amp; random</span>
         </div>
       </div>
       <DistributionPair left={PEAKED} right={FLATTER} accent="decode" />
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <div className="flex flex-col gap-2">
         <EyebrowLabel>More sampling controls</EyebrowLabel>
         <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'max-content 1fr',
-            columnGap: 16,
-            rowGap: 6,
-            fontFamily: 'var(--font-body)',
-            fontSize: 13,
-          }}
+          className="grid gap-x-4 gap-y-1.5 font-[family-name:--font-body] text-[13px]"
+          style={{ gridTemplateColumns: 'max-content 1fr' }}
         >
-          <span style={{ fontFamily: 'var(--font-mono)' }}>top-k = 40</span>
-          <span style={{ color: 'var(--color-text-muted)' }}>
+          <span className="font-[family-name:--font-mono]">top-k = 40</span>
+          <span className="text-(--color-text-muted)">
             only the 40 likeliest tokens are eligible
           </span>
-          <span style={{ fontFamily: 'var(--font-mono)' }}>top-p = 0.9</span>
-          <span style={{ color: 'var(--color-text-muted)' }}>
+          <span className="font-[family-name:--font-mono]">top-p = 0.9</span>
+          <span className="text-(--color-text-muted)">
             keep the smallest set covering 90% of probability
           </span>
-          <span style={{ fontFamily: 'var(--font-mono)' }}>&lt;eos&gt;</span>
-          <span style={{ color: 'var(--color-text-muted)' }}>
+          <span className="font-[family-name:--font-mono]">&lt;eos&gt;</span>
+          <span className="text-(--color-text-muted)">
             when the model emits this end-of-sequence token, the loop stops
           </span>
         </div>

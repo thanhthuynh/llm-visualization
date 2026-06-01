@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, type CSSProperties } from 'react'
 import { SceneStation } from '@/components/SceneStation'
 import { DataBar } from '@/components/DataBar'
 import { CaveatNote } from '@/components/CaveatNote'
@@ -42,22 +42,12 @@ export function PredictScene() {
   )
 
   const stage = (
-    <div
-      style={{
-        padding: 'var(--stage-padding)',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 16,
-        height: '100%',
-      }}
-    >
-      <div
-        style={{ fontFamily: 'var(--font-mono)', fontSize: 15, color: 'var(--color-text-muted)' }}
-      >
+    <div className="p-(--stage-padding) flex flex-col gap-4 h-full">
+      <div className="font-[family-name:--font-mono] text-[15px] text-(--color-text-muted)">
         P( next token |{' '}
-        <span style={{ color: 'var(--color-text-primary)' }}>&quot;{dataset.prompt}&quot;</span> )
+        <span className="text-(--color-text-primary)">&quot;{dataset.prompt}&quot;</span> )
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div className="flex flex-col">
         {candidates.map((c, i) => (
           <DataBar
             key={c.token}
@@ -69,13 +59,13 @@ export function PredictScene() {
           />
         ))}
       </div>
-      <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 6 }}>
+      <div className="mt-auto flex flex-col gap-1.5">
         <label
           htmlFor="temperature"
-          style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 14 }}
+          className="font-[family-name:--font-body] font-semibold text-sm"
         >
           Temperature:{' '}
-          <span style={{ fontFamily: 'var(--font-mono)' }}>{temperature.toFixed(1)}</span>
+          <span className="font-[family-name:--font-mono]">{temperature.toFixed(1)}</span>
         </label>
         <input
           id="temperature"
@@ -95,7 +85,7 @@ export function PredictScene() {
   const surface = (
     <>
       <EyebrowLabel>Next-token prediction</EyebrowLabel>
-      <p style={{ marginTop: 12 }}>
+      <p className="mt-3">
         The model produces a probability for every possible next token. Here are the most likely
         few.
       </p>
@@ -105,78 +95,54 @@ export function PredictScene() {
   const accentColor = accentHex('predict')
   const accentTint = accentRgba('predict', 0.14)
 
-  const numberBoxStyle = {
-    background: 'var(--color-surface-card)',
-    border: '1px solid var(--color-border)',
-    borderRadius: 10,
-    padding: '8px 10px',
-    display: 'flex',
-    flexDirection: 'column' as const,
-    gap: 2,
-    alignItems: 'center' as const,
-    fontFamily: 'var(--font-mono)',
-    fontSize: 12,
-    color: 'var(--color-text-primary)',
-  }
-  const tinyLabel = {
-    fontFamily: 'var(--font-body)',
-    fontWeight: 500,
-    fontSize: 9,
-    letterSpacing: '0.54px',
-    textTransform: 'uppercase' as const,
-    color: 'var(--color-text-muted)',
-  }
-  const arrowStyle = {
-    fontFamily: 'var(--font-mono)',
-    fontSize: 18,
-    color: 'var(--color-text-muted)',
-  }
+  const numberBoxClass =
+    'flex flex-col items-center gap-0.5 px-2.5 py-2 rounded-[10px] bg-(--color-surface-card) border border-(--color-border) font-[family-name:--font-mono] text-xs text-(--color-text-primary)'
+  const tinyLabelClass =
+    'font-[family-name:--font-body] font-medium text-[9px] tracking-[0.54px] uppercase text-(--color-text-muted)'
+  const arrowClass = 'font-[family-name:--font-mono] text-lg text-(--color-text-muted)'
+
+  const softmaxStyle = {
+    '--sm-color': accentColor,
+    '--sm-bg': accentTint,
+  } as CSSProperties
 
   const deeper = (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+    <div className="flex flex-col gap-3">
       <EyebrowLabel>How those numbers are made</EyebrowLabel>
-      <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'center' }}>
-          <span style={tinyLabel}>logits</span>
-          <div style={numberBoxStyle}>
+      <div className="flex items-center gap-3 flex-wrap">
+        <div className="flex flex-col items-center gap-1">
+          <span className={tinyLabelClass}>logits</span>
+          <div className={numberBoxClass}>
             <span>3.1</span>
             <span>0.9</span>
             <span>0.4</span>
           </div>
         </div>
-        <span aria-hidden="true" style={arrowStyle}>
+        <span aria-hidden="true" className={arrowClass}>
           →
         </span>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'center' }}>
-          <span style={tinyLabel}>normalize</span>
+        <div className="flex flex-col items-center gap-1">
+          <span className={tinyLabelClass}>normalize</span>
           <div
-            style={{
-              border: `1.5px solid ${accentColor}`,
-              background: accentTint,
-              borderRadius: 'var(--radius-pill)',
-              padding: '8px 14px',
-              color: accentColor,
-              fontFamily: 'var(--font-body)',
-              fontWeight: 600,
-              fontSize: 12,
-            }}
+            style={softmaxStyle}
+            className="border-[1.5px] border-(--sm-color) bg-(--sm-bg) text-(--sm-color) rounded-(--radius-pill) px-[14px] py-2 font-[family-name:--font-body] font-semibold text-xs"
           >
             softmax
           </div>
         </div>
-        <span aria-hidden="true" style={arrowStyle}>
+        <span aria-hidden="true" className={arrowClass}>
           →
         </span>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'center' }}>
-          <span style={tinyLabel}>probs</span>
-          <div style={numberBoxStyle}>
+        <div className="flex flex-col items-center gap-1">
+          <span className={tinyLabelClass}>probs</span>
+          <div className={numberBoxClass}>
             <span>0.71</span>
             <span>0.06</span>
             <span>0.04</span>
           </div>
         </div>
       </div>
-      <div style={{ marginTop: 4 }}>
+      <div className="mt-1">
         <DataBar label="+50k more" value="≈14%" fraction={0.14} />
       </div>
       <CaveatNote>
