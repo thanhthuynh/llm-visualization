@@ -7,7 +7,7 @@ interface ProgressRailProps {
 }
 
 export function ProgressRail({ activeId, onJump }: ProgressRailProps) {
-  const pipeline = SCENES.filter((s) => s.id !== 'about')
+  const pipeline = SCENES.filter((s) => s.id !== 'about' && s.id !== 'compare')
   return (
     <nav
       aria-label="Scenes"

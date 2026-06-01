@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest'
 import { SCENES, getSceneById, type SceneId } from '@/scenes/scenes.config'
 
 describe('scenes.config', () => {
-  it('exposes 7 pipeline scenes plus about', () => {
-    expect(SCENES).toHaveLength(8)
+  it('exposes 7 pipeline scenes plus compare plus about', () => {
+    expect(SCENES).toHaveLength(9)
     const ids = SCENES.map((s) => s.id)
     expect(ids).toEqual([
       'prompt',
@@ -13,6 +13,7 @@ describe('scenes.config', () => {
       'predict',
       'decode',
       'output',
+      'compare',
       'about',
     ])
   })
@@ -40,6 +41,7 @@ describe('scenes.config', () => {
       'predict',
       'decode',
       'output',
+      'compare',
       'about',
     ])
   })
