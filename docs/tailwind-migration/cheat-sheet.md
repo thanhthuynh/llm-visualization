@@ -99,3 +99,42 @@ To be filled after each Wave 3 file lands.
 
 | File | Line | Why |
 |---|---|---|
+
+## Remaining inline styles (legitimate exceptions)
+
+After migration, 16 inline `style={{...}}` blocks remain across 13 files. All are intentional:
+
+### Category 1: CSS-var passthrough (runtime-computed values)
+
+| File | Reason |
+|---|---|
+| `src/components/Chip.tsx` | `--chip-ring`, `--chip-shadow` (active accent color/shadow) |
+| `src/components/DataBar.tsx` | `--bar-w`, `--bar-fill`, `--bar-glow`, `--bar-value-color` (runtime percentages and accent colors) |
+| `src/components/ContextWindowBar.tsx` | `--ctx-w`, `--ctx-fill` (runtime width + vendor-keyed color) |
+| `src/components/AccentRule.tsx` | `--rule-color` (per-scene accent) |
+| `src/components/PhilosophyCard.tsx` | `--vendor-color` (vendor-keyed title color) |
+| `src/components/DeepToggle.tsx` | `--dt-label`, `--dt-border`, `--dt-shadow` (expanded-state accent) |
+| `src/components/ProgressRail.tsx` | `--rail-bg`, `--rail-shadow`, `--rail-label` (per-button per-scene accent) |
+| `src/components/PromptField.tsx` | Conditional `animation` based on `prefers-reduced-motion` |
+| `src/scenes/PredictScene.tsx` | `--sm-color`, `--sm-bg` (softmax accent + tint) |
+
+### Category 2: Arbitrary `gridTemplateColumns` (Tailwind cannot express)
+
+Tailwind v4 supports `grid-cols-N` and `grid-cols-[arbitrary]`, but multi-token templates with `1fr auto 1fr` or `minmax(...) var(--g) var(--c)` are clearer as inline.
+
+| File | Template |
+|---|---|
+| `src/components/SceneStation.tsx` | `minmax(var(--stage-min-w), 1fr) var(--col-gap) var(--col-right)` |
+| `src/components/DistributionPair.tsx` | `1fr auto 1fr` |
+| `src/components/DataBar.tsx` | `70px 1fr 52px` |
+| `src/components/ContextWindowBar.tsx` | `120px 1fr 64px` |
+| `src/scenes/AssembleScene.tsx` | `auto auto auto auto auto` (5-col) |
+| `src/scenes/AttentionScene.tsx` | `auto auto auto` (×2) |
+| `src/scenes/DecodeScene.tsx` | `max-content 1fr` |
+| `src/scenes/TokenizeScene.tsx` | `repeat(3, max-content)` |
+
+### Category 3: One-off CSS calc
+
+| File | Reason |
+|---|---|
+| `src/scenes/AboutScene.tsx` | `maxWidth: 'calc(760px + var(--gutter-left))'` — one-off layout cap |
