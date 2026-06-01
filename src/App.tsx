@@ -4,6 +4,7 @@ import { RunningExampleProvider } from '@/app/RunningExampleContext'
 import { SceneNavProvider } from '@/app/SceneNavContext'
 import { useHashSync, SCENE_JUMP_EVENT } from '@/app/useHashSync'
 import { useKeyboardNav } from '@/app/useKeyboardNav'
+import { useScrollSpy } from '@/app/useScrollSpy'
 import { ProgressRail } from '@/components/ProgressRail'
 import { TopBar } from '@/components/TopBar'
 import { PromptScene } from '@/scenes/PromptScene'
@@ -57,6 +58,18 @@ function Shell() {
     onNext: () => {
       if (idx < MOUNTED_IDS.length - 1) goTo(MOUNTED_IDS[idx + 1])
     },
+  })
+
+  const handleScrollActiveChange = useCallback((id: string) => {
+    if (MOUNTED_IDS.includes(id as SceneId)) {
+      setActiveId(id as SceneId)
+    }
+  }, [])
+  useScrollSpy({
+    ids: MOUNTED_IDS,
+    onActiveChange: handleScrollActiveChange,
+    rootSelector: '.stations',
+    threshold: 0.5,
   })
 
   const prompt = getSceneById(activeId).prompt
