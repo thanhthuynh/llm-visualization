@@ -8,13 +8,20 @@ type Entry = {
   intersectionRatio: number
 }
 
+type IOCallback = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => void
+type IOInit = {
+  root?: Element | Document | null
+  rootMargin?: string
+  threshold?: number | number[]
+}
+
 class MockIntersectionObserver {
   static instances: MockIntersectionObserver[] = []
-  callback: IntersectionObserverCallback
-  options: IntersectionObserverInit
+  callback: IOCallback
+  options: IOInit
   observed: Element[] = []
 
-  constructor(cb: IntersectionObserverCallback, opts?: IntersectionObserverInit) {
+  constructor(cb: IOCallback, opts?: IOInit) {
     this.callback = cb
     this.options = opts ?? {}
     MockIntersectionObserver.instances.push(this)
