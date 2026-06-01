@@ -82,14 +82,7 @@ export function AttentionScene() {
           </g>
         ))}
       </svg>
-      <p
-        style={{
-          fontFamily: 'var(--font-body)',
-          fontSize: 13,
-          color: 'var(--color-text-muted)',
-          margin: 0,
-        }}
-      >
+      <p className="m-0 font-[family-name:--font-body] text-[13px] text-(--color-text-muted)">
         Simplified — open Go deeper to see what&apos;s really going on.
       </p>
     </div>
@@ -98,7 +91,7 @@ export function AttentionScene() {
   const surface = (
     <>
       <EyebrowLabel>Letting tokens look at each other</EyebrowLabel>
-      <p style={{ marginTop: 12 }}>
+      <p className="mt-3">
         At each layer, every token can look at every earlier token and weigh how much each one
         matters for the next prediction. Above, the pronoun <em>it</em> pulls most of its
         information from <em>cat</em>.
@@ -107,45 +100,33 @@ export function AttentionScene() {
   )
 
   const deeper = (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <div className="flex flex-col gap-4">
       <EyebrowLabel>The actual attention matrix</EyebrowLabel>
       <HeadSelector active={head} onSelect={setHead} />
-      <div style={{ overflowX: 'auto' }}>
+      <div className="overflow-x-auto">
         <AttentionMatrix tokens={tokens} weights={headWeights} queryIndex={QUERY_INDEX} />
       </div>
-      <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--color-text-muted)' }}>
+      <p className="font-[family-name:--font-body] text-[13px] text-(--color-text-muted)">
         Darker = more attention. The upper triangle is blank — a token can only attend to itself
         and earlier tokens, never the future.
       </p>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+      <div className="flex flex-col gap-1.5">
         <EyebrowLabel>Under the hood</EyebrowLabel>
         <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'auto auto auto',
-            gap: 8,
-            alignItems: 'center',
-            fontFamily: 'var(--font-mono)',
-            fontSize: 13,
-          }}
+          className="grid items-center gap-2 font-[family-name:--font-mono] text-[13px]"
+          style={{ gridTemplateColumns: 'auto auto auto' }}
         >
           <span>q·k (SCORE)</span>
-          <span style={{ color: 'var(--color-text-muted)' }}>→</span>
+          <span className="text-(--color-text-muted)">→</span>
           <span>softmax (WEIGHTS)</span>
         </div>
         <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'auto auto auto',
-            gap: 8,
-            alignItems: 'center',
-            fontFamily: 'var(--font-mono)',
-            fontSize: 13,
-          }}
+          className="grid items-center gap-2 font-[family-name:--font-mono] text-[13px]"
+          style={{ gridTemplateColumns: 'auto auto auto' }}
         >
           <span>Σ w·v (BLEND VALUES)</span>
-          <span style={{ color: 'var(--color-text-muted)' }}>→</span>
-          <span style={{ color: 'var(--color-text-muted)' }}>context-aware output</span>
+          <span className="text-(--color-text-muted)">→</span>
+          <span className="text-(--color-text-muted)">context-aware output</span>
         </div>
       </div>
       <CaveatNote>

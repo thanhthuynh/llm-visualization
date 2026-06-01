@@ -16,7 +16,7 @@ describe('ProgressRail', () => {
   it('applies the accent glow to the active segment', () => {
     render(<ProgressRail activeId="predict" onJump={() => {}} />)
     const active = screen.getByRole('button', { name: /predict/i })
-    expect(active.style.boxShadow).toContain('rgba(157, 78, 221')
+    expect(active.style.getPropertyValue('--rail-shadow')).toContain('rgba(157, 78, 221')
   })
   it('calls onJump with the scene id when clicked on an implemented scene', async () => {
     const onJump = vi.fn()

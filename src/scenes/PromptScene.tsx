@@ -12,23 +12,14 @@ export function PromptScene() {
   const { dataset } = useRunningExample()
 
   const stage = (
-    <div
-      style={{
-        padding: 'var(--stage-padding)',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 40,
-        height: '100%',
-        justifyContent: 'center',
-      }}
-    >
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+    <div className="p-(--stage-padding) flex flex-col gap-10 h-full justify-center">
+      <div className="flex flex-col gap-3">
         <EyebrowLabel>Your prompt</EyebrowLabel>
         <PromptField text={dataset.prompt} />
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div className="flex flex-col gap-3">
         <EyebrowLabel>Try an example</EyebrowLabel>
-        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+        <div className="flex gap-3 flex-wrap">
           {EXAMPLE_PROMPTS.map((p) => (
             <Chip key={p} variant="example" onClick={() => undefined} active={p === dataset.prompt}>
               {p}
@@ -42,7 +33,7 @@ export function PromptScene() {
   const surface = (
     <>
       <EyebrowLabel>The starting point</EyebrowLabel>
-      <p style={{ marginTop: 12 }}>
+      <p className="mt-3">
         Everything starts with a prompt — a string of characters. The model will receive exactly the
         text you see in the stage.
       </p>
@@ -50,19 +41,11 @@ export function PromptScene() {
   )
 
   const deeper = (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+    <div className="flex flex-col gap-3">
       <EyebrowLabel>The raw input</EyebrowLabel>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 12,
-          fontFamily: 'var(--font-mono)',
-          fontSize: 15,
-        }}
-      >
+      <div className="flex items-center gap-3 font-[family-name:--font-mono] text-[15px]">
         <span>&quot;{dataset.prompt}&quot;</span>
-        <span style={{ color: 'var(--color-text-muted)' }}>{dataset.prompt.length} chars</span>
+        <span className="text-(--color-text-muted)">{dataset.prompt.length} chars</span>
       </div>
       <p>
         Before the model sees this, it has to be turned into pieces the network can understand —

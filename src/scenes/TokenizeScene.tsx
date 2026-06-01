@@ -17,23 +17,14 @@ export function TokenizeScene() {
   const { dataset } = useRunningExample()
 
   const stage = (
-    <div
-      style={{
-        padding: 'var(--stage-padding)',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 36,
-        height: '100%',
-        justifyContent: 'center',
-      }}
-    >
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <div className="p-(--stage-padding) flex flex-col gap-9 h-full justify-center">
+      <div className="flex flex-col gap-4">
         <EyebrowLabel>From text to tokens</EyebrowLabel>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 22 }}>{dataset.prompt}</div>
+        <div className="font-[family-name:--font-mono] text-[22px]">{dataset.prompt}</div>
         <motion.div
           layout
           data-testid="tokens-group"
-          style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}
+          className="flex gap-2.5 flex-wrap"
         >
           {dataset.tokens.map((t) => (
             <Chip key={t.id} variant="token">
@@ -41,9 +32,7 @@ export function TokenizeScene() {
             </Chip>
           ))}
         </motion.div>
-        <p
-          style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--color-text-muted)' }}
-        >
+        <p className="font-[family-name:--font-body] text-[13px] text-(--color-text-muted)">
           · marks the whitespace that belongs to each token.
         </p>
       </div>
@@ -53,7 +42,7 @@ export function TokenizeScene() {
   const surface = (
     <>
       <EyebrowLabel>Discrete pieces</EyebrowLabel>
-      <p style={{ marginTop: 12 }}>
+      <p className="mt-3">
         The model doesn&apos;t see characters — it sees tokens, learned subword pieces from the
         model&apos;s vocabulary.
       </p>
@@ -61,42 +50,28 @@ export function TokenizeScene() {
   )
 
   const deeper = (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <div className="flex flex-col gap-4">
       <EyebrowLabel>Subword units</EyebrowLabel>
       <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, max-content)',
-          gap: 10,
-          alignItems: 'center',
-          fontFamily: 'var(--font-mono)',
-          fontSize: 14,
-        }}
+        className="grid items-center gap-2.5 font-[family-name:--font-mono] text-sm"
+        style={{ gridTemplateColumns: 'repeat(3, max-content)' }}
       >
         {dataset.tokens.map((t) => (
-          <div key={t.id} style={{ display: 'contents' }}>
+          <div key={t.id} className="contents">
             <span>{chipDisplay(t.text)}</span>
-            <span style={{ color: 'var(--color-text-muted)' }}>→</span>
+            <span className="text-(--color-text-muted)">→</span>
             <span>{t.id}</span>
           </div>
         ))}
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <div className="flex flex-col gap-2">
         <EyebrowLabel>When a word is rare, it splits</EyebrowLabel>
-        <div
-          style={{
-            display: 'flex',
-            gap: 12,
-            alignItems: 'center',
-            fontFamily: 'var(--font-mono)',
-            fontSize: 14,
-          }}
-        >
+        <div className="flex items-center gap-3 font-[family-name:--font-mono] text-sm">
           <span>tokenization</span>
-          <span style={{ color: 'var(--color-text-muted)' }}>→</span>
+          <span className="text-(--color-text-muted)">→</span>
           <span>[</span>
           <span>token</span>
-          <span style={{ color: 'var(--color-text-muted)' }}>|</span>
+          <span className="text-(--color-text-muted)">|</span>
           <span>ization</span>
           <span>]</span>
         </div>

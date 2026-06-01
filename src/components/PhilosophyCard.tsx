@@ -1,3 +1,5 @@
+import type { CSSProperties } from 'react'
+
 interface PhilosophyCardProps {
   title: string
   description: string
@@ -6,47 +8,19 @@ interface PhilosophyCardProps {
 }
 
 export function PhilosophyCard({ title, description, publicDoc, vendor }: PhilosophyCardProps) {
+  const titleColor = vendor === 'anthropic' ? '#9D4EDD' : '#2EE6D6'
   return (
     <div
-      style={{
-        padding: 16,
-        border: '1px solid var(--color-border)',
-        borderRadius: 'var(--radius-card)',
-        background: 'var(--color-surface-card)',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 10,
-        minWidth: 0,
-      }}
+      style={{ '--vendor-color': titleColor } as CSSProperties}
+      className="flex flex-col gap-2.5 p-4 min-w-0 border border-(--color-border) rounded-(--radius-card) bg-(--color-surface-card)"
     >
-      <div
-        style={{
-          fontFamily: 'var(--font-display)',
-          fontWeight: 700,
-          fontSize: 17,
-          color: vendor === 'anthropic' ? '#9D4EDD' : '#2EE6D6',
-        }}
-      >
+      <div className="font-[family-name:--font-display] font-bold text-[17px] text-(--vendor-color)">
         {title}
       </div>
-      <p
-        style={{
-          margin: 0,
-          fontFamily: 'var(--font-body)',
-          fontSize: 14,
-          lineHeight: '22px',
-          color: 'var(--color-text-primary)',
-        }}
-      >
+      <p className="m-0 font-[family-name:--font-body] text-sm leading-[22px] text-(--color-text-primary)">
         {description}
       </p>
-      <div
-        style={{
-          fontFamily: 'var(--font-mono)',
-          fontSize: 12,
-          color: 'var(--color-text-muted)',
-        }}
-      >
+      <div className="font-[family-name:--font-mono] text-xs text-(--color-text-muted)">
         ref: {publicDoc}
       </div>
     </div>

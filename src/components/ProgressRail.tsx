@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { SCENES, type SceneId } from '@/scenes/scenes.config'
 import { accentHex, accentGlow } from '@/utils/accent'
 
@@ -11,85 +12,48 @@ export function ProgressRail({ activeId, onJump }: ProgressRailProps) {
   return (
     <nav
       aria-label="Scenes"
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: 72,
-        height: '100vh',
-        background: 'var(--color-bg-base)',
-        borderRight: '1px solid var(--color-border)',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 12,
-        padding: '24px 0',
-        zIndex: 10,
-      }}
+      className="fixed top-0 left-0 w-[72px] h-screen bg-(--color-bg-base) border-r border-(--color-border) flex flex-col items-center gap-3 py-6 z-10"
     >
       {pipeline.map((scene, idx) => {
         const isActive = scene.id === activeId
         const isImplemented = scene.implemented
-        const accentStyle =
-          isActive && scene.accent
-            ? { background: accentHex(scene.accent), boxShadow: accentGlow(scene.accent, 'rail') }
-            : { background: 'var(--color-rail-inactive)', boxShadow: 'none' as const }
+        const accentBg =
+          isActive && scene.accent ? accentHex(scene.accent) : 'var(--color-rail-inactive)'
+        const accentShadow =
+          isActive && scene.accent ? accentGlow(scene.accent, 'rail') : 'none'
         const labelColor =
           isActive && scene.accent ? accentHex(scene.accent) : 'var(--color-text-muted)'
+        const btnStyle = {
+          '--rail-bg': accentBg,
+          '--rail-shadow': accentShadow,
+        } as CSSProperties
+        const btnClass = [
+          'min-w-[44px] min-h-[44px] border border-(--color-border) p-0',
+          'font-[family-name:--font-mono] text-sm',
+          'bg-(--rail-bg) shadow-[var(--rail-shadow)]',
+          isActive
+            ? 'w-11 h-11 rounded-(--radius-rail-active) text-white font-bold'
+            : 'w-[30px] h-[34px] rounded-(--radius-rail-inactive) text-(--color-text-muted) font-normal',
+          isImplemented ? 'opacity-100 cursor-pointer' : 'opacity-40 cursor-not-allowed',
+        ].join(' ')
         return (
-          <div
-            key={scene.id}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: 4,
-            }}
-          >
+          <div key={scene.id} className="flex flex-col items-center gap-1">
             <button
               type="button"
               onClick={isImplemented ? () => onJump(scene.id) : undefined}
               disabled={!isImplemented}
               aria-label={`${idx + 1} ${scene.railLabel ?? scene.title} ${scene.title}`}
               {...(isActive ? { 'aria-current': 'step' as const } : {})}
-              style={{
-                minWidth: 44,
-                minHeight: 44,
-                width: isActive ? 44 : 30,
-                height: isActive ? 44 : 34,
-                borderRadius: isActive
-                  ? 'var(--radius-rail-active)'
-                  : 'var(--radius-rail-inactive)',
-                border: '1px solid var(--color-border)',
-                color: isActive ? '#fff' : 'var(--color-text-muted)',
-                fontFamily: 'var(--font-mono)',
-                fontWeight: isActive ? 700 : 400,
-                fontSize: 14,
-                cursor: isImplemented ? 'pointer' : 'not-allowed',
-                padding: 0,
-                opacity: isImplemented ? 1 : 0.4,
-                ...accentStyle,
-              }}
+              style={btnStyle}
+              className={btnClass}
             >
               {idx + 1}
             </button>
             {isActive && scene.railLabel && (
               <span
                 aria-hidden="true"
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  fontWeight: 600,
-                  fontSize: 9,
-                  letterSpacing: '0.5px',
-                  color: labelColor,
-                  textAlign: 'center',
-                  width: 72,
-                  maxWidth: 72,
-                  lineHeight: '12px',
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                }}
+                style={{ '--rail-label': labelColor } as CSSProperties}
+                className="font-[family-name:--font-body] font-semibold text-[9px] tracking-[0.5px] text-(--rail-label) text-center w-[72px] max-w-[72px] leading-3 whitespace-nowrap overflow-hidden text-ellipsis"
               >
                 {scene.railLabel.charAt(0) + scene.railLabel.slice(1).toLowerCase()}
               </span>
@@ -102,42 +66,18 @@ export function ProgressRail({ activeId, onJump }: ProgressRailProps) {
         onClick={() => onJump('compare')}
         aria-label="Compare"
         {...(activeId === 'compare' ? { 'aria-current': 'step' as const } : {})}
-        style={{
-          minWidth: 44,
-          minHeight: 44,
-          width: 16,
-          height: 16,
-          marginTop: 16,
-          borderRadius: '50%',
-          background:
-            activeId === 'compare'
-              ? 'var(--color-accent-predict, #9D4EDD)'
-              : 'var(--color-rail-inactive)',
-          border: '1px solid var(--color-border)',
-          cursor: 'pointer',
-          padding: 0,
-        }}
+        className={`min-w-[44px] min-h-[44px] w-4 h-4 mt-4 rounded-full border border-(--color-border) cursor-pointer p-0 ${
+          activeId === 'compare'
+            ? 'bg-[var(--color-accent-predict,#9D4EDD)]'
+            : 'bg-(--color-rail-inactive)'
+        }`}
       />
       <button
         type="button"
         onClick={() => onJump('about')}
         aria-label="About"
         {...(activeId === 'about' ? { 'aria-current': 'step' as const } : {})}
-        style={{
-          minWidth: 44,
-          minHeight: 44,
-          width: 30,
-          height: 34,
-          marginTop: 'auto',
-          borderRadius: 'var(--radius-rail-inactive)',
-          background: 'var(--color-rail-inactive)',
-          border: '1px solid var(--color-border)',
-          color: 'var(--color-text-muted)',
-          fontFamily: 'var(--font-mono)',
-          fontSize: 13,
-          cursor: 'pointer',
-          padding: 0,
-        }}
+        className="min-w-[44px] min-h-[44px] w-[30px] h-[34px] mt-auto rounded-(--radius-rail-inactive) bg-(--color-rail-inactive) border border-(--color-border) text-(--color-text-muted) font-[family-name:--font-mono] text-[13px] cursor-pointer p-0"
       >
         ?
       </button>

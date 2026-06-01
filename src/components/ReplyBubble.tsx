@@ -33,49 +33,20 @@ export function ReplyBubble({ text, streaming = false }: ReplyBubbleProps) {
   const isStreaming = animate && shown.length < text.length
 
   return (
-    <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+    <div className="flex items-start gap-3">
       <div
         aria-hidden="true"
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: 32,
-          height: 32,
-          borderRadius: '50%',
-          background: 'var(--color-surface-card)',
-          border: '1px solid var(--color-border)',
-          fontFamily: 'var(--font-body)',
-          fontWeight: 700,
-          fontSize: 14,
-          color: 'var(--color-text-primary)',
-          flexShrink: 0,
-        }}
+        className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-(--color-surface-card) border border-(--color-border) font-[family-name:--font-body] font-bold text-sm text-(--color-text-primary) shrink-0"
       >
         A
       </div>
-      <div
-        style={{
-          padding: '12px 16px',
-          background: 'var(--color-surface-card)',
-          border: '1px solid var(--color-border)',
-          borderRadius: 'var(--radius-card)',
-          fontFamily: 'var(--font-body)',
-          fontSize: 16,
-          color: 'var(--color-text-primary)',
-          minHeight: 24,
-        }}
-      >
+      <div className="px-4 py-3 bg-(--color-surface-card) border border-(--color-border) rounded-(--radius-card) font-[family-name:--font-body] text-base text-(--color-text-primary) min-h-6">
         <span>{shown}</span>
         {isStreaming && (
           <span
             data-testid="reply-caret"
             aria-hidden="true"
-            style={{
-              display: 'inline-block',
-              marginLeft: 2,
-              color: 'var(--color-text-primary)',
-            }}
+            className="inline-block ml-0.5 text-(--color-text-primary)"
           >
             |
           </span>

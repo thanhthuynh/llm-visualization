@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { accentHex } from '@/utils/accent'
 import type { AccentToken } from '@/scenes/scenes.config'
 
@@ -9,12 +10,8 @@ export function AccentRule({ accent }: AccentRuleProps) {
   return (
     <div
       role="presentation"
-      style={{
-        width: 48,
-        height: 3,
-        borderRadius: 'var(--radius-accent-rule)',
-        backgroundColor: accentHex(accent),
-      }}
+      style={{ '--rule-color': accentHex(accent) } as CSSProperties}
+      className="w-12 h-[3px] rounded-(--radius-accent-rule) bg-(--rule-color)"
     />
   )
 }

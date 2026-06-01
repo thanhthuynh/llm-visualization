@@ -25,46 +25,14 @@ export function CompareScene() {
   }))
 
   const stage = (
-    <div
-      style={{
-        padding: 'var(--stage-padding)',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 20,
-        height: '100%',
-      }}
-    >
+    <div className="p-(--stage-padding) flex flex-col gap-5 h-full">
       <EyebrowLabel>The honest comparison</EyebrowLabel>
 
-      <div
-        style={{
-          padding: 14,
-          border: '1px solid var(--color-border)',
-          borderRadius: 'var(--radius-card)',
-          background: 'var(--color-surface-card)',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 8,
-            fontFamily: 'var(--font-body)',
-            fontWeight: 700,
-            fontSize: 15,
-          }}
-        >
+      <div className="p-[14px] border border-(--color-border) rounded-(--radius-card) bg-(--color-surface-card)">
+        <div className="flex items-center gap-2 font-[family-name:--font-body] font-bold text-[15px]">
           Architecture: both <ClaimTier tier="a" />
         </div>
-        <p
-          style={{
-            margin: '6px 0 0',
-            fontFamily: 'var(--font-body)',
-            fontSize: 13,
-            color: 'var(--color-text-muted)',
-            lineHeight: '20px',
-          }}
-        >
+        <p className="mt-1.5 mb-0 font-[family-name:--font-body] text-[13px] text-(--color-text-muted) leading-5">
           Decoder-only autoregressive transformers, pretrained then post-trained. Everything you
           watched in scenes 1–6 applies to both.
         </p>
@@ -72,17 +40,10 @@ export function CompareScene() {
 
       <div>
         <EyebrowLabel>Context window (API)</EyebrowLabel>
-        <div style={{ marginTop: 8 }}>
+        <div className="mt-2">
           <ContextWindowBar rows={contextRows} maxTokens={maxTokens} />
         </div>
-        <p
-          style={{
-            margin: '8px 0 0',
-            fontFamily: 'var(--font-body)',
-            fontSize: 12,
-            color: 'var(--color-text-muted)',
-          }}
-        >
+        <p className="mt-2 mb-0 font-[family-name:--font-body] text-xs text-(--color-text-muted)">
           The honest story here is <strong>convergence</strong>, not &ldquo;X is bigger.&rdquo;{' '}
           <ClaimTier tier="a" />
         </p>
@@ -90,17 +51,10 @@ export function CompareScene() {
 
       <div>
         <EyebrowLabel>Tokenizers differ — same text, different counts</EyebrowLabel>
-        <div style={{ marginTop: 8 }}>
+        <div className="mt-2">
           <TokenizerCount examples={[...COMPARE_CONFIG.tokenizerExamples]} />
         </div>
-        <p
-          style={{
-            margin: '8px 0 0',
-            fontFamily: 'var(--font-body)',
-            fontSize: 12,
-            color: 'var(--color-text-muted)',
-          }}
-        >
+        <p className="mt-2 mb-0 font-[family-name:--font-body] text-xs text-(--color-text-muted)">
           Best hard difference. Ties back to Scene 1 (Tokenization). <ClaimTier tier="a" />
         </p>
       </div>
@@ -110,7 +64,7 @@ export function CompareScene() {
   const surface = (
     <>
       <EyebrowLabel>Claude vs ChatGPT</EyebrowLabel>
-      <p style={{ marginTop: 12 }}>
+      <p className="mt-3">
         At the architecture level, these systems are <strong>more alike than different</strong> —
         both decoder-only transformers, pretrained then post-trained with human-feedback
         techniques. Lead with what they share, then rank differences by how durable and verifiable
@@ -120,17 +74,10 @@ export function CompareScene() {
   )
 
   const deeper = (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+    <div className="flex flex-col gap-[18px]">
       <div>
         <EyebrowLabel>Post-training philosophy</EyebrowLabel>
-        <div
-          style={{
-            marginTop: 8,
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: 12,
-          }}
-        >
+        <div className="mt-2 grid grid-cols-2 gap-3">
           {COMPARE_CONFIG.philosophies.map((p) => (
             <PhilosophyCard
               key={p.vendor}
@@ -141,14 +88,7 @@ export function CompareScene() {
             />
           ))}
         </div>
-        <p
-          style={{
-            margin: '8px 0 0',
-            fontFamily: 'var(--font-body)',
-            fontSize: 12,
-            color: 'var(--color-text-muted)',
-          }}
-        >
+        <p className="mt-2 mb-0 font-[family-name:--font-body] text-xs text-(--color-text-muted)">
           The existence of each program is public <ClaimTier tier="a" />. Current recipes are
           partial / historical <ClaimTier tier="b" />.
         </p>
@@ -156,7 +96,7 @@ export function CompareScene() {
 
       <div>
         <EyebrowLabel>Model lineup</EyebrowLabel>
-        <div style={{ marginTop: 8 }}>
+        <div className="mt-2">
           <CompareTable rows={lineupRows} caption="Model lineup" />
         </div>
       </div>
@@ -167,13 +107,7 @@ export function CompareScene() {
         change month-to-month.
       </CaveatNote>
 
-      <p
-        style={{
-          fontFamily: 'var(--font-mono)',
-          fontSize: 12,
-          color: 'var(--color-text-muted)',
-        }}
-      >
+      <p className="font-[family-name:--font-mono] text-xs text-(--color-text-muted)">
         Last updated {COMPARE_CONFIG.lastUpdated}
       </p>
     </div>

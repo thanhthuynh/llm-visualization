@@ -8,18 +8,13 @@ import { ILLUSTRATIVE_DOTS } from '@/data/illustrative-embeddings'
 const SCENE = getSceneById('embed')
 
 export function EmbedScene() {
+  const tagClass =
+    'px-2.5 py-1 rounded-(--radius-pill) border border-(--color-border) text-(--color-text-muted)'
+
   const stage = (
-    <div
-      style={{
-        padding: 'var(--stage-padding)',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 16,
-        height: '100%',
-      }}
-    >
+    <div className="p-(--stage-padding) flex flex-col gap-4 h-full">
       <EyebrowLabel>A space of meaning</EyebrowLabel>
-      <div style={{ flex: 1, minHeight: 0 }}>
+      <div className="flex-1 min-h-0">
         <EmbeddingSpace
           dots={ILLUSTRATIVE_DOTS}
           cluster={{ cx: -0.4, cy: -0.3, rx: 0.35, ry: 0.35 }}
@@ -28,7 +23,7 @@ export function EmbedScene() {
           height={420}
         />
       </div>
-      <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--color-text-muted)' }}>
+      <p className="font-[family-name:--font-body] text-[13px] text-(--color-text-muted)">
         Each token gets a position in a shared meaning space. Neighbours are related.
       </p>
     </div>
@@ -37,7 +32,7 @@ export function EmbedScene() {
   const surface = (
     <>
       <EyebrowLabel>From tokens to vectors</EyebrowLabel>
-      <p style={{ marginTop: 12 }}>
+      <p className="mt-3">
         Each token is mapped to a long vector — a position in a space the model has learned during
         training. Related tokens land near each other.
       </p>
@@ -45,9 +40,9 @@ export function EmbedScene() {
   )
 
   const deeper = (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <div className="flex flex-col gap-4">
       <EyebrowLabel>Contextual shift</EyebrowLabel>
-      <div style={{ width: '100%' }}>
+      <div className="w-full">
         <EmbeddingSpace
           dots={ILLUSTRATIVE_DOTS}
           shift={{ from: 'sky', to: { x: -0.1, y: -0.45 } }}
@@ -56,45 +51,10 @@ export function EmbedScene() {
           height={300}
         />
       </div>
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: 10,
-          fontFamily: 'var(--font-mono)',
-          fontSize: 12,
-        }}
-      >
-        <span
-          style={{
-            padding: '4px 10px',
-            borderRadius: 'var(--radius-pill)',
-            border: '1px solid var(--color-border)',
-            color: 'var(--color-text-muted)',
-          }}
-        >
-          768–4096 dims
-        </span>
-        <span
-          style={{
-            padding: '4px 10px',
-            borderRadius: 'var(--radius-pill)',
-            border: '1px solid var(--color-border)',
-            color: 'var(--color-text-muted)',
-          }}
-        >
-          2D = projection
-        </span>
-        <span
-          style={{
-            padding: '4px 10px',
-            borderRadius: 'var(--radius-pill)',
-            border: '1px solid var(--color-border)',
-            color: 'var(--color-text-muted)',
-          }}
-        >
-          + position
-        </span>
+      <div className="flex flex-wrap gap-2.5 font-[family-name:--font-mono] text-xs">
+        <span className={tagClass}>768–4096 dims</span>
+        <span className={tagClass}>2D = projection</span>
+        <span className={tagClass}>+ position</span>
       </div>
       <p>
         You&apos;re seeing a 2D projection of a space with hundreds to thousands of dimensions —

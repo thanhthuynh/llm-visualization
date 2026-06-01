@@ -6,17 +6,7 @@ interface DeepPanelProps {
 
 export function DeepPanel({ children }: DeepPanelProps) {
   return (
-    <div
-      style={{
-        background: 'var(--color-surface-deep)',
-        border: '1px solid var(--color-border)',
-        borderRadius: 'var(--radius-deep-panel)',
-        padding: '18px 20px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 16,
-      }}
-    >
+    <div className="flex flex-col gap-4 px-5 py-[18px] bg-(--color-surface-deep) border border-(--color-border) rounded-(--radius-deep-panel)">
       {children}
     </div>
   )

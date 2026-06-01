@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { accentHex, accentRgba } from '@/utils/accent'
 import type { AccentToken } from '@/scenes/scenes.config'
 
@@ -13,29 +14,22 @@ export function DeepToggle({ expanded, onToggle, controlsId, accent }: DeepToggl
   const labelColor = tinted ? accentHex(accent) : 'var(--color-text-primary)'
   const borderColor = tinted ? accentHex(accent) : 'var(--color-border)'
   const boxShadow = tinted ? `0 0 6px 0 ${accentRgba(accent, 0.35)}` : 'none'
+
+  const dynamicStyle = {
+    '--dt-label': labelColor,
+    '--dt-border': borderColor,
+    '--dt-shadow': boxShadow,
+    transition: 'color 160ms ease-out, border-color 160ms ease-out, box-shadow 160ms ease-out',
+  } as CSSProperties
+
   return (
     <button
       type="button"
       onClick={onToggle}
       aria-expanded={expanded}
       {...(controlsId ? { 'aria-controls': controlsId } : {})}
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: 10,
-        padding: '12px 16px 12px 18px',
-        borderRadius: 'var(--radius-pill)',
-        background: 'var(--color-surface-card)',
-        border: `1px solid ${borderColor}`,
-        color: labelColor,
-        fontFamily: 'var(--font-body)',
-        fontWeight: 600,
-        fontSize: 14,
-        cursor: 'pointer',
-        minHeight: 44,
-        boxShadow,
-        transition: 'color 160ms ease-out, border-color 160ms ease-out, box-shadow 160ms ease-out',
-      }}
+      style={dynamicStyle}
+      className="inline-flex items-center gap-2.5 pl-[18px] pr-4 py-3 rounded-(--radius-pill) bg-(--color-surface-card) border border-(--dt-border) text-(--dt-label) font-[family-name:--font-body] font-semibold text-sm cursor-pointer min-h-[44px] shadow-[var(--dt-shadow)]"
     >
       <span>{expanded ? 'Collapse' : 'Go deeper'}</span>
       <span aria-hidden="true">{expanded ? '⌃' : '⌄'}</span>
