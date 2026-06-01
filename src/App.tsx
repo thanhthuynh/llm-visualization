@@ -13,6 +13,7 @@ import { AttentionScene } from '@/scenes/AttentionScene'
 import { PredictScene } from '@/scenes/PredictScene'
 import { DecodeScene } from '@/scenes/DecodeScene'
 import { AssembleScene } from '@/scenes/AssembleScene'
+import { CompareScene } from '@/scenes/CompareScene'
 import { AboutScene } from '@/scenes/AboutScene'
 import { getSceneById, getMountedSceneIds, type SceneId } from '@/scenes/scenes.config'
 
@@ -76,6 +77,7 @@ function Shell() {
           <PredictScene />
           <DecodeScene />
           <AssembleScene />
+          <CompareScene />
           <AboutScene />
         </main>
       </SceneNavProvider>

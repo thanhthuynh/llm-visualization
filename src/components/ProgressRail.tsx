@@ -99,9 +99,9 @@ export function ProgressRail({ activeId, onJump }: ProgressRailProps) {
       })}
       <button
         type="button"
-        onClick={() => onJump('about')}
+        onClick={() => onJump('compare')}
         aria-label="Compare"
-        disabled
+        {...(activeId === 'compare' ? { 'aria-current': 'step' as const } : {})}
         style={{
           minWidth: 44,
           minHeight: 44,
@@ -109,9 +109,12 @@ export function ProgressRail({ activeId, onJump }: ProgressRailProps) {
           height: 16,
           marginTop: 16,
           borderRadius: '50%',
-          background: 'var(--color-rail-inactive)',
+          background:
+            activeId === 'compare'
+              ? 'var(--color-accent-predict, #9D4EDD)'
+              : 'var(--color-rail-inactive)',
           border: '1px solid var(--color-border)',
-          cursor: 'not-allowed',
+          cursor: 'pointer',
           padding: 0,
         }}
       />
