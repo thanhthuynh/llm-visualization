@@ -5,6 +5,9 @@ import path from 'node:path'
 export default defineConfig({
   plugins: [react()],
   resolve: { alias: { '@': path.resolve(__dirname, 'src') } },
+  define: {
+    __BUILD_COMMIT__: JSON.stringify('test1234'),
+  },
   test: {
     globals: true,
     environment: 'jsdom',

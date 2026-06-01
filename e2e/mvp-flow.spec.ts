@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test('keyboard ArrowDown advances through the pipeline to About', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/explorer')
   await expect(page.getByRole('heading', { level: 2, name: 'Prompt Input' })).toBeVisible()
   // 8 ArrowDowns to walk prompt → tokenize → embed → attention → predict → decode → output → compare → about
   for (let i = 0; i < 8; i++) {
@@ -12,7 +12,7 @@ test('keyboard ArrowDown advances through the pipeline to About', async ({ page 
 })
 
 test('rail jump goes directly to Tokenization', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/explorer')
   // The Tokenize rail button's aria-label includes the rail label and title.
   // Tokenization is the 2nd pipeline scene; its accessible name contains "Tokenization".
   await page
@@ -26,7 +26,7 @@ test('rail jump goes directly to Tokenization', async ({ page }) => {
 test('rail navigation between scenes updates URL hash and active rail segment', async ({
   page,
 }) => {
-  await page.goto('/')
+  await page.goto('/explorer')
   await page
     .getByRole('button', { name: /decoding loop/i })
     .first()

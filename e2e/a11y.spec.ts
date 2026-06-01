@@ -16,7 +16,7 @@ const SCENE_IDS = [
 test.describe('a11y — full pipeline', () => {
   for (const id of SCENE_IDS) {
     test(`${id} scene has no critical/serious axe violations`, async ({ page }) => {
-      await page.goto(`/#${id}`)
+      await page.goto(`/explorer#${id}`)
       await page.waitForLoadState('networkidle')
 
       const results = await new AxeBuilder({ page })

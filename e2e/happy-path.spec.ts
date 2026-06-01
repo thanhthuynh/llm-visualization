@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test('loads PredictScene, toggles Deep, jumps to About', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/explorer')
   await expect(page.getByText('Inside an LLM').first()).toBeVisible()
 
   // Navigate to Predict scene via the rail (default scene is now Prompt).
@@ -33,14 +33,14 @@ test('loads PredictScene, toggles Deep, jumps to About', async ({ page }) => {
 })
 
 test('keyboard nav advances scene-by-scene', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/explorer')
   // Default is Prompt; one ArrowDown should land on Tokenize.
   await page.locator('body').press('ArrowDown')
   await expect(page).toHaveURL(/#tokenize$/)
 })
 
 test('skip link is the first focusable element', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/explorer')
   await page.locator('body').press('Tab')
   await expect(page.locator(':focus')).toHaveText(/skip to content/i)
 })

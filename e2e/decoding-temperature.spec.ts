@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test('temperature slider reshapes the live distribution in DecodeScene', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/explorer')
   await page
     .getByRole('button', { name: /decoding loop/i })
     .first()

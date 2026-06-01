@@ -9,6 +9,4 @@ if (!root) throw new Error('Root element missing in index.html')
 
 const isExplorer = window.location.pathname.startsWith('/explorer')
 
-createRoot(root).render(
-  <StrictMode>{isExplorer ? <App /> : <Landing />}</StrictMode>,
-)
+createRoot(root).render(<StrictMode>{isExplorer ? <App /> : <Landing />}</StrictMode>)
