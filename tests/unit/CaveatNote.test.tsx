@@ -12,6 +12,6 @@ describe('CaveatNote', () => {
   it('borders in the amber CaveatNote accent', () => {
     render(<CaveatNote>x</CaveatNote>)
     const note = screen.getByRole('note')
-    expect(note.className).toMatch(/border-\(--color-accent-caveat\)/)
+    expect(note.className).toMatch(/border-accent-caveat/)
   })
 })
