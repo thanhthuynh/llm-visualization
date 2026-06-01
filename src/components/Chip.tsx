@@ -9,23 +9,42 @@ interface ChipProps {
 }
 
 export function Chip({ children, onClick, active = false, accent, variant = 'token' }: ChipProps) {
-  const style: CSSProperties = {
-    display: 'inline-flex',
-    alignItems: 'center',
-    padding: variant === 'example' ? '10px 16px' : '10px 16px',
-    borderRadius: 'var(--radius-pill)',
-    border: `1px solid ${active && accent ? accent : 'var(--color-border)'}`,
-    background: 'var(--color-surface-card)',
-    color: 'var(--color-text-primary)',
-    fontFamily: variant === 'token' ? 'var(--font-mono)' : 'var(--font-body)',
-    fontSize: variant === 'token' ? 15 : 14,
-    lineHeight: variant === 'token' ? '22px' : 1.3,
-    cursor: onClick ? 'pointer' : 'default',
-    boxShadow: active && accent ? `0 0 8px 1px ${accent}66` : 'none',
+  const isToken = variant === 'token'
+  const ringColor = active && accent ? accent : 'var(--color-border)'
+  const shadow = active && accent ? `0 0 8px 1px ${accent}66` : 'none'
+
+  const dynamicStyle = {
+    '--chip-ring': ringColor,
+    '--chip-shadow': shadow,
+  } as CSSProperties
+
+  const baseClass = [
+    'inline-flex items-center px-4 py-[10px]',
+    'rounded-(--radius-pill)',
+    'border border-(--chip-ring)',
+    'bg-(--color-surface-card) text-(--color-text-primary)',
+    'shadow-[var(--chip-shadow)]',
+    isToken
+      ? 'font-[family-name:--font-mono] text-[15px] leading-[22px]'
+      : 'font-[family-name:--font-body] text-sm leading-[1.3]',
+    onClick ? 'cursor-pointer' : 'cursor-default',
+  ].join(' ')
+
+  if (!onClick) {
+    return (
+      <span style={dynamicStyle} className={baseClass}>
+        {children}
+      </span>
+    )
   }
-  if (!onClick) return <span style={style}>{children}</span>
   return (
-    <button type="button" style={style} aria-pressed={active} onClick={onClick}>
+    <button
+      type="button"
+      style={dynamicStyle}
+      className={baseClass}
+      aria-pressed={active}
+      onClick={onClick}
+    >
       {children}
     </button>
   )
