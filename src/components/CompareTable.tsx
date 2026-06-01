@@ -16,41 +16,24 @@ export function CompareTable({ rows, caption }: CompareTableProps) {
   return (
     <table
       {...(caption ? { 'aria-label': caption } : {})}
-      style={{
-        width: '100%',
-        borderCollapse: 'collapse',
-        fontFamily: 'var(--font-body)',
-        fontSize: 13,
-      }}
+      className="w-full border-collapse font-[family-name:--font-body] text-[13px]"
     >
       {caption && (
-        <caption
-          style={{
-            textAlign: 'left',
-            color: 'var(--color-text-muted)',
-            fontSize: 11,
-            paddingBottom: 8,
-          }}
-        >
+        <caption className="text-left text-(--color-text-muted) text-[11px] pb-2">
           {caption}
         </caption>
       )}
       <tbody>
         {rows.map((r, i) => (
-          <tr key={`${r.label}-${i}`} style={{ borderTop: '1px solid var(--color-border)' }}>
+          <tr key={`${r.label}-${i}`} className="border-t border-(--color-border)">
             <th
               scope="row"
-              style={{
-                textAlign: 'left',
-                padding: '8px 10px',
-                fontWeight: 600,
-                color: 'var(--color-text-primary)',
-              }}
+              className="text-left px-2.5 py-2 font-semibold text-(--color-text-primary)"
             >
               {r.label}
             </th>
-            <td style={{ padding: '8px 10px', color: 'var(--color-text-muted)' }}>{r.value}</td>
-            <td style={{ padding: '8px 10px', textAlign: 'right' }}>
+            <td className="px-2.5 py-2 text-(--color-text-muted)">{r.value}</td>
+            <td className="px-2.5 py-2 text-right">
               <ClaimTier tier={r.tier} />
             </td>
           </tr>

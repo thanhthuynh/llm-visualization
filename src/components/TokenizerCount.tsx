@@ -12,68 +12,27 @@ interface TokenizerCountProps {
 
 export function TokenizerCount({ examples }: TokenizerCountProps) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+    <div className="grid grid-cols-2 gap-4">
       {examples.map((e) => (
         <div
           key={e.vendor}
-          style={{
-            padding: 14,
-            border: '1px solid var(--color-border)',
-            borderRadius: 'var(--radius-card)',
-            background: 'var(--color-surface-card)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 6,
-          }}
+          className="flex flex-col gap-1.5 p-[14px] border border-(--color-border) rounded-(--radius-card) bg-(--color-surface-card)"
         >
-          <div
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontWeight: 600,
-              fontSize: 13,
-              color: 'var(--color-text-primary)',
-            }}
-          >
+          <div className="font-[family-name:--font-body] font-semibold text-[13px] text-(--color-text-primary)">
             {e.label}
           </div>
-          <div
-            style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: 14,
-              color: 'var(--color-text-muted)',
-            }}
-          >
+          <div className="font-[family-name:--font-mono] text-sm text-(--color-text-muted)">
             &quot;{e.prompt}&quot;
           </div>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
-            <span
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: 28,
-                fontWeight: 700,
-                color: 'var(--color-text-primary)',
-              }}
-            >
+          <div className="flex items-baseline gap-1.5">
+            <span className="font-[family-name:--font-mono] text-[28px] font-bold text-(--color-text-primary)">
               {e.tokenCount}
             </span>
-            <span
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: 12,
-                color: 'var(--color-text-muted)',
-              }}
-            >
+            <span className="font-[family-name:--font-body] text-xs text-(--color-text-muted)">
               tokens
             </span>
           </div>
-          <div
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: 11,
-              color: 'var(--color-text-muted)',
-              fontStyle: 'italic',
-            }}
-          >
+          <div className="font-[family-name:--font-body] text-[11px] text-(--color-text-muted) italic">
             {e.note}
           </div>
         </div>

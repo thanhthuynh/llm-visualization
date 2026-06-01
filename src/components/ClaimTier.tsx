@@ -25,20 +25,17 @@ const STYLES: Record<Tier, { border: string; color: string; bg: string }> = {
 
 export function ClaimTier({ tier }: ClaimTierProps) {
   const s = STYLES[tier]
-  const style: CSSProperties = {
-    display: 'inline-flex',
-    alignItems: 'center',
-    padding: '2px 8px',
-    borderRadius: 'var(--radius-pill)',
-    border: `1px solid ${s.border}`,
-    background: s.bg,
-    color: s.color,
-    fontFamily: 'var(--font-mono)',
-    fontSize: 11,
-    lineHeight: '16px',
-  }
+  const dynamicStyle = {
+    '--tier-border': s.border,
+    '--tier-bg': s.bg,
+    '--tier-color': s.color,
+  } as CSSProperties
   return (
-    <span data-tier={tier} style={style}>
+    <span
+      data-tier={tier}
+      style={dynamicStyle}
+      className="inline-flex items-center px-2 py-0.5 rounded-(--radius-pill) border border-(--tier-border) bg-(--tier-bg) text-(--tier-color) font-[family-name:--font-mono] text-[11px] leading-4"
+    >
       ({tier})
     </span>
   )
