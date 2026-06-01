@@ -10,9 +10,9 @@ describe('ClaimTier', () => {
 
   it('uses a different border color for each tier', () => {
     const { rerender } = render(<ClaimTier tier="a" />)
-    const a = screen.getByText('(a)').style.borderColor
+    const a = screen.getByText('(a)').style.getPropertyValue('--tier-border')
     rerender(<ClaimTier tier="c" />)
-    const c = screen.getByText('(c)').style.borderColor
+    const c = screen.getByText('(c)').style.getPropertyValue('--tier-border')
     expect(a).not.toBe(c)
   })
 
