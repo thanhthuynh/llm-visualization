@@ -6,16 +6,20 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import prettier from 'eslint-config-prettier'
+import globals from 'globals'
 
 export default [
-  { ignores: ['dist', 'node_modules', 'coverage', 'playwright-report'] },
+  { ignores: ['dist', 'node_modules', 'coverage', 'playwright-report', '.vite'] },
   js.configs.recommended,
+
+  // App + test source: browser env
   {
     files: ['**/*.{ts,tsx}'],
+    ignores: ['*.config.{ts,js,mjs}', '**/*.config.{ts,js,mjs}', 'eslint.config.js'],
     languageOptions: {
       parser: tsparser,
       parserOptions: { ecmaVersion: 2022, sourceType: 'module', ecmaFeatures: { jsx: true } },
-      globals: { window: 'readonly', document: 'readonly', console: 'readonly', URL: 'readonly' },
+      globals: { ...globals.browser },
     },
     plugins: {
       '@typescript-eslint': tseslint,
@@ -36,5 +40,22 @@ export default [
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     },
   },
+
+  // Build / test config files: node env
+  {
+    files: ['*.config.{ts,js,mjs}', '**/*.config.{ts,js,mjs}', 'eslint.config.js'],
+    languageOptions: {
+      parser: tsparser,
+      parserOptions: { ecmaVersion: 2022, sourceType: 'module' },
+      globals: { ...globals.node },
+    },
+    plugins: {
+      '@typescript-eslint': tseslint,
+    },
+    rules: {
+      ...tseslint.configs.recommended.rules,
+    },
+  },
+
   prettier,
 ]
