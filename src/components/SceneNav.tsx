@@ -16,11 +16,15 @@ export function SceneNav({
   canNext,
   label = 'Scene navigation',
 }: SceneNavProps) {
-  const prevClass = `${BASE_BTN} bg-transparent text-text-muted ${
-    canPrev ? 'opacity-100 cursor-pointer' : 'opacity-40 cursor-not-allowed'
+  const prevClass = `${BASE_BTN} bg-transparent ${
+    canPrev
+      ? 'text-text-primary opacity-100 cursor-pointer'
+      : 'text-text-muted opacity-40 cursor-not-allowed'
   }`
   const nextClass = `${BASE_BTN} bg-surface-card ${
-    canNext ? 'text-text-primary opacity-100 cursor-pointer' : 'text-text-muted opacity-40 cursor-not-allowed'
+    canNext
+      ? 'text-text-primary opacity-100 cursor-pointer'
+      : 'text-text-muted opacity-40 cursor-not-allowed'
   }`
   return (
     <nav aria-label={label} className="mt-6 flex justify-end gap-2">
