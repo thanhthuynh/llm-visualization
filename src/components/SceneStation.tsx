@@ -30,57 +30,32 @@ export function SceneStation({ id, title, accent, stage, surface, deeper }: Scen
   return (
     <section id={id} aria-labelledby={`${id}-title`}>
       <div
+        className="relative min-h-screen pt-[104px] pb-6 grid pl-(--gutter-left) pr-(--gutter-right)"
         style={{
-          position: 'relative',
-          minHeight: '100vh',
-          paddingLeft: 'var(--gutter-left)',
-          paddingTop: 104,
-          paddingRight: 'var(--gutter-right)',
-          paddingBottom: 24,
-          display: 'grid',
           gridTemplateColumns: 'minmax(var(--stage-min-w), 1fr) var(--col-gap) var(--col-right)',
         }}
       >
         <div
           data-stage-frame
-          style={{
-            width: '100%',
-            minWidth: 0,
-            height: 'var(--stage-h)',
-            background: 'var(--color-surface-card)',
-            border: '1px solid var(--color-border)',
-            borderRadius: 'var(--radius-card)',
-            overflow: 'clip',
-            position: 'relative',
-          }}
+          className="relative w-full min-w-0 h-(--stage-h) bg-(--color-surface-card) border border-(--color-border) rounded-(--radius-card) overflow-clip"
         >
           {stage}
         </div>
         <div />
-        <div style={{ position: 'relative', minWidth: 0 }}>
+        <div className="relative min-w-0">
           <h2
             id={`${id}-title`}
             tabIndex={-1}
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontWeight: 700,
-              fontSize: 28,
-              lineHeight: '34px',
-              letterSpacing: '-1px',
-              margin: 0,
-              color: 'var(--color-text-primary)',
-            }}
+            className="font-[family-name:--font-display] font-bold text-[28px] leading-[34px] tracking-[-1px] m-0 text-(--color-text-primary)"
           >
             {title}
           </h2>
-          <div style={{ marginTop: 24 }}>
+          <div className="mt-6">
             <AccentRule accent={accent} />
           </div>
-          <div style={{ marginTop: 18, width: '100%', maxWidth: 'var(--surface-max-w)' }}>
-            {surface}
-          </div>
+          <div className="mt-[18px] w-full max-w-(--surface-max-w)">{surface}</div>
           {deeper !== undefined && (
-            <div style={{ marginTop: 24 }}>
+            <div className="mt-6">
               <DeepToggle
                 expanded={expanded}
                 onToggle={() => setLocalOverride(!expanded)}
@@ -88,10 +63,7 @@ export function SceneStation({ id, title, accent, stage, surface, deeper }: Scen
                 accent={accent}
               />
               {expanded && (
-                <div
-                  id={deepPanelId}
-                  style={{ marginTop: 18, width: '100%', maxWidth: 'var(--surface-max-w)' }}
-                >
+                <div id={deepPanelId} className="mt-[18px] w-full max-w-(--surface-max-w)">
                   <DeepPanel>{deeper}</DeepPanel>
                 </div>
               )}

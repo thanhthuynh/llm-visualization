@@ -16,7 +16,7 @@ interface DistributionPairProps {
 
 function DistributionColumn({ data, accent }: { data: DistributionBars; accent: AccentToken }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, minWidth: 0 }}>
+    <div className="flex flex-col gap-2 min-w-0">
       <EyebrowLabel>{data.label}</EyebrowLabel>
       <div>
         {data.bars.map((b, i) => (
@@ -41,24 +41,9 @@ export function DistributionPair({
   arrowCaption = 'raise T →',
 }: DistributionPairProps) {
   return (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: '1fr auto 1fr',
-        gap: 16,
-        alignItems: 'center',
-      }}
-    >
+    <div className="grid items-center gap-4" style={{ gridTemplateColumns: '1fr auto 1fr' }}>
       <DistributionColumn data={left} accent={accent} />
-      <div
-        style={{
-          fontFamily: 'var(--font-body)',
-          fontWeight: 600,
-          fontSize: 13,
-          color: 'var(--color-text-muted)',
-          textAlign: 'center',
-        }}
-      >
+      <div className="font-[family-name:--font-body] font-semibold text-[13px] text-(--color-text-muted) text-center">
         {arrowCaption}
       </div>
       <DistributionColumn data={right} accent={accent} />
