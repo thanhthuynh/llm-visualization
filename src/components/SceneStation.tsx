@@ -103,6 +103,7 @@ export function SceneStation({ id, title, accent, stage, surface, deeper }: Scen
               onNext={() => canNext && nav.goTo(nav.ids[idx + 1])}
               canPrev={canPrev}
               canNext={canNext}
+              label={`${title}: scene navigation`}
             />
           )}
         </div>

@@ -5,6 +5,7 @@ interface SceneNavProps {
   onNext: () => void
   canPrev: boolean
   canNext: boolean
+  label?: string
 }
 
 const baseStyle: CSSProperties = {
@@ -21,10 +22,16 @@ const baseStyle: CSSProperties = {
   transition: 'opacity 160ms ease-out, background-color 160ms ease-out',
 }
 
-export function SceneNav({ onPrev, onNext, canPrev, canNext }: SceneNavProps) {
+export function SceneNav({
+  onPrev,
+  onNext,
+  canPrev,
+  canNext,
+  label = 'Scene navigation',
+}: SceneNavProps) {
   return (
     <nav
-      aria-label="Scene navigation"
+      aria-label={label}
       style={{
         marginTop: 24,
         display: 'flex',
