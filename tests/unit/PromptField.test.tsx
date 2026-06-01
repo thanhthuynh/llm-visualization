@@ -30,7 +30,7 @@ describe('PromptField', () => {
   it('uses the mono font for the prompt text', () => {
     render(<PromptField text="The sky is" />)
     const txt = screen.getByText('The sky is')
-    expect(txt.style.fontFamily).toBe('var(--font-mono)')
+    expect(txt.className).toMatch(/font-\[family-name:--font-mono\]/)
   })
 
   it('renders a blinking caret element', () => {

@@ -46,7 +46,7 @@ export function EmbeddingSpace({
       height={height}
       viewBox={`0 0 ${width} ${height}`}
       aria-label="2D meaning space (illustrative)"
-      style={{ display: 'block' }}
+      className="block"
     >
       <line
         x1={PAD}

@@ -10,18 +10,18 @@ describe('DataBar', () => {
   })
   it('sets the fill width to the fraction percentage', () => {
     render(<DataBar label="blue" value="71%" fraction={0.71} />)
-    expect(screen.getByTestId('databar-fill').style.width).toBe('71%')
+    expect(screen.getByTestId('databar-fill').style.getPropertyValue('--bar-w')).toBe('71%')
   })
   it('uses bar-inactive color when not dominant', () => {
     render(<DataBar label="not" value="6%" fraction={0.06} />)
     const fill = screen.getByTestId('databar-fill')
-    expect(fill.style.backgroundColor.toLowerCase()).toBe('rgb(74, 74, 92)')
+    expect(fill.style.getPropertyValue('--bar-fill').toLowerCase()).toBe('rgb(74, 74, 92)')
   })
   it('applies accent + glow when dominant', () => {
     render(<DataBar label="blue" value="71%" fraction={0.71} dominant accent="predict" />)
     const fill = screen.getByTestId('databar-fill')
-    expect(fill.style.backgroundColor.toLowerCase()).toBe('rgb(157, 78, 221)')
-    expect(fill.style.boxShadow).toContain('rgba(157, 78, 221')
+    expect(fill.style.getPropertyValue('--bar-fill').toLowerCase()).toBe('#9d4edd')
+    expect(fill.style.getPropertyValue('--bar-glow')).toContain('rgba(157, 78, 221')
   })
   it('exposes value via aria-valuenow for screen readers', () => {
     render(<DataBar label="blue" value="71%" fraction={0.71} />)

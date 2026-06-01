@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { accentHex, accentGlow } from '@/utils/accent'
 import type { AccentToken } from '@/scenes/scenes.config'
 import { useReducedMotionPref } from '@/app/useReducedMotionPref'
@@ -17,24 +18,21 @@ export function DataBar({ label, value, fraction, dominant = false, accent }: Da
   const glow = useAccent ? accentGlow(accent, 'bar') : 'none'
   const pct = Math.round(fraction * 100)
   const valueColor = useAccent ? accentHex(accent) : 'var(--color-text-muted)'
+
+  const fillStyle = {
+    '--bar-w': `${pct}%`,
+    '--bar-fill': fillColor,
+    '--bar-glow': glow,
+    transition: reduce ? 'none' : 'width 240ms ease-out',
+  } as CSSProperties
+  const valueStyle = { '--bar-value-color': valueColor } as CSSProperties
+
   return (
     <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: '70px 1fr 52px',
-        alignItems: 'center',
-        gap: 14,
-        margin: '6px 0',
-      }}
+      className="grid items-center gap-[14px] my-1.5"
+      style={{ gridTemplateColumns: '70px 1fr 52px' }}
     >
-      <span
-        style={{
-          fontFamily: 'var(--font-mono)',
-          fontSize: 15,
-          lineHeight: '22px',
-          textAlign: 'right',
-        }}
-      >
+      <span className="font-[family-name:--font-mono] text-[15px] leading-[22px] text-right">
         {label}
       </span>
       <div
@@ -43,32 +41,17 @@ export function DataBar({ label, value, fraction, dominant = false, accent }: Da
         aria-valuenow={pct}
         aria-valuemin={0}
         aria-valuemax={100}
-        style={{
-          height: 28,
-          borderRadius: 'var(--radius-pill)',
-          background: 'var(--color-surface-track)',
-          overflow: 'hidden',
-        }}
+        className="h-7 rounded-(--radius-pill) bg-(--color-surface-track) overflow-hidden"
       >
         <div
           data-testid="databar-fill"
-          style={{
-            width: `${pct}%`,
-            height: '100%',
-            backgroundColor: fillColor,
-            borderRadius: 'var(--radius-pill)',
-            boxShadow: glow,
-            transition: reduce ? 'none' : 'width 240ms ease-out',
-          }}
+          style={fillStyle}
+          className="h-full w-[var(--bar-w)] rounded-(--radius-pill) bg-(--bar-fill) shadow-[var(--bar-glow)]"
         />
       </div>
       <span
-        style={{
-          fontFamily: 'var(--font-mono)',
-          fontSize: 15,
-          lineHeight: '22px',
-          color: valueColor,
-        }}
+        style={valueStyle}
+        className="font-[family-name:--font-mono] text-[15px] leading-[22px] text-(--bar-value-color)"
       >
         {value}
       </span>

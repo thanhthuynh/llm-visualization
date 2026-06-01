@@ -15,51 +15,43 @@ function formatTokens(n: number): string {
   return String(n)
 }
 
+import type { CSSProperties } from 'react'
+
 export function ContextWindowBar({ rows, maxTokens }: ContextWindowBarProps) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+    <div className="flex flex-col gap-2.5">
       {rows.map((r) => {
         const pct = Math.round((r.tokens / maxTokens) * 100)
         const label = formatTokens(r.tokens)
+        const fillStyle = {
+          '--ctx-w': `${pct}%`,
+          '--ctx-fill':
+            r.vendor === 'anthropic'
+              ? 'var(--color-accent-predict, #9D4EDD)'
+              : 'var(--color-accent-output, #2EE6D6)',
+        } as CSSProperties
         return (
           <div
             key={`${r.vendor}-${r.family}`}
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '120px 1fr 64px',
-              alignItems: 'center',
-              gap: 12,
-            }}
+            className="grid items-center gap-3"
+            style={{ gridTemplateColumns: '120px 1fr 64px' }}
           >
-            <span style={{ fontFamily: 'var(--font-body)', fontSize: 13 }}>{r.family}</span>
+            <span className="font-[family-name:--font-body] text-[13px]">{r.family}</span>
             <div
               role="progressbar"
               aria-label={`${r.family} context window`}
               aria-valuenow={r.tokens}
               aria-valuemin={0}
               aria-valuemax={maxTokens}
-              style={{
-                height: 18,
-                borderRadius: 9,
-                background: 'var(--color-surface-track)',
-                overflow: 'hidden',
-              }}
+              className="h-[18px] rounded-[9px] bg-(--color-surface-track) overflow-hidden"
             >
               <div
                 data-testid={`ctx-fill-${r.vendor}`}
-                style={{
-                  width: `${pct}%`,
-                  height: '100%',
-                  background:
-                    r.vendor === 'anthropic'
-                      ? 'var(--color-accent-predict, #9D4EDD)'
-                      : 'var(--color-accent-output, #2EE6D6)',
-                }}
+                style={fillStyle}
+                className="h-full w-[var(--ctx-w)] bg-(--ctx-fill)"
               />
             </div>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, textAlign: 'right' }}>
-              {label}
-            </span>
+            <span className="font-[family-name:--font-mono] text-[13px] text-right">{label}</span>
           </div>
         )
       })}
