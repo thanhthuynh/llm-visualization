@@ -138,3 +138,76 @@ Tailwind v4 supports `grid-cols-N` and `grid-cols-[arbitrary]`, but multi-token 
 | File | Reason |
 |---|---|
 | `src/scenes/AboutScene.tsx` | `maxWidth: 'calc(760px + var(--gutter-left))'` — one-off layout cap |
+
+---
+
+## Canonical theme classes (Plan 8 follow-up)
+
+Tailwind v4's `@theme {}` block auto-generates utility classes from declared CSS variables. The arbitrary-value form `bg-(--color-X)` works, but the **canonical form is shorter and lints clean**. Always prefer canonical when both exist.
+
+### Theme-token auto-generation (from `src/index.css:3-43`)
+
+| `@theme` var | Auto-generated utilities |
+|---|---|
+| `--color-X` | `bg-X`, `text-X`, `border-X`, `divide-X`, `ring-X`, `from-X`, `to-X`, `stroke-X`, `fill-X`, … |
+| `--font-X` | `font-X` |
+| `--radius-X` | `rounded-X` |
+
+### Concrete translations for this project
+
+| Arbitrary form (Plan 7) | Canonical (Plan 8) |
+|---|---|
+| `bg-(--color-surface-card)` | `bg-surface-card` |
+| `bg-(--color-surface-deep)` | `bg-surface-deep` |
+| `bg-(--color-surface-track)` | `bg-surface-track` |
+| `bg-(--color-bg-base)` | `bg-bg-base` |
+| `bg-(--color-rail-inactive)` | `bg-rail-inactive` |
+| `bg-(--color-bar-inactive)` | `bg-bar-inactive` |
+| `text-(--color-text-primary)` | `text-text-primary` |
+| `text-(--color-text-muted)` | `text-text-muted` |
+| `text-(--color-accent-caveat)` | `text-accent-caveat` |
+| `border-(--color-border)` | `border-border` *(awkward but canonical)* |
+| `border-(--color-accent-caveat)` | `border-accent-caveat` |
+| `border-(--color-accent-attention)` | `border-accent-attention` |
+| `border-(--color-accent-output)` | `border-accent-output` |
+| `rounded-(--radius-card)` | `rounded-card` |
+| `rounded-(--radius-pill)` | `rounded-pill` |
+| `rounded-(--radius-deep-panel)` | `rounded-deep-panel` |
+| `rounded-(--radius-accent-rule)` | `rounded-accent-rule` |
+| `rounded-(--radius-rail-active)` | `rounded-rail-active` |
+| `rounded-(--radius-rail-inactive)` | `rounded-rail-inactive` |
+| `font-[family-name:--font-body]` | `font-body` |
+| `font-[family-name:--font-mono]` | `font-mono` |
+| `font-[family-name:--font-display]` | `font-display` |
+
+### Pixel-value-to-scale translations
+
+The default Tailwind v4 spacing scale is `0.25rem` (4px) per unit. Map exact `[Npx]` values to the canonical scale where N is a multiple of 2:
+
+| Arbitrary | Canonical |
+|---|---|
+| `py-[14px]` | `py-3.5` |
+| `mt-[18px]` | `mt-4.5` |
+| `gap-[10px]` | `gap-2.5` |
+| `gap-[18px]` | `gap-4.5` |
+| `pt-[104px]` | `pt-26` |
+| `min-w-[44px]` | `min-w-11` |
+| `min-h-[44px]` | `min-h-11` |
+| `w-[72px]` | `w-18` |
+| `w-[30px]` | `w-7.5` |
+| `h-[34px]` | `h-8.5` |
+| `h-[3px]` | (no canonical — keep `h-[3px]`) |
+| `h-[18px]` | `h-4.5` |
+| `h-[22px]` | `h-5.5` |
+| `px-[14px]` | `px-3.5` |
+| `px-[18px]` | `px-4.5` |
+| `py-[10px]` | `py-2.5` |
+| `py-[11px]` | (no canonical — keep) |
+| `text-[Npx]` | keep arbitrary unless N matches the `text-xs/sm/base/lg/...` scale (12/14/16/18/...) |
+| `leading-[Npx]` | `leading-N/4` for multiples of 4 |
+
+### Keep arbitrary (no canonical exists)
+
+- CSS-var passthrough for runtime values (`--bar-w`, `--rail-bg`, `--tier-color`, etc.) — these are *element-local* custom properties, not theme tokens.
+- Custom `@theme` vars that don't match Tailwind's known prefixes (`--stage-padding`, `--gutter-left`, `--col-gap`, `--col-right`, `--surface-max-w`, `--stage-h`, `--stage-min-w`) — Tailwind v4 only auto-generates utilities for the well-known prefixes; these stay as `p-(--stage-padding)`, `h-(--stage-h)`, etc.
+- Pixel values that don't fall on the 4px/0.5-unit scale (`text-[11px]`, `text-[13px]`, `text-[15px]`, `text-[17px]`, `text-[22px]`, `text-[28px]`, `leading-[1.3]`, `tracking-[0.54px]`, `tracking-[-0.2px]`, `tracking-[-1px]`).

@@ -43,9 +43,9 @@ export function PromptScene() {
   const deeper = (
     <div className="flex flex-col gap-3">
       <EyebrowLabel>The raw input</EyebrowLabel>
-      <div className="flex items-center gap-3 font-[family-name:--font-mono] text-[15px]">
+      <div className="flex items-center gap-3 font-mono text-[15px]">
         <span>&quot;{dataset.prompt}&quot;</span>
-        <span className="text-(--color-text-muted)">{dataset.prompt.length} chars</span>
+        <span className="text-text-muted">{dataset.prompt.length} chars</span>
       </div>
       <p>
         Before the model sees this, it has to be turned into pieces the network can understand —

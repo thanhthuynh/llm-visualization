@@ -36,17 +36,17 @@ export function ReplyBubble({ text, streaming = false }: ReplyBubbleProps) {
     <div className="flex items-start gap-3">
       <div
         aria-hidden="true"
-        className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-(--color-surface-card) border border-(--color-border) font-[family-name:--font-body] font-bold text-sm text-(--color-text-primary) shrink-0"
+        className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-surface-card border border-border font-body font-bold text-sm text-text-primary shrink-0"
       >
         A
       </div>
-      <div className="px-4 py-3 bg-(--color-surface-card) border border-(--color-border) rounded-(--radius-card) font-[family-name:--font-body] text-base text-(--color-text-primary) min-h-6">
+      <div className="px-4 py-3 bg-surface-card border border-border rounded-card font-body text-base text-text-primary min-h-6">
         <span>{shown}</span>
         {isStreaming && (
           <span
             data-testid="reply-caret"
             aria-hidden="true"
-            className="inline-block ml-0.5 text-(--color-text-primary)"
+            className="inline-block ml-0.5 text-text-primary"
           >
             |
           </span>

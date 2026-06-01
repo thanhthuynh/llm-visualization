@@ -12,7 +12,7 @@ export function ProgressRail({ activeId, onJump }: ProgressRailProps) {
   return (
     <nav
       aria-label="Scenes"
-      className="fixed top-0 left-0 w-[72px] h-screen bg-(--color-bg-base) border-r border-(--color-border) flex flex-col items-center gap-3 py-6 z-10"
+      className="fixed top-0 left-0 w-18 h-screen bg-bg-base border-r border-border flex flex-col items-center gap-3 py-6 z-10"
     >
       {pipeline.map((scene, idx) => {
         const isActive = scene.id === activeId
@@ -28,12 +28,12 @@ export function ProgressRail({ activeId, onJump }: ProgressRailProps) {
           '--rail-shadow': accentShadow,
         } as CSSProperties
         const btnClass = [
-          'min-w-[44px] min-h-[44px] border border-(--color-border) p-0',
-          'font-[family-name:--font-mono] text-sm',
+          'min-w-11 min-h-11 border border-border p-0',
+          'font-mono text-sm',
           'bg-(--rail-bg) shadow-[var(--rail-shadow)]',
           isActive
-            ? 'w-11 h-11 rounded-(--radius-rail-active) text-white font-bold'
-            : 'w-[30px] h-[34px] rounded-(--radius-rail-inactive) text-(--color-text-muted) font-normal',
+            ? 'w-11 h-11 rounded-rail-active text-white font-bold'
+            : 'w-7.5 h-8.5 rounded-rail-inactive text-text-muted font-normal',
           isImplemented ? 'opacity-100 cursor-pointer' : 'opacity-40 cursor-not-allowed',
         ].join(' ')
         return (
@@ -53,7 +53,7 @@ export function ProgressRail({ activeId, onJump }: ProgressRailProps) {
               <span
                 aria-hidden="true"
                 style={{ '--rail-label': labelColor } as CSSProperties}
-                className="font-[family-name:--font-body] font-semibold text-[9px] tracking-[0.5px] text-(--rail-label) text-center w-[72px] max-w-[72px] leading-3 whitespace-nowrap overflow-hidden text-ellipsis"
+                className="font-body font-semibold text-[9px] tracking-[0.5px] text-(--rail-label) text-center w-18 max-w-18 leading-3 whitespace-nowrap overflow-hidden text-ellipsis"
               >
                 {scene.railLabel.charAt(0) + scene.railLabel.slice(1).toLowerCase()}
               </span>
@@ -66,10 +66,10 @@ export function ProgressRail({ activeId, onJump }: ProgressRailProps) {
         onClick={() => onJump('compare')}
         aria-label="Compare"
         {...(activeId === 'compare' ? { 'aria-current': 'step' as const } : {})}
-        className={`min-w-[44px] min-h-[44px] w-4 h-4 mt-4 rounded-full border border-(--color-border) cursor-pointer p-0 ${
+        className={`min-w-11 min-h-11 w-4 h-4 mt-4 rounded-full border border-border cursor-pointer p-0 ${
           activeId === 'compare'
             ? 'bg-[var(--color-accent-predict,#9D4EDD)]'
-            : 'bg-(--color-rail-inactive)'
+            : 'bg-rail-inactive'
         }`}
       />
       <button
@@ -77,7 +77,7 @@ export function ProgressRail({ activeId, onJump }: ProgressRailProps) {
         onClick={() => onJump('about')}
         aria-label="About"
         {...(activeId === 'about' ? { 'aria-current': 'step' as const } : {})}
-        className="min-w-[44px] min-h-[44px] w-[30px] h-[34px] mt-auto rounded-(--radius-rail-inactive) bg-(--color-rail-inactive) border border-(--color-border) text-(--color-text-muted) font-[family-name:--font-mono] text-[13px] cursor-pointer p-0"
+        className="min-w-11 min-h-11 w-7.5 h-8.5 mt-auto rounded-rail-inactive bg-rail-inactive border border-border text-text-muted font-mono text-[13px] cursor-pointer p-0"
       >
         ?
       </button>

@@ -6,13 +6,13 @@ export function AboutScene() {
     <section
       id="about"
       aria-labelledby="about-title"
-      className="min-h-screen pt-[104px] pb-8 pl-(--gutter-left) pr-(--gutter-right)"
+      className="min-h-screen pt-26 pb-8 pl-(--gutter-left) pr-(--gutter-right)"
       style={{ maxWidth: 'calc(760px + var(--gutter-left))' }}
     >
       <h2
         id="about-title"
         tabIndex={-1}
-        className="m-0 font-[family-name:--font-display] font-bold text-[28px] leading-[34px] tracking-[-1px]"
+        className="m-0 font-display font-bold text-[28px] leading-[34px] tracking-[-1px]"
       >
         About this explainer
       </h2>
@@ -24,7 +24,7 @@ export function AboutScene() {
           token-level attention, embedding coordinates, or full next-token distributions for
           arbitrary input, so this site cannot honestly visualize their internals.
         </p>
-        <p className="mt-6 font-[family-name:--font-mono] text-[13px] text-(--color-text-muted) leading-5">
+        <p className="mt-6 font-mono text-[13px] text-text-muted leading-5">
           Source: {dataset.source}
         </p>
       </div>

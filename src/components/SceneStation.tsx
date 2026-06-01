@@ -30,14 +30,14 @@ export function SceneStation({ id, title, accent, stage, surface, deeper }: Scen
   return (
     <section id={id} aria-labelledby={`${id}-title`}>
       <div
-        className="relative min-h-screen pt-[104px] pb-6 grid pl-(--gutter-left) pr-(--gutter-right)"
+        className="relative min-h-screen pt-26 pb-6 grid pl-(--gutter-left) pr-(--gutter-right)"
         style={{
           gridTemplateColumns: 'minmax(var(--stage-min-w), 1fr) var(--col-gap) var(--col-right)',
         }}
       >
         <div
           data-stage-frame
-          className="relative w-full min-w-0 h-(--stage-h) bg-(--color-surface-card) border border-(--color-border) rounded-(--radius-card) overflow-clip"
+          className="relative w-full min-w-0 h-(--stage-h) bg-surface-card border border-border rounded-card overflow-clip"
         >
           {stage}
         </div>
@@ -46,14 +46,14 @@ export function SceneStation({ id, title, accent, stage, surface, deeper }: Scen
           <h2
             id={`${id}-title`}
             tabIndex={-1}
-            className="font-[family-name:--font-display] font-bold text-[28px] leading-[34px] tracking-[-1px] m-0 text-(--color-text-primary)"
+            className="font-display font-bold text-[28px] leading-[34px] tracking-[-1px] m-0 text-text-primary"
           >
             {title}
           </h2>
           <div className="mt-6">
             <AccentRule accent={accent} />
           </div>
-          <div className="mt-[18px] w-full max-w-(--surface-max-w)">{surface}</div>
+          <div className="mt-4.5 w-full max-w-(--surface-max-w)">{surface}</div>
           {deeper !== undefined && (
             <div className="mt-6">
               <DeepToggle
@@ -63,7 +63,7 @@ export function SceneStation({ id, title, accent, stage, surface, deeper }: Scen
                 accent={accent}
               />
               {expanded && (
-                <div id={deepPanelId} className="mt-[18px] w-full max-w-(--surface-max-w)">
+                <div id={deepPanelId} className="mt-4.5 w-full max-w-(--surface-max-w)">
                   <DeepPanel>{deeper}</DeepPanel>
                 </div>
               )}

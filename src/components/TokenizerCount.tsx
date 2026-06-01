@@ -16,23 +16,23 @@ export function TokenizerCount({ examples }: TokenizerCountProps) {
       {examples.map((e) => (
         <div
           key={e.vendor}
-          className="flex flex-col gap-1.5 p-[14px] border border-(--color-border) rounded-(--radius-card) bg-(--color-surface-card)"
+          className="flex flex-col gap-1.5 p-3.5 border border-border rounded-card bg-surface-card"
         >
-          <div className="font-[family-name:--font-body] font-semibold text-[13px] text-(--color-text-primary)">
+          <div className="font-body font-semibold text-[13px] text-text-primary">
             {e.label}
           </div>
-          <div className="font-[family-name:--font-mono] text-sm text-(--color-text-muted)">
+          <div className="font-mono text-sm text-text-muted">
             &quot;{e.prompt}&quot;
           </div>
           <div className="flex items-baseline gap-1.5">
-            <span className="font-[family-name:--font-mono] text-[28px] font-bold text-(--color-text-primary)">
+            <span className="font-mono text-[28px] font-bold text-text-primary">
               {e.tokenCount}
             </span>
-            <span className="font-[family-name:--font-body] text-xs text-(--color-text-muted)">
+            <span className="font-body text-xs text-text-muted">
               tokens
             </span>
           </div>
-          <div className="font-[family-name:--font-body] text-[11px] text-(--color-text-muted) italic">
+          <div className="font-body text-[11px] text-text-muted italic">
             {e.note}
           </div>
         </div>

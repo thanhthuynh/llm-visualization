@@ -43,7 +43,7 @@ export function DistributionPair({
   return (
     <div className="grid items-center gap-4" style={{ gridTemplateColumns: '1fr auto 1fr' }}>
       <DistributionColumn data={left} accent={accent} />
-      <div className="font-[family-name:--font-body] font-semibold text-[13px] text-(--color-text-muted) text-center">
+      <div className="font-body font-semibold text-[13px] text-text-muted text-center">
         {arrowCaption}
       </div>
       <DistributionColumn data={right} accent={accent} />

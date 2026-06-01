@@ -20,7 +20,7 @@ export function TokenizeScene() {
     <div className="p-(--stage-padding) flex flex-col gap-9 h-full justify-center">
       <div className="flex flex-col gap-4">
         <EyebrowLabel>From text to tokens</EyebrowLabel>
-        <div className="font-[family-name:--font-mono] text-[22px]">{dataset.prompt}</div>
+        <div className="font-mono text-[22px]">{dataset.prompt}</div>
         <motion.div
           layout
           data-testid="tokens-group"
@@ -32,7 +32,7 @@ export function TokenizeScene() {
             </Chip>
           ))}
         </motion.div>
-        <p className="font-[family-name:--font-body] text-[13px] text-(--color-text-muted)">
+        <p className="font-body text-[13px] text-text-muted">
           · marks the whitespace that belongs to each token.
         </p>
       </div>
@@ -53,25 +53,25 @@ export function TokenizeScene() {
     <div className="flex flex-col gap-4">
       <EyebrowLabel>Subword units</EyebrowLabel>
       <div
-        className="grid items-center gap-2.5 font-[family-name:--font-mono] text-sm"
+        className="grid items-center gap-2.5 font-mono text-sm"
         style={{ gridTemplateColumns: 'repeat(3, max-content)' }}
       >
         {dataset.tokens.map((t) => (
           <div key={t.id} className="contents">
             <span>{chipDisplay(t.text)}</span>
-            <span className="text-(--color-text-muted)">→</span>
+            <span className="text-text-muted">→</span>
             <span>{t.id}</span>
           </div>
         ))}
       </div>
       <div className="flex flex-col gap-2">
         <EyebrowLabel>When a word is rare, it splits</EyebrowLabel>
-        <div className="flex items-center gap-3 font-[family-name:--font-mono] text-sm">
+        <div className="flex items-center gap-3 font-mono text-sm">
           <span>tokenization</span>
-          <span className="text-(--color-text-muted)">→</span>
+          <span className="text-text-muted">→</span>
           <span>[</span>
           <span>token</span>
-          <span className="text-(--color-text-muted)">|</span>
+          <span className="text-text-muted">|</span>
           <span>ization</span>
           <span>]</span>
         </div>

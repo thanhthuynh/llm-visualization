@@ -6,11 +6,11 @@ interface HeadSelectorProps {
 const HEADS = [0, 1, 2] as const
 
 function buttonClass(isActive: boolean): string {
-  const border = isActive ? 'border-(--color-accent-attention)' : 'border-(--color-border)'
+  const border = isActive ? 'border-accent-attention' : 'border-border'
   const bg = isActive
     ? 'bg-[color-mix(in_srgb,var(--color-accent-attention)_16%,var(--color-surface-card))]'
-    : 'bg-(--color-surface-card)'
-  return `px-[14px] py-1.5 rounded-(--radius-pill) border ${border} ${bg} text-(--color-text-primary) font-[family-name:--font-body] font-semibold text-[13px] cursor-pointer min-h-[44px]`
+    : 'bg-surface-card'
+  return `px-3.5 py-1.5 rounded-pill border ${border} ${bg} text-text-primary font-body font-semibold text-[13px] cursor-pointer min-h-11`
 }
 
 export function HeadSelector({ active, onSelect }: HeadSelectorProps) {

@@ -19,14 +19,14 @@ export function Chip({ children, onClick, active = false, accent, variant = 'tok
   } as CSSProperties
 
   const baseClass = [
-    'inline-flex items-center px-4 py-[10px]',
-    'rounded-(--radius-pill)',
+    'inline-flex items-center px-4 py-2.5',
+    'rounded-pill',
     'border border-(--chip-ring)',
-    'bg-(--color-surface-card) text-(--color-text-primary)',
+    'bg-surface-card text-text-primary',
     'shadow-[var(--chip-shadow)]',
     isToken
-      ? 'font-[family-name:--font-mono] text-[15px] leading-[22px]'
-      : 'font-[family-name:--font-body] text-sm leading-[1.3]',
+      ? 'font-mono text-[15px] leading-[22px]'
+      : 'font-body text-sm leading-[1.3]',
     onClick ? 'cursor-pointer' : 'cursor-default',
   ].join(' ')
 

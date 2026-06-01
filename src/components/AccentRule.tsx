@@ -11,7 +11,7 @@ export function AccentRule({ accent }: AccentRuleProps) {
     <div
       role="presentation"
       style={{ '--rule-color': accentHex(accent) } as CSSProperties}
-      className="w-12 h-[3px] rounded-(--radius-accent-rule) bg-(--rule-color)"
+      className="w-12 h-[3px] rounded-accent-rule bg-(--rule-color)"
     />
   )
 }

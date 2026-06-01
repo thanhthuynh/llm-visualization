@@ -36,14 +36,14 @@ export function ContextWindowBar({ rows, maxTokens }: ContextWindowBarProps) {
             className="grid items-center gap-3"
             style={{ gridTemplateColumns: '120px 1fr 64px' }}
           >
-            <span className="font-[family-name:--font-body] text-[13px]">{r.family}</span>
+            <span className="font-body text-[13px]">{r.family}</span>
             <div
               role="progressbar"
               aria-label={`${r.family} context window`}
               aria-valuenow={r.tokens}
               aria-valuemin={0}
               aria-valuemax={maxTokens}
-              className="h-[18px] rounded-[9px] bg-(--color-surface-track) overflow-hidden"
+              className="h-4.5 rounded-[9px] bg-surface-track overflow-hidden"
             >
               <div
                 data-testid={`ctx-fill-${r.vendor}`}
@@ -51,7 +51,7 @@ export function ContextWindowBar({ rows, maxTokens }: ContextWindowBarProps) {
                 className="h-full w-[var(--ctx-w)] bg-(--ctx-fill)"
               />
             </div>
-            <span className="font-[family-name:--font-mono] text-[13px] text-right">{label}</span>
+            <span className="font-mono text-[13px] text-right">{label}</span>
           </div>
         )
       })}

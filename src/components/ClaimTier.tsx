@@ -34,7 +34,7 @@ export function ClaimTier({ tier }: ClaimTierProps) {
     <span
       data-tier={tier}
       style={dynamicStyle}
-      className="inline-flex items-center px-2 py-0.5 rounded-(--radius-pill) border border-(--tier-border) bg-(--tier-bg) text-(--tier-color) font-[family-name:--font-mono] text-[11px] leading-4"
+      className="inline-flex items-center px-2 py-0.5 rounded-pill border border-(--tier-border) bg-(--tier-bg) text-(--tier-color) font-mono text-[11px] leading-4"
     >
       ({tier})
     </span>
