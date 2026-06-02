@@ -6,9 +6,7 @@ export function TechStack() {
       className="max-w-[76rem] mx-auto px-6 md:px-10 py-24 border-t border-border"
     >
       <div className="flex flex-col gap-4">
-        <p className="font-mono text-xs uppercase tracking-widest text-text-muted">
-          BUILT WITH
-        </p>
+        <p className="font-mono text-xs uppercase tracking-widest text-text-muted">BUILT WITH</p>
         <h2
           id="tech-stack-heading"
           className="font-display text-4xl font-medium tracking-[-0.01em] text-text-primary"

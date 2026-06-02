@@ -68,7 +68,9 @@ export function SurfaceDeepPreview() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
         <div className="rounded-card border border-border bg-surface-card p-6 min-h-[200px] flex flex-col gap-4">
-          <p className="font-mono text-xs uppercase tracking-widest text-text-muted">Next-token prediction</p>
+          <p className="font-mono text-xs uppercase tracking-widest text-text-muted">
+            Next-token prediction
+          </p>
           <div className="flex flex-col gap-1.5 font-mono text-sm">
             {[
               ['blue', 71],
