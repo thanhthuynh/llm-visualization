@@ -40,9 +40,11 @@ export function Chip({ children, onClick, active = false, accent, variant = 'tok
   return (
     <button
       type="button"
+      aria-pressed={active}
+      data-umami-event="cta-chip"
+      data-umami-event-variant={variant}
       style={dynamicStyle}
       className={baseClass}
-      aria-pressed={active}
       onClick={onClick}
     >
       {children}

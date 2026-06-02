@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react'
-import { DepthProvider } from '@/app/DepthContext'
+import { DepthProvider, useDepth } from '@/app/DepthContext'
 import { RunningExampleProvider } from '@/app/RunningExampleContext'
 import { SceneNavProvider } from '@/app/SceneNavContext'
 import { useHashSync, SCENE_JUMP_EVENT } from '@/app/useHashSync'
 import { useKeyboardNav } from '@/app/useKeyboardNav'
 import { useScrollSpy } from '@/app/useScrollSpy'
+import { useTrackSceneReach } from '@/analytics/useTrackSceneReach'
 import { ProgressRail } from '@/components/ProgressRail'
 import { TopBar } from '@/components/TopBar'
 import { PromptScene } from '@/scenes/PromptScene'
@@ -38,7 +39,9 @@ export function App() {
 
 function Shell() {
   const [activeId, setActiveId] = useState<SceneId>(readInitialSceneId)
+  const { globalDepth } = useDepth()
   useHashSync(activeId)
+  useTrackSceneReach(activeId, globalDepth)
 
   useLayoutEffect(() => {
     if (activeId === 'prompt') return

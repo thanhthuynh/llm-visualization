@@ -44,6 +44,8 @@ export function ProgressRail({ activeId, onJump }: ProgressRailProps) {
               disabled={!isImplemented}
               aria-label={`${idx + 1} ${scene.railLabel ?? scene.title} ${scene.title}`}
               {...(isActive ? { 'aria-current': 'step' as const } : {})}
+              data-umami-event="cta-rail-jump"
+              data-umami-event-scene={scene.id}
               style={btnStyle}
               className={btnClass}
             >
@@ -66,6 +68,8 @@ export function ProgressRail({ activeId, onJump }: ProgressRailProps) {
         onClick={() => onJump('compare')}
         aria-label="Compare"
         {...(activeId === 'compare' ? { 'aria-current': 'step' as const } : {})}
+        data-umami-event="cta-rail-jump"
+        data-umami-event-scene="compare"
         className={`min-w-11 min-h-11 w-4 h-4 mt-4 rounded-full border border-border cursor-pointer p-0 ${
           activeId === 'compare'
             ? 'bg-[var(--color-accent-predict,#9D4EDD)]'
@@ -77,6 +81,8 @@ export function ProgressRail({ activeId, onJump }: ProgressRailProps) {
         onClick={() => onJump('about')}
         aria-label="About"
         {...(activeId === 'about' ? { 'aria-current': 'step' as const } : {})}
+        data-umami-event="cta-rail-jump"
+        data-umami-event-scene="about"
         className="min-w-11 min-h-11 w-7.5 h-8.5 mt-auto rounded-rail-inactive bg-rail-inactive border border-border text-text-muted font-mono text-[13px] cursor-pointer p-0"
       >
         ?

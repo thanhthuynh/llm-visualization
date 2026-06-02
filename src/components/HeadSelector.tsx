@@ -21,6 +21,8 @@ export function HeadSelector({ active, onSelect }: HeadSelectorProps) {
           key={i}
           type="button"
           aria-pressed={active === i}
+          data-umami-event="cta-head-select"
+          data-umami-event-head={i}
           onClick={() => onSelect(i)}
           className={buttonClass(active === i)}
         >
