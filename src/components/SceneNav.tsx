@@ -33,6 +33,8 @@ export function SceneNav({
         onClick={onPrev}
         disabled={!canPrev}
         aria-label="Previous scene"
+        data-umami-event="cta-scene-nav"
+        data-umami-event-direction="prev"
         className={prevClass}
       >
         ← Prev
@@ -42,6 +44,8 @@ export function SceneNav({
         onClick={onNext}
         disabled={!canNext}
         aria-label="Next scene"
+        data-umami-event="cta-scene-nav"
+        data-umami-event-direction="next"
         className={nextClass}
       >
         Next →

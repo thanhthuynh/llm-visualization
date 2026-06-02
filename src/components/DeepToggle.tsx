@@ -28,6 +28,8 @@ export function DeepToggle({ expanded, onToggle, controlsId, accent }: DeepToggl
       onClick={onToggle}
       aria-expanded={expanded}
       {...(controlsId ? { 'aria-controls': controlsId } : {})}
+      data-umami-event="cta-depth-toggle"
+      data-umami-event-to={expanded ? 'surface' : 'deep'}
       style={dynamicStyle}
       className="inline-flex items-center gap-2.5 pl-4.5 pr-4 py-3 rounded-pill bg-surface-card border border-(--dt-border) text-(--dt-label) font-body font-semibold text-sm cursor-pointer min-h-11 shadow-[var(--dt-shadow)]"
     >
