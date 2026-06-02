@@ -7,7 +7,8 @@ A single-page, interactive explainer of what happens inside a Large Language Mod
 **Live site:** *(deployed on Cloudflare Pages — URL updates after first deploy)*
 **Stack:** Vite · React 19 · TypeScript 5.7 strict · Tailwind v4 · Motion · D3 (scale only) · Zod · Umami · Playwright · vitest-axe
 
-![Inside an LLM screenshot placeholder](docs/screenshot.png)
+<img width="2672" height="1522" alt="Screenshot 2026-06-02 at 3 27 06 PM" src="https://github.com/user-attachments/assets/2ccc2b51-4061-4a33-95ed-1976e8cc5ace" />
+
 
 ---
 
