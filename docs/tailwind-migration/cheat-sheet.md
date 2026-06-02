@@ -1,6 +1,5 @@
 # Tailwind Migration — Cheat Sheet
 
-> Reference for `docs/superpowers/plans/2026-06-01-llm-explainer-plan-7-tailwind-migration.md`.
 > Every file migration follows the mapping below. If a property isn't covered, add it here before continuing.
 
 ## Decisions locked at pilot (Task 2 — Chip.tsx)
@@ -141,7 +140,7 @@ Tailwind v4 supports `grid-cols-N` and `grid-cols-[arbitrary]`, but multi-token 
 
 ---
 
-## Canonical theme classes (Plan 8 follow-up)
+## Canonical theme classes
 
 Tailwind v4's `@theme {}` block auto-generates utility classes from declared CSS variables. The arbitrary-value form `bg-(--color-X)` works, but the **canonical form is shorter and lints clean**. Always prefer canonical when both exist.
 
@@ -155,7 +154,7 @@ Tailwind v4's `@theme {}` block auto-generates utility classes from declared CSS
 
 ### Concrete translations for this project
 
-| Arbitrary form (Plan 7) | Canonical (Plan 8) |
+| Arbitrary form | Canonical theme class |
 |---|---|
 | `bg-(--color-surface-card)` | `bg-surface-card` |
 | `bg-(--color-surface-deep)` | `bg-surface-deep` |

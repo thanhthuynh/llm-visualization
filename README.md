@@ -4,7 +4,7 @@
 
 A single-page, interactive explainer of what happens inside a Large Language Model between "you typed a prompt" and "the answer streamed out." Designed for two readers at once: a non-technical friend who wants the intuition, and a technically literate peer who wants to confirm nothing was hand-waved. The mechanism for serving both is progressive disclosure (Surface vs Deep toggles per scene), not two separate sites.
 
-**Live site:** *(deployed on Cloudflare Pages — URL updates after first deploy)*
+**Live:** [llm-visualization.pages.dev](https://llm-visualization.pages.dev)
 **Stack:** Vite · React 19 · TypeScript 5.7 strict · Tailwind v4 · Motion · D3 (scale only) · Zod · Umami · Playwright · vitest-axe
 
 <img width="2672" height="1522" alt="Screenshot 2026-06-02 at 3 27 06 PM" src="https://github.com/user-attachments/assets/2ccc2b51-4061-4a33-95ed-1976e8cc5ace" />
@@ -80,7 +80,6 @@ src/
 tests/                # Unit + a11y-unit (vitest + jsdom)
 e2e/                  # Playwright specs (happy-path, mvp-flow, a11y, honesty, decode, scroll, landing, compare)
 docs/                 # Audit reports, design direction, brand voice, migration cheat sheets
-.claude/plans/        # Per-feature implementation plans (the unit of release)
 ```
 
 ---

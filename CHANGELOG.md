@@ -2,7 +2,7 @@
 
 All notable changes are documented per merged PR. Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions use date-tagged milestones rather than semver since this project ships as a single deployed site rather than a published package.
 
-Each "Plan N" was a discrete release unit with its own implementation plan, PR, and (often) documentation deliverable. PR numbers are canonical; the `Plan N` labels are commentary.
+PR numbers are canonical.
 
 ---
 
@@ -18,7 +18,7 @@ Each "Plan N" was a discrete release unit with its own implementation plan, PR, 
 - `data-umami-event="…"` declarative click tracking on landing CTAs, in-app navigation (rail, prev/next), and in-scene controls (chips, depth toggles, head selector, landing-preview toggle).
 - `.env.example` documenting `VITE_UMAMI_WEBSITE_ID`.
 - README "Deploy" + "Analytics" sections.
-- Cloudflare Pages deployment spec (`.claude/plans/analytics-and-deploy.plan.md`).
+- Cloudflare Pages deployment spec.
 
 ### Tests
 - `tests/analytics/umami.test.ts` — wrapper no-ops without `window.umami`; forwards args exactly when present.
@@ -36,7 +36,7 @@ Each "Plan N" was a discrete release unit with its own implementation plan, PR, 
 
 ---
 
-## [2026-06-01] — Plan 10 · Landing page
+## [2026-06-01] — Landing page
 
 **PR [#11](https://github.com/thanhthuynh/llm-visualization/pull/11) · `Plan 10 — Landing page (full implementation)`**
 
@@ -53,7 +53,7 @@ Each "Plan N" was a discrete release unit with its own implementation plan, PR, 
 
 ---
 
-## [2026-06-01] — Plan 9 · Bug fixes + Landing design
+## [2026-06-01] — Bug fixes + landing design
 
 **PR [#10](https://github.com/thanhthuynh/llm-visualization/pull/10) · `Plan 9 — Decode-loop / nav-sync / Prev-style bug fixes + landing-page design`**
 
@@ -69,7 +69,7 @@ Each "Plan N" was a discrete release unit with its own implementation plan, PR, 
 
 ---
 
-## [2026-06-01] — Plan 8 · Canonical Tailwind classes
+## [2026-06-01] — Canonical Tailwind classes
 
 **PR [#9](https://github.com/thanhthuynh/llm-visualization/pull/9) · `refactor: canonical Tailwind classes + drop deprecated tsconfig baseUrl`**
 
@@ -84,7 +84,7 @@ Each "Plan N" was a discrete release unit with its own implementation plan, PR, 
 
 ---
 
-## [2026-06-01] — Plan 7 · Tailwind migration
+## [2026-06-01] — Tailwind migration
 
 **PR [#8](https://github.com/thanhthuynh/llm-visualization/pull/8) · `refactor: migrate inline styles to Tailwind utilities + CSS-var passthrough`**
 
@@ -102,7 +102,7 @@ Each "Plan N" was a discrete release unit with its own implementation plan, PR, 
 
 ---
 
-## [2026-06-01] — Plan 6 · Accessibility audit
+## [2026-06-01] — Accessibility audit
 
 **PR [#7](https://github.com/thanhthuynh/llm-visualization/pull/7) · `test(a11y): axe-core unit + E2E + audit doc; fix landmark-unique; defer color-contrast`**
 
@@ -123,7 +123,7 @@ Each "Plan N" was a discrete release unit with its own implementation plan, PR, 
 
 ---
 
-## [2026-06-01] — Plan 5 · ESLint hygiene
+## [2026-06-01] — ESLint hygiene
 
 **PR [#6](https://github.com/thanhthuynh/llm-visualization/pull/6) · `chore(eslint): config hygiene — globals.node + .vite ignore + drop disable-no-undef`**
 
@@ -134,7 +134,7 @@ Each "Plan N" was a discrete release unit with its own implementation plan, PR, 
 
 ---
 
-## [2026-06-01] — Plan 4 · Compare section
+## [2026-06-01] — Compare section
 
 **PR [#5](https://github.com/thanhthuynh/llm-visualization/pull/5) · `feat: Compare section (Claude vs ChatGPT scale-up)`**
 
@@ -153,7 +153,7 @@ Each "Plan N" was a discrete release unit with its own implementation plan, PR, 
 
 ---
 
-## [2026-05-31] — Plan 3 · Honesty-critical scenes
+## [2026-05-31] — Honesty-critical scenes
 
 **PR [#4](https://github.com/thanhthuynh/llm-visualization/pull/4) · `feat: honesty-critical scenes (Embeddings + Attention)`**
 
@@ -174,7 +174,7 @@ Each "Plan N" was a discrete release unit with its own implementation plan, PR, 
 
 ---
 
-## [2026-05-31] — Plan 2 follow-on · Figma fidelity
+## [2026-05-31] — Figma fidelity polish
 
 **PR [#3](https://github.com/thanhthuynh/llm-visualization/pull/3) · `feat: Figma-fidelity scene polish + desktop-responsive layout`**
 
@@ -184,7 +184,7 @@ Each "Plan N" was a discrete release unit with its own implementation plan, PR, 
 
 ---
 
-## [2026-05-31] — Plan 2 · MVP scenes
+## [2026-05-31] — MVP scenes
 
 **PR [#2](https://github.com/thanhthuynh/llm-visualization/pull/2) · `phase 2`**
 
@@ -203,7 +203,7 @@ Each "Plan N" was a discrete release unit with its own implementation plan, PR, 
 
 ---
 
-## [2026-05-31] — Plan 1 · Foundation + reference scene
+## [2026-05-31] — Foundation + reference scene
 
 **PR [#1](https://github.com/thanhthuynh/llm-visualization/pull/1) · `Feat/llm explainer foundation`**
 
@@ -221,6 +221,6 @@ Each "Plan N" was a discrete release unit with its own implementation plan, PR, 
 
 ---
 
-## Pre-Plan-1 — initial scaffold
+## Pre-foundation — initial scaffold
 
 Vite + React 19 + TypeScript strict scaffold, Tailwind v4 install, ESLint + Prettier configuration, Vitest + Playwright test plumbing.

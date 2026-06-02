@@ -10,3 +10,6 @@ test-results
 !.env.example
 
 *.tsbuildinfo
+
+# Claude Code local workspace (never re-commit agent planning artifacts)
+.claude/

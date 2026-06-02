@@ -3,6 +3,29 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "description": "Interactive explainer: watch a prompt become an answer inside a Large Language Model, one token at a time.",
+  "keywords": [
+    "llm",
+    "education",
+    "visualization",
+    "react",
+    "typescript",
+    "explainer",
+    "interactive",
+    "tokenization",
+    "attention",
+    "gpt"
+  ],
+  "homepage": "https://llm-visualization.pages.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thanhthuynh/llm-visualization.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thanhthuynh/llm-visualization/issues"
+  },
+  "author": "Thanh Thuynh",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",

@@ -1,12 +1,12 @@
 # Inside an LLM — Product Requirements Document (Retrospective)
 
 **Version:** 1.0 — written at ship, 2026-06-02.
-**Status:** All 10 Plans merged to `main`; site live on Cloudflare Pages with Umami analytics. This document is the *product-lens companion* to the design/engineering spec — what we built, why we made the calls we made, and how we'll know it's working.
+**Status:** All milestones merged to `main`; site live on Cloudflare Pages with Umami analytics. This document is the *product-lens companion* to the design/engineering spec — what we built, why we made the calls we made, and how we'll know it's working.
 **Related docs:**
-- **Spec (visual + architecture source of truth):** [[llm-explainer-spec-v1.1]] — pinned to the Figma design file `3YpQ5IsfXs0PLYh27mcI6V`. Where this PRD and the spec disagree on visuals or architecture, the spec wins. This PRD wins on product intent, decisions, and metrics.
-- **Spec (v1.0 historical):** [[llm-explainer-spec]] — the pre-Figma brief; kept for changelog continuity.
+- **Spec (visual + architecture source of truth):** Engineering + visual spec v1.1 — pinned to the Figma design file `3YpQ5IsfXs0PLYh27mcI6V`. Where this PRD and the spec disagree on visuals or architecture, the spec wins. This PRD wins on product intent, decisions, and metrics.
+- **Spec (v1.0 historical):** Engineering + visual spec v1.0 — the pre-Figma brief; kept for changelog continuity.
 - **Repo:** `github.com/thanhthuynh/llm-visualization`
-- **CHANGELOG:** in-repo `CHANGELOG.md` (per-plan releases)
+- **CHANGELOG:** in-repo `CHANGELOG.md` (per-PR release entries)
 - **A11y audit:** in-repo `docs/a11y/2026-06-01-audit.md`
 - **Landing page brand voice + design direction:** in-repo `docs/landing-page-brand-voice.md`, `docs/landing-page-design-direction.md`
 
@@ -18,7 +18,7 @@ This project ships three documents on purpose:
 
 | Doc | Question it answers | Source of truth for |
 |---|---|---|
-| **Spec v1.1** ([[llm-explainer-spec-v1.1]]) | *What does it look like and how is it built?* | Visual design (Figma-locked), layout grid, component contracts, technical architecture |
+| **Spec v1.1** | *What does it look like and how is it built?* | Visual design (Figma-locked), layout grid, component contracts, technical architecture |
 | **PRD (this doc)** | *Why does it exist, and how will we know it worked?* | Product intent, decision log, analytics taxonomy, success metrics, scope |
 | **README** (in repo) | *What is this, and how do I run it?* | Public-facing pitch, install/test/build commands, provenance disclosure |
 
@@ -72,7 +72,7 @@ Nine scenes mounted in production (`src/scenes/scenes.config.ts:30-103`):
 | 8 | Compare | (reuses predict purple) | "Claude vs ChatGPT: not bigger-is-smarter — convergence." | Tier-tagged claims (a)(b)(c), Constitutional AI vs RLHF cards, paired tokenizer counts, paired context-window bars. Provenance: claim-row `lastUpdated`. |
 | 9 | About | none | Provenance section + how to read it. | Dataset source string, model name, illustrative-vs-measured discipline. |
 
-Plus a **landing page** at the root that previews the seven-scene pipeline with an animated chip-strip, a scene-card grid, a methods/provenance section, and a Surface↔Deep toggle demo (Plan 10).
+Plus a **landing page** at the root that previews the seven-scene pipeline with an animated chip-strip, a scene-card grid, a methods/provenance section, and a Surface↔Deep toggle demo.
 
 ---
 
@@ -102,7 +102,7 @@ Citations point at the artifact that proves the decision: commit (`abc1234`), fi
 |---|---|---|---|
 | 12 | **Vite + React 19 + TypeScript 5.7 strict** | Smallest competent frontend stack for a SPA explainer; SSR not needed (single page, no SEO content competition); React 19 for the form/use APIs not strictly required but free upgrade | `package.json`; `tsconfig.json` (strict + `noUncheckedIndexedAccess` family) |
 | 13 | **Tailwind v4 via `@tailwindcss/vite`**, no PostCSS pipeline | v4 ships its own engine; one fewer config file; auto-generates utilities from `@theme {}` CSS-vars | `vite.config.ts`; `src/index.css` |
-| 14 | **All inline styles migrated to Tailwind utilities** (Plans 7 + 8) | Style consistency, lint coverage, less custom CSS. Two-wave migration: Plan 7 used arbitrary-form (`bg-(--color-X)`), Plan 8 switched to canonical theme classes (`bg-X`) where Tailwind v4 auto-generates them | `docs/tailwind-migration/cheat-sheet.md`; PRs #8 + #9 |
+| 14 | **All inline styles migrated to Tailwind utilities** | Style consistency, lint coverage, less custom CSS. Two-wave migration: first using arbitrary-form (`bg-(--color-X)`), then switching to canonical theme classes (`bg-X`) where Tailwind v4 auto-generates them | `docs/tailwind-migration/cheat-sheet.md`; PRs #8 + #9 |
 | 15 | **CSS-var passthrough for runtime values** | Tailwind can't express runtime-computed values (per-scene accents, dynamic widths). Pattern: `style={{ '--bar-w': pct + '%' } as CSSProperties} className="w-[var(--bar-w)]"`. 16 legitimate inline-style exceptions remain, all documented | `docs/tailwind-migration/cheat-sheet.md` "Remaining inline styles" |
 | 16 | **Motion (formerly Framer Motion), not GSAP** | Motion is React-native, smaller, and handles layout animations and reduced-motion out of the box. We never needed timeline scrubbing | `package.json` `"motion"`; spec §6 |
 | 17 | **d3-scale + d3-scale-chromatic only — no d3-selection, no d3-axis** | We hand-render SVG with React; we just need the math (linear scales) and the chromatic ramps (magma for the attention matrix) | `package.json`; `src/components/AttentionMatrix.tsx` |
@@ -114,11 +114,11 @@ Citations point at the artifact that proves the decision: commit (`abc1234`), fi
 
 | # | Decision | Rationale | Where it lives |
 |---|---|---|---|
-| 21 | **Numbered "Plans" as the unit of release** | Each Plan = one planning doc + one PR + (often) one docs deliverable. Forced discipline: no half-finished branches | `.claude/plans/*`, `docs/superpowers/plans/*` (where present), git history `Plan N — …` PR titles |
+| 21 | **One PR per milestone** | Each milestone = one PR + (often) one docs deliverable. Forced discipline: no half-finished branches, every shipped change traceable to a single review | git history; per-PR CHANGELOG entries |
 | 22 | **Two-layer a11y testing**: vitest-axe per scene + Playwright/axe full nav | jsdom can't compute contrast; the E2E layer catches that. Per-scene unit tests catch landmark uniqueness and label issues fast | `tests/a11y/`, `e2e/a11y.spec.ts`; audit doc `docs/a11y/2026-06-01-audit.md` |
 | 23 | **Color-contrast deferred to a brand follow-up**, not fixed in-flight | 9 violations are all "accent text < 4.5:1 vs `#16161f`." Lightening the 7 brand accents OR restricting accent text to ≥14pt bold are both real options — neither is an in-flight technical fix | `docs/a11y/2026-06-01-audit.md` "Deferred" section |
-| 24 | **Umami Cloud over self-hosted analytics**, cookieless | One vendor, no consent banner needed (no cookies, no PII), free tier covers expected volume. Self-host promotion path documented for later | `src/analytics/`; `.claude/plans/analytics-and-deploy.plan.md`; PR #13 |
-| 25 | **Cloudflare Pages free tier** | Static SPA + Vite preset + free unlimited bandwidth + GitHub auto-deploy + preview URLs per PR. Custom domain optional later. No `wrangler.toml` needed | `.claude/plans/analytics-and-deploy.plan.md` Task 9 |
+| 24 | **Umami Cloud over self-hosted analytics**, cookieless | One vendor, no consent banner needed (no cookies, no PII), free tier covers expected volume. Self-host promotion path documented for later | `src/analytics/`; PR #13 |
+| 25 | **Cloudflare Pages free tier** | Static SPA + Vite preset + free unlimited bandwidth + GitHub auto-deploy + preview URLs per PR. Custom domain optional later. No `wrangler.toml` needed | PR #13 |
 
 ---
 
@@ -222,7 +222,7 @@ Read directionally, not as KPIs to optimize.
 | Spec drift — v1.1 spec lists Compare as "Phase 2 architected" but it shipped in PR #5 | Doc-only | Open | Spec v1.2 should fold in the as-shipped Compare scene |
 | `vite.config.ts` exposes sourcemaps on the deployed site | Trivial | Accepted | Educational site; sourcemaps help learners. Re-evaluate if posture tightens |
 | Free-tier Umami event ceiling on viral share | Low | Mitigated by dedupe | Once-per-session `scene-reached` dedupe; promote to self-host if hit |
-| `Plan N` numbering in PR titles is inconsistent with git PR numbers (Plan 2 = PR #2 + #3 bundle, Plan 3 = PR #4, etc.) | Doc-only | Living | CHANGELOG cites PR numbers (canonical) with Plan labels as commentary |
+| Milestone-label cardinality is not 1:1 with PR numbers (one milestone occasionally bundled into two PRs) | Doc-only | Living | CHANGELOG cites PR numbers as canonical |
 
 ---
 
@@ -241,36 +241,36 @@ Read directionally, not as KPIs to optimize.
 
 ---
 
-## 8. Shipped Plan log (canonical via PR number)
+## 8. Shipped releases (canonical via PR number)
 
 See in-repo `CHANGELOG.md` for the full version-by-version log. Brief here:
 
-| PR | Date (merged) | Plan label (where used) | Theme |
-|---|---|---|---|
-| #1 | 2026-05-31 | Plan 1 — Foundation + Reference Scene | Tokens, primitives, ProgressRail, TopBar, DeepToggle, CaveatNote, Chip, DataBar, PredictScene end-to-end, AboutScene, hash sync, keyboard nav |
-| #2 | 2026-05-31 | Plan 2 — MVP scenes | PromptScene, TokenizeScene, DecodeScene, AssembleScene, ReplyBubble, DistributionPair, cross-scene MVP flow E2E |
-| #3 | 2026-05-31 | Plan 2 follow-on — Figma fidelity | Desktop-responsive layout aligned to the Figma design system |
-| #4 | 2026-05-31 | Plan 3 — Honesty-critical scenes | EmbedScene (2D meaning-space) + AttentionScene (arcs, matrix, head selector); cat.json dataset |
-| #5 | 2026-06-01 | Plan 4 — Compare section | CompareScene with tier-tagged claims, ContextWindowBar, TokenizerCount, PhilosophyCard |
-| #6 | 2026-06-01 | Plan 5 — ESLint hygiene | Globals package, `.vite` ignore, drop `disable-no-undef` |
-| #7 | 2026-06-01 | Plan 6 — A11y audit | vitest-axe + @axe-core/playwright; 10/10 unit + 9/9 E2E pass; unique landmark labels; color-contrast deferred |
-| #8 | 2026-06-01 | Plan 7 — Tailwind migration | Five waves; all inline styles → utilities; CSS-var passthrough for dynamic values |
-| #9 | 2026-06-01 | Plan 8 — Canonical Tailwind classes | Arbitrary-form → theme-class form where Tailwind v4 auto-generates utilities |
-| #10 | 2026-06-01 | Plan 9 — Bug fixes + landing design | Decode-loop wiring, scroll-spy hook, nav-sync fixes, landing-page design direction + brand voice docs |
-| #11 | 2026-06-01 | Plan 10 — Landing page | Six landing sections per design direction; build-time commit hash plumbing |
-| #12 | 2026-06-02 | (hotfix) | URL-hash deep-link fix on initial mount |
-| #13 | 2026-06-02 | Analytics + Deploy | Umami wrapper, scene-reach hook, full CTA taxonomy, Cloudflare Pages spec |
+| PR | Date (merged) | Theme |
+|---|---|---|
+| #1 | 2026-05-31 | Foundation + Reference Scene — tokens, primitives, ProgressRail, TopBar, DeepToggle, CaveatNote, Chip, DataBar, PredictScene end-to-end, AboutScene, hash sync, keyboard nav |
+| #2 | 2026-05-31 | MVP scenes — PromptScene, TokenizeScene, DecodeScene, AssembleScene, ReplyBubble, DistributionPair, cross-scene MVP flow E2E |
+| #3 | 2026-05-31 | Figma fidelity — desktop-responsive layout aligned to the Figma design system |
+| #4 | 2026-05-31 | Honesty-critical scenes — EmbedScene (2D meaning-space) + AttentionScene (arcs, matrix, head selector); cat.json dataset |
+| #5 | 2026-06-01 | Compare section — CompareScene with tier-tagged claims, ContextWindowBar, TokenizerCount, PhilosophyCard |
+| #6 | 2026-06-01 | ESLint hygiene — globals package, `.vite` ignore, drop `disable-no-undef` |
+| #7 | 2026-06-01 | A11y audit — vitest-axe + @axe-core/playwright; 10/10 unit + 9/9 E2E pass; unique landmark labels; color-contrast deferred |
+| #8 | 2026-06-01 | Tailwind migration — five waves; all inline styles → utilities; CSS-var passthrough for dynamic values |
+| #9 | 2026-06-01 | Canonical Tailwind classes — arbitrary-form → theme-class form where Tailwind v4 auto-generates utilities |
+| #10 | 2026-06-01 | Bug fixes + landing design — decode-loop wiring, scroll-spy hook, nav-sync fixes, landing-page design direction + brand voice docs |
+| #11 | 2026-06-01 | Landing page — six landing sections per design direction; build-time commit hash plumbing |
+| #12 | 2026-06-02 | (hotfix) URL-hash deep-link fix on initial mount |
+| #13 | 2026-06-02 | Analytics + Deploy — Umami wrapper, scene-reach hook, full CTA taxonomy, Cloudflare Pages spec |
 
 ---
 
 ## 9. Links
 
-- **Live site:** *(set after CF Pages first deploy — e.g.* `https://llm-visualization.pages.dev` *)*
+- **Live site:** `https://llm-visualization.pages.dev`
 - **GitHub repo:** `https://github.com/thanhthuynh/llm-visualization`
 - **Figma source of truth:** file `3YpQ5IsfXs0PLYh27mcI6V` — "Inside an LLM — Design System + Scenes"
 - **Umami dashboard:** `https://cloud.umami.is/share/...` *(set after deploy if public share is enabled)*
-- **Spec v1.1:** [[llm-explainer-spec-v1.1]] (this vault)
-- **Spec v1.0 (historical):** [[llm-explainer-spec]] (this vault)
+- **Spec v1.1:** external engineering + visual spec (source of truth)
+- **Spec v1.0 (historical):** external engineering + visual spec (pre-Figma brief)
 - **A11y audit:** `docs/a11y/2026-06-01-audit.md` (repo)
 - **Landing brand voice:** `docs/landing-page-brand-voice.md` (repo)
 - **Landing design direction:** `docs/landing-page-design-direction.md` (repo)

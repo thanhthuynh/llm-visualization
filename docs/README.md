@@ -15,11 +15,10 @@ Topic docs that aren't the public README. Audit reports, design briefs, migratio
 
 | Doc | Where | Why it's there |
 |---|---|---|
-| **Engineering + visual spec v1.1** (source of truth) | personal Obsidian vault — `llm-explainer-spec-v1.1.md` | Big, opinionated, Figma-locked; lives in the personal knowledge vault where it can be edited freely and cross-link to other long-form thinking. Pinned to Figma file `3YpQ5IsfXs0PLYh27mcI6V`. |
-| **Engineering + visual spec v1.0** (historical) | personal Obsidian vault — `llm-explainer-spec.md` | The pre-Figma brief. Kept for continuity; superseded by v1.1. |
-| **PRD (retrospective)** | in-repo — [`PRD.md`](PRD.md) (synced from the personal Obsidian vault) | Product intent, the 25 decisions worth remembering, analytics design, Tier-1/2/3 success metrics, risks carried forward. The product-lens companion to the spec. |
+| **Engineering + visual spec v1.1** (source of truth) | External notes, pinned to Figma file `3YpQ5IsfXs0PLYh27mcI6V` | Big, opinionated, Figma-locked. The visual + architectural source of truth. |
+| **Engineering + visual spec v1.0** (historical) | External notes | The pre-Figma brief. Kept for continuity; superseded by v1.1. |
+| **PRD (retrospective)** | in-repo — [`PRD.md`](PRD.md) | Product intent, the 25 decisions worth remembering, analytics design, Tier-1/2/3 success metrics, risks carried forward. The product-lens companion to the spec. |
 | **Figma design file** | `3YpQ5IsfXs0PLYh27mcI6V` — *Inside an LLM — Design System + Scenes* | Visual source of truth; tokens, scene frames (14 = 7 surface + 7 deep), and component library. |
-| **Per-feature plans** | `.claude/plans/*.plan.md` (and `docs/superpowers/plans/*` where present) | Implementation plans for individual Plans (release units). One plan = one PR = one milestone. |
 | **CHANGELOG** | `../CHANGELOG.md` | Per-PR version log with rationale and links. |
 
 ## Document conventions
@@ -29,4 +28,3 @@ Topic docs that aren't the public README. Audit reports, design briefs, migratio
 - **PRDs answer "why does it exist and how will we know it worked?"** They carry product intent, decisions, and metrics.
 - **Audit reports** are dated (`YYYY-MM-DD-topic.md`) so the *time* of the finding is part of the filename.
 - **Cheat sheets** are living references — updated as new cases emerge during migration work.
-- **Plans** in `.claude/plans/` use the `kebab-case-name.plan.md` convention from `/ecc:plan`.
