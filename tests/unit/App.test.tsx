@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { render, screen, within } from '@testing-library/react'
 import { App } from '@/App'
 
@@ -91,5 +91,23 @@ describe('App — deep-link via hash', () => {
       'aria-current',
       'step',
     )
+  })
+
+  it('scrolls the deep-linked scene into view on mount', () => {
+    history.replaceState(null, '', '/explorer#decode')
+    const spy = vi.spyOn(Element.prototype, 'scrollIntoView')
+    render(<App />)
+    const decodeSection = document.getElementById('decode')
+    expect(decodeSection).not.toBeNull()
+    expect(spy.mock.instances).toContain(decodeSection)
+    spy.mockRestore()
+  })
+
+  it('does not scroll on mount when there is no deep-link (activeId stays at prompt)', () => {
+    history.replaceState(null, '', '/explorer')
+    const spy = vi.spyOn(Element.prototype, 'scrollIntoView')
+    render(<App />)
+    expect(spy).not.toHaveBeenCalled()
+    spy.mockRestore()
   })
 })
