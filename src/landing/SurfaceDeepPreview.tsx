@@ -49,6 +49,8 @@ export function SurfaceDeepPreview() {
               ? 'px-5 py-2 rounded-pill bg-(--toggle-active) text-bg-base font-body font-semibold text-sm'
               : 'px-5 py-2 rounded-pill text-text-muted font-body font-medium text-sm hover:text-text-primary'
           }
+          data-umami-event="cta-landing-preview-toggle"
+          data-umami-event-to="surface"
         >
           Surface
         </button>
@@ -61,6 +63,8 @@ export function SurfaceDeepPreview() {
               ? 'px-5 py-2 rounded-pill bg-(--toggle-active) text-bg-base font-body font-semibold text-sm'
               : 'px-5 py-2 rounded-pill text-text-muted font-body font-medium text-sm hover:text-text-primary'
           }
+          data-umami-event="cta-landing-preview-toggle"
+          data-umami-event-to="deep"
         >
           Deep
         </button>

@@ -73,6 +73,8 @@ function Card({ card }: { card: SceneCard }) {
       data-card={card.id}
       style={style}
       className="group relative flex flex-col gap-3 min-h-[200px] p-5 rounded-card bg-surface-card border border-(--card-hairline) hover:border-(--card-accent) transition-all duration-150 hover:-translate-y-0.5"
+      data-umami-event="cta-scene-card"
+      data-umami-event-scene={card.id}
     >
       <span
         aria-hidden="true"

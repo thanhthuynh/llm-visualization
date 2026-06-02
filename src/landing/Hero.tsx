@@ -33,6 +33,7 @@ export function Hero() {
             <a
               href="/explorer#prompt"
               className="inline-flex items-center px-6 py-3.5 rounded-pill bg-accent-output text-bg-base font-body font-semibold text-base hover:opacity-90 transition-opacity"
+              data-umami-event="cta-start-explore"
             >
               Start with the prompt →
             </a>
@@ -41,6 +42,7 @@ export function Hero() {
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center px-6 py-3.5 rounded-pill border border-border text-text-primary font-body font-medium text-base hover:border-text-muted transition-colors"
+              data-umami-event="cta-github"
             >
               View on GitHub
             </a>
