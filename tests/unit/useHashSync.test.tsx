@@ -29,4 +29,12 @@ describe('useHashSync', () => {
     expect(detail).toEqual({ id: 'attention' })
     window.removeEventListener('llm-explainer:scene-jump', handler as EventListener)
   })
+
+  it('does not rewrite the URL hash when activeId already matches the hash on mount', () => {
+    history.replaceState(null, '', '/explorer#decode')
+    const spy = vi.spyOn(window.history, 'replaceState')
+    render(<Probe active="decode" />)
+    expect(spy).not.toHaveBeenCalled()
+    spy.mockRestore()
+  })
 })

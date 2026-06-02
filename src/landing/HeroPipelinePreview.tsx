@@ -13,7 +13,15 @@ interface Frame {
   render: () => ReactElement
 }
 
-function Pill({ accent, children, dim = false }: { accent: AccentToken; children: string; dim?: boolean }) {
+function Pill({
+  accent,
+  children,
+  dim = false,
+}: {
+  accent: AccentToken
+  children: string
+  dim?: boolean
+}) {
   const style = {
     '--pill-color': accentHex(accent),
     '--pill-bg': accentRgba(accent, dim ? 0.06 : 0.16),
@@ -159,7 +167,9 @@ const FRAMES: Frame[] = [
   },
 ]
 
-export function HeroPipelinePreview({ reducedMotion: reducedMotionProp }: HeroPipelinePreviewProps) {
+export function HeroPipelinePreview({
+  reducedMotion: reducedMotionProp,
+}: HeroPipelinePreviewProps) {
   const systemReduced = useReducedMotionPref()
   const reducedMotion = reducedMotionProp ?? systemReduced
   const [frameIdx, setFrameIdx] = useState(reducedMotion ? FRAME_COUNT - 1 : 0)
@@ -195,8 +205,7 @@ export function HeroPipelinePreview({ reducedMotion: reducedMotionProp }: HeroPi
               key={i}
               className="block w-1.5 h-1.5 rounded-full"
               style={{
-                background:
-                  i === frameIdx ? accentHex(f.accent) : 'var(--color-rail-inactive)',
+                background: i === frameIdx ? accentHex(f.accent) : 'var(--color-rail-inactive)',
               }}
             />
           ))}

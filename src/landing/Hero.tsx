@@ -20,8 +20,7 @@ export function Hero() {
             id="hero-heading"
             className="font-display text-5xl md:text-7xl font-medium tracking-[-0.02em] text-text-primary"
           >
-            Inside an{' '}
-            <span style={{ color: 'var(--color-accent-embed)' }}>LLM</span>
+            Inside an <span style={{ color: 'var(--color-accent-embed)' }}>LLM</span>
           </h1>
           <p className="font-body text-xl leading-relaxed text-text-primary/90 max-w-prose">
             Watch a prompt become an answer, one token at a time. Seven stages, two reading paths —

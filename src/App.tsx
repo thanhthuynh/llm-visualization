@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { DepthProvider } from '@/app/DepthContext'
 import { RunningExampleProvider } from '@/app/RunningExampleContext'
 import { SceneNavProvider } from '@/app/SceneNavContext'
@@ -20,6 +20,12 @@ import { getSceneById, getMountedSceneIds, type SceneId } from '@/scenes/scenes.
 
 const MOUNTED_IDS: SceneId[] = getMountedSceneIds()
 
+function readInitialSceneId(): SceneId {
+  if (typeof window === 'undefined') return 'prompt'
+  const raw = window.location.hash.replace(/^#/, '').toLowerCase()
+  return (MOUNTED_IDS as readonly string[]).includes(raw) ? (raw as SceneId) : 'prompt'
+}
+
 export function App() {
   return (
     <RunningExampleProvider>
@@ -31,8 +37,14 @@ export function App() {
 }
 
 function Shell() {
-  const [activeId, setActiveId] = useState<SceneId>('prompt')
+  const [activeId, setActiveId] = useState<SceneId>(readInitialSceneId)
   useHashSync(activeId)
+
+  useLayoutEffect(() => {
+    if (activeId === 'prompt') return
+    document.getElementById(activeId)?.scrollIntoView()
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: honor deep-link once on mount before scroll-spy fires
+  }, [])
 
   const goTo = useCallback((id: SceneId) => {
     if (MOUNTED_IDS.includes(id)) {

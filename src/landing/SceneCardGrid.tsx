@@ -10,13 +10,48 @@ interface SceneCard {
 }
 
 const CARDS: SceneCard[] = [
-  { num: '01', id: 'prompt', label: 'Prompt', teaser: 'Everything starts with a string of characters. Nothing more.' },
-  { num: '02', id: 'tokenize', label: 'Tokenize', teaser: "The text is sliced into the model's chosen pieces." },
-  { num: '03', id: 'embed', label: 'Embed', teaser: 'Each token becomes a coordinate the network can do math on.' },
-  { num: '04', id: 'attention', label: 'Attention', teaser: 'Tokens look at the tokens that matter, weighted by relevance.' },
-  { num: '05', id: 'predict', label: 'Predict', teaser: 'A probability for every possible next token, ranked.' },
-  { num: '06', id: 'decode', label: 'Decode', teaser: 'Sample one token, append it, run the loop again.' },
-  { num: '07', id: 'output', label: 'Output', teaser: 'Tokens stream out until the end-of-sequence signal fires.' },
+  {
+    num: '01',
+    id: 'prompt',
+    label: 'Prompt',
+    teaser: 'Everything starts with a string of characters. Nothing more.',
+  },
+  {
+    num: '02',
+    id: 'tokenize',
+    label: 'Tokenize',
+    teaser: "The text is sliced into the model's chosen pieces.",
+  },
+  {
+    num: '03',
+    id: 'embed',
+    label: 'Embed',
+    teaser: 'Each token becomes a coordinate the network can do math on.',
+  },
+  {
+    num: '04',
+    id: 'attention',
+    label: 'Attention',
+    teaser: 'Tokens look at the tokens that matter, weighted by relevance.',
+  },
+  {
+    num: '05',
+    id: 'predict',
+    label: 'Predict',
+    teaser: 'A probability for every possible next token, ranked.',
+  },
+  {
+    num: '06',
+    id: 'decode',
+    label: 'Decode',
+    teaser: 'Sample one token, append it, run the loop again.',
+  },
+  {
+    num: '07',
+    id: 'output',
+    label: 'Output',
+    teaser: 'Tokens stream out until the end-of-sequence signal fires.',
+  },
 ]
 
 function Card({ card }: { card: SceneCard }) {
@@ -58,15 +93,23 @@ function CapCard() {
       className="flex flex-col gap-2 items-center justify-center min-h-[200px] p-5 rounded-card bg-surface-deep border border-border"
     >
       <div className="flex gap-1.5" aria-hidden="true">
-        {(['prompt', 'tokenize', 'embed', 'attention', 'predict', 'decode', 'output'] as AccentToken[]).map(
-          (id) => (
-            <span
-              key={id}
-              className="block w-2 h-2 rounded-full"
-              style={{ background: accentHex(id) }}
-            />
-          ),
-        )}
+        {(
+          [
+            'prompt',
+            'tokenize',
+            'embed',
+            'attention',
+            'predict',
+            'decode',
+            'output',
+          ] as AccentToken[]
+        ).map((id) => (
+          <span
+            key={id}
+            className="block w-2 h-2 rounded-full"
+            style={{ background: accentHex(id) }}
+          />
+        ))}
       </div>
       <span className="font-mono text-xs tracking-widest text-text-muted uppercase mt-1">
         full pipeline

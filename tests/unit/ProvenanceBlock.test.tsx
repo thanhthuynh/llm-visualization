@@ -27,9 +27,7 @@ describe('ProvenanceBlock', () => {
     expect(screen.getByText('model')).toBeInTheDocument()
     expect(screen.getByText('gpt2-small')).toBeInTheDocument()
     expect(screen.getByText('source')).toBeInTheDocument()
-    expect(
-      screen.getByText(/huggingface\.co\/openai-community\/gpt2/i),
-    ).toBeInTheDocument()
+    expect(screen.getByText(/huggingface\.co\/openai-community\/gpt2/i)).toBeInTheDocument()
     expect(screen.getByText('refresh')).toBeInTheDocument()
   })
 

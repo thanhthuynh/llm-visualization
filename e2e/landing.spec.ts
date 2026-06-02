@@ -5,7 +5,9 @@ test.describe('Landing page', () => {
     await page.goto('/')
     await expect(page.getByRole('heading', { level: 1, name: /Inside an LLM/i })).toBeVisible()
     await expect(
-      page.getByText(/Numbers from GPT-2 small, run offline\. Illustrative, not Claude or ChatGPT/i),
+      page.getByText(
+        /Numbers from GPT-2 small, run offline\. Illustrative, not Claude or ChatGPT/i,
+      ),
     ).toBeVisible()
     await expect(page.getByRole('link', { name: /Start with the prompt/i })).toBeVisible()
   })
@@ -24,6 +26,28 @@ test.describe('Landing page', () => {
     for (const scene of scenes) {
       const card = page.locator(`a[href="/explorer#${scene}"]`).first()
       await expect(card).toBeVisible()
+    }
+  })
+
+  test('clicking each scene card opens the explorer on that scene', async ({ page }) => {
+    const scenes = [
+      ['prompt', 'Prompt Input'],
+      ['tokenize', 'Tokenization'],
+      ['embed', 'Embeddings'],
+      ['attention', 'Attention'],
+      ['predict', 'Next-Token Prediction'],
+      ['decode', 'Decoding Loop'],
+      ['output', 'Output Assembly'],
+    ] as const
+    for (const [id, title] of scenes) {
+      await page.goto('/')
+      await page.locator(`a[href="/explorer#${id}"]`).first().click()
+      await expect(page).toHaveURL(new RegExp(`/explorer#${id}$`))
+      const rail = page.getByRole('navigation', { name: /scenes/i })
+      await expect(rail.getByRole('button', { name: new RegExp(title, 'i') })).toHaveAttribute(
+        'aria-current',
+        'step',
+      )
     }
   })
 
