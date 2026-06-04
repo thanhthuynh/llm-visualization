@@ -15,10 +15,10 @@ Topic docs that aren't the public README. Audit reports, design briefs, migratio
 
 | Doc | Where | Why it's there |
 |---|---|---|
-| **Engineering + visual spec v1.1** (source of truth) | External notes, pinned to Figma file `3YpQ5IsfXs0PLYh27mcI6V` | Big, opinionated, Figma-locked. The visual + architectural source of truth. |
+| **Engineering + visual spec v1.1** (source of truth) | External notes, pinned to the project's private Figma file (link kept in maintainer notes) | Big, opinionated, Figma-locked. The visual + architectural source of truth. |
 | **Engineering + visual spec v1.0** (historical) | External notes | The pre-Figma brief. Kept for continuity; superseded by v1.1. |
 | **PRD (retrospective)** | in-repo — [`PRD.md`](PRD.md) | Product intent, the 25 decisions worth remembering, analytics design, Tier-1/2/3 success metrics, risks carried forward. The product-lens companion to the spec. |
-| **Figma design file** | `3YpQ5IsfXs0PLYh27mcI6V` — *Inside an LLM — Design System + Scenes* | Visual source of truth; tokens, scene frames (14 = 7 surface + 7 deep), and component library. |
+| **Figma design file** | Private — *Inside an LLM — Design System + Scenes* (link kept in maintainer notes) | Visual source of truth; tokens, scene frames (14 = 7 surface + 7 deep), and component library. |
 | **CHANGELOG** | `../CHANGELOG.md` | Per-PR version log with rationale and links. |
 
 ## Document conventions

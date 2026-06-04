@@ -3,7 +3,7 @@
 **Version:** 1.0 — written at ship, 2026-06-02.
 **Status:** All milestones merged to `main`; site live on Cloudflare Pages with Umami analytics. This document is the *product-lens companion* to the design/engineering spec — what we built, why we made the calls we made, and how we'll know it's working.
 **Related docs:**
-- **Spec (visual + architecture source of truth):** Engineering + visual spec v1.1 — pinned to the Figma design file `3YpQ5IsfXs0PLYh27mcI6V`. Where this PRD and the spec disagree on visuals or architecture, the spec wins. This PRD wins on product intent, decisions, and metrics.
+- **Spec (visual + architecture source of truth):** Engineering + visual spec v1.1 — pinned to the project's private Figma file (link kept in maintainer notes). Where this PRD and the spec disagree on visuals or architecture, the spec wins. This PRD wins on product intent, decisions, and metrics.
 - **Spec (v1.0 historical):** Engineering + visual spec v1.0 — the pre-Figma brief; kept for changelog continuity.
 - **Repo:** `github.com/thanhthuynh/llm-visualization`
 - **CHANGELOG:** in-repo `CHANGELOG.md` (per-PR release entries)
@@ -267,7 +267,7 @@ See in-repo `CHANGELOG.md` for the full version-by-version log. Brief here:
 
 - **Live site:** `https://llm-visualization.pages.dev`
 - **GitHub repo:** `https://github.com/thanhthuynh/llm-visualization`
-- **Figma source of truth:** file `3YpQ5IsfXs0PLYh27mcI6V` — "Inside an LLM — Design System + Scenes"
+- **Figma source of truth:** the project's private Figma file — "Inside an LLM — Design System + Scenes" (link kept in maintainer notes)
 - **Umami dashboard:** `https://cloud.umami.is/share/...` *(set after deploy if public share is enabled)*
 - **Spec v1.1:** external engineering + visual spec (source of truth)
 - **Spec v1.0 (historical):** external engineering + visual spec (pre-Figma brief)

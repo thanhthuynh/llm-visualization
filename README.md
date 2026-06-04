@@ -127,7 +127,7 @@ By design the ceiling is ≤15 named events. Currently 10. We refuse to instrume
 ## Documentation map
 
 - **Public-facing pitch + run instructions:** this README
-- **Visual design + technical architecture (source of truth):** the Figma file and `docs/landing-page-design-direction.md`
+- **Visual design + technical architecture (source of truth):** the project's private Figma file (link kept in maintainer notes) and `docs/landing-page-design-direction.md`
 - **Product intent + decisions + success metrics:** [`docs/PRD.md`](docs/PRD.md)
 - **Version history:** [`CHANGELOG.md`](CHANGELOG.md)
 - **Topic docs:** see [`docs/README.md`](docs/README.md)
