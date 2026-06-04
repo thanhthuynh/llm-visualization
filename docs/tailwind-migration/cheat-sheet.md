@@ -101,7 +101,9 @@ To be filled after each Wave 3 file lands.
 
 ## Remaining inline styles (legitimate exceptions)
 
-After migration, 16 inline `style={{...}}` blocks remain across 13 files. All are intentional:
+As of 2026-06-04, **23 inline `style={{...}}` blocks remain across 18 files** (`grep -rn "style={{" src --include="*.tsx"`). The 16 blocks across 13 files enumerated in the tables below — Categories 1, 2, and 3 — were curated as intentional exceptions through Plan 8. The 5 new files in `src/landing/` (`Hero.tsx`, `HeroPipelinePreview.tsx`, `LandingFooter.tsx`, `SceneCardGrid.tsx`, `SurfaceDeepPreview.tsx`) were added by Plan 10 (landing page) and have not yet been categorized — they may be legitimate exceptions or migration candidates. See [`docs/audits/2026-06-04-doc-drift.md`](../audits/2026-06-04-doc-drift.md) for the audit that surfaced this gap.
+
+The 16 originally-curated exceptions remain intentional:
 
 ### Category 1: CSS-var passthrough (runtime-computed values)
 
