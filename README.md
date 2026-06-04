@@ -118,7 +118,7 @@ By design the ceiling is ≤15 named events. Currently 10. We refuse to instrume
 - **No routing library.** One page, nine hash anchors, one tiny `useHashSync` hook.
 - **No GSAP, no Three.js, no Framer Motion.** Just `motion` (React-native), `d3-scale` for math, `d3-scale-chromatic` for the attention-matrix ramp.
 - **Scroll-snap stations.** Each scene plays its entrance once on entry, then hands control to the user. No scroll-scrubbing — interactivity-first.
-- **Tailwind v4** with `@theme {}` tokens; canonical theme classes (`bg-surface-card`, `rounded-card`, …) preferred over arbitrary-form. Sixteen inline-style exceptions remain — all documented in [`docs/tailwind-migration/cheat-sheet.md`](docs/tailwind-migration/cheat-sheet.md) as CSS-var passthrough or template literals Tailwind can't express.
+- **Tailwind v4** with `@theme {}` tokens; canonical theme classes (`bg-surface-card`, `rounded-card`, …) preferred over arbitrary-form. Twenty-three inline-style blocks remain across 18 files — the original 16 curated exceptions plus 5 landing-page files added in Plan 10 that have not yet been triaged. See [`docs/tailwind-migration/cheat-sheet.md`](docs/tailwind-migration/cheat-sheet.md) for the categorized list and [`docs/audits/2026-06-04-doc-drift.md`](docs/audits/2026-06-04-doc-drift.md) for the drift audit.
 - **A11y two-layer.** `vitest-axe` per scene (jsdom; landmark / labels / structure) + `@axe-core/playwright` E2E (real browser; contrast). Per-scene unique landmark labels. See [`docs/a11y/2026-06-01-audit.md`](docs/a11y/2026-06-01-audit.md). Color-contrast deferred to a brand-level follow-up.
 - **Motion budget.** ≤360 ms per transition, hero-only ambient loop on the landing, every animation respects `prefers-reduced-motion`.
 
