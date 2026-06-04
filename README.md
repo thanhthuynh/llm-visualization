@@ -127,6 +127,8 @@ By design the ceiling is ≤15 named events. Currently 10. We refuse to instrume
 ## Documentation map
 
 - **Public-facing pitch + run instructions:** this README
+- **Agent-facing entry doc:** [`CLAUDE.md`](CLAUDE.md) — stack, commands, conventions, provenance discipline, over-reveal filter
+- **Per-area source-tree maps:** [`docs/CODEMAPS/`](docs/CODEMAPS/) — `architecture.md`, `frontend.md`, `data.md`, `dependencies.md`
 - **Visual design + technical architecture (source of truth):** the project's private Figma file (link kept in maintainer notes) and `docs/landing-page-design-direction.md`
 - **Product intent + decisions + success metrics:** [`docs/PRD.md`](docs/PRD.md)
 - **Version history:** [`CHANGELOG.md`](CHANGELOG.md)
