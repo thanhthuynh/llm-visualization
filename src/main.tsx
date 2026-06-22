@@ -15,5 +15,9 @@ if (!import.meta.env.VITEST) {
 
   const root = document.getElementById('root')
   if (!root) throw new Error('Root element missing in index.html')
-  createRoot(root).render(<StrictMode><Site /></StrictMode>)
+  createRoot(root).render(
+    <StrictMode>
+      <Site />
+    </StrictMode>,
+  )
 }
