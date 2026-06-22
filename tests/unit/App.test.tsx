@@ -1,8 +1,17 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { render, screen, within } from '@testing-library/react'
 import { Site } from '@/App'
+import { getMountedSceneIds } from '@/scenes/scenes.config'
 
 describe('App', () => {
+  it('mounts scenes in config-derived order (DOM order === getMountedSceneIds())', () => {
+    render(<Site />)
+    const main = document.querySelector('main.stations')
+    expect(main).not.toBeNull()
+    const sections = Array.from(main!.querySelectorAll(':scope > section[id]'))
+    const domIds = sections.map((s) => s.id)
+    expect(domIds).toEqual(getMountedSceneIds())
+  })
   it('renders the rail, topbar wordmark, and prompt scene as default', () => {
     render(<Site />)
     expect(screen.getByRole('navigation', { name: /scenes/i })).toBeInTheDocument()

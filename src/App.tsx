@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useState, type ComponentType } from 'react'
 import { DepthProvider, useDepth } from '@/app/DepthContext'
 import { RunningExampleProvider } from '@/app/RunningExampleContext'
 import { SceneNavProvider } from '@/app/SceneNavContext'
@@ -21,6 +21,19 @@ import { getSceneById, getMountedSceneIds, type SceneId } from '@/scenes/scenes.
 import { SCROLL_ROOT_SELECTOR } from '@/prologue/snap'
 
 const MOUNTED_IDS: SceneId[] = getMountedSceneIds()
+
+const SCENE_COMPONENTS: Partial<Record<SceneId, ComponentType>> = {
+  prompt: PromptScene,
+  tokenize: TokenizeScene,
+  embed: EmbedScene,
+  attention: AttentionScene,
+  predict: PredictScene,
+  decode: DecodeScene,
+  output: AssembleScene, // id 'output' → AssembleScene (id ≠ component name)
+  compare: CompareScene,
+  about: AboutScene,
+  // interlude/window/system/rag/hallucinate added in Phases 6-7 (with implemented:true)
+}
 
 function readInitialSceneId(): SceneId {
   if (typeof window === 'undefined') return 'prompt' // FLIP-TO-INTRO GATE (Phase 4)
@@ -100,15 +113,10 @@ function Shell() {
       <TopBar prompt={prompt} />
       <SceneNavProvider ids={MOUNTED_IDS} goTo={goTo}>
         <main className="stations" aria-label="LLM pipeline scenes">
-          <PromptScene />
-          <TokenizeScene />
-          <EmbedScene />
-          <AttentionScene />
-          <PredictScene />
-          <DecodeScene />
-          <AssembleScene />
-          <CompareScene />
-          <AboutScene />
+          {MOUNTED_IDS.map((id) => {
+            const SceneComponent = SCENE_COMPONENTS[id]
+            return SceneComponent ? <SceneComponent key={id} /> : null
+          })}
         </main>
       </SceneNavProvider>
     </>
