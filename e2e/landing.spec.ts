@@ -1,6 +1,9 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Landing page', () => {
+// TODO(Phase 4): replace with prologue.spec — landing page removed in the route collapse.
+// The / route now serves the station shell directly (Task 1.1). The prologue that
+// replaces this landing page lands in Phase 4; this spec will be rewritten then.
+test.describe.skip('Landing page', () => {
   test('renders the hero H1 + provenance + CTA at /', async ({ page }) => {
     await page.goto('/')
     await expect(page.getByRole('heading', { level: 1, name: /Inside an LLM/i })).toBeVisible()

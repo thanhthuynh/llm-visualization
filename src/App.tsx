@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useState, type ComponentType } from 'react'
 import { DepthProvider, useDepth } from '@/app/DepthContext'
 import { RunningExampleProvider } from '@/app/RunningExampleContext'
 import { SceneNavProvider } from '@/app/SceneNavContext'
@@ -18,16 +18,30 @@ import { AssembleScene } from '@/scenes/AssembleScene'
 import { CompareScene } from '@/scenes/CompareScene'
 import { AboutScene } from '@/scenes/AboutScene'
 import { getSceneById, getMountedSceneIds, type SceneId } from '@/scenes/scenes.config'
+import { SCROLL_ROOT_SELECTOR } from '@/prologue/snap'
 
 const MOUNTED_IDS: SceneId[] = getMountedSceneIds()
 
-function readInitialSceneId(): SceneId {
-  if (typeof window === 'undefined') return 'prompt'
-  const raw = window.location.hash.replace(/^#/, '').toLowerCase()
-  return (MOUNTED_IDS as readonly string[]).includes(raw) ? (raw as SceneId) : 'prompt'
+const SCENE_COMPONENTS: Partial<Record<SceneId, ComponentType>> = {
+  prompt: PromptScene,
+  tokenize: TokenizeScene,
+  embed: EmbedScene,
+  attention: AttentionScene,
+  predict: PredictScene,
+  decode: DecodeScene,
+  output: AssembleScene, // id 'output' → AssembleScene (id ≠ component name)
+  compare: CompareScene,
+  about: AboutScene,
+  // interlude/window/system/rag/hallucinate added in Phases 6-7 (with implemented:true)
 }
 
-export function App() {
+function readInitialSceneId(): SceneId {
+  if (typeof window === 'undefined') return 'prompt' // FLIP-TO-INTRO GATE (Phase 4)
+  const raw = window.location.hash.replace(/^#/, '').toLowerCase()
+  return (MOUNTED_IDS as readonly string[]).includes(raw) ? (raw as SceneId) : 'prompt' // FLIP-TO-INTRO GATE (Phase 4)
+}
+
+export function Site() {
   return (
     <RunningExampleProvider>
       <DepthProvider>
@@ -44,7 +58,7 @@ function Shell() {
   useTrackSceneReach(activeId, globalDepth)
 
   useLayoutEffect(() => {
-    if (activeId === 'prompt') return
+    if (activeId === 'prompt') return // FLIP-TO-INTRO GATE (Phase 4)
     document.getElementById(activeId)?.scrollIntoView()
     // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: honor deep-link once on mount before scroll-spy fires
   }, [])
@@ -83,7 +97,7 @@ function Shell() {
   useScrollSpy({
     ids: MOUNTED_IDS,
     onActiveChange: handleScrollActiveChange,
-    rootSelector: '.stations',
+    ...(SCROLL_ROOT_SELECTOR !== undefined ? { rootSelector: SCROLL_ROOT_SELECTOR } : {}),
     threshold: 0.5,
   })
 
@@ -92,21 +106,17 @@ function Shell() {
   return (
     <>
       <a className="skip-link" href="#prompt">
+        {/* FLIP-TO-INTRO GATE (Phase 4) */}
         Skip to content
       </a>
       <ProgressRail activeId={activeId} onJump={goTo} />
       <TopBar prompt={prompt} />
       <SceneNavProvider ids={MOUNTED_IDS} goTo={goTo}>
         <main className="stations" aria-label="LLM pipeline scenes">
-          <PromptScene />
-          <TokenizeScene />
-          <EmbedScene />
-          <AttentionScene />
-          <PredictScene />
-          <DecodeScene />
-          <AssembleScene />
-          <CompareScene />
-          <AboutScene />
+          {MOUNTED_IDS.map((id) => {
+            const SceneComponent = SCENE_COMPONENTS[id]
+            return SceneComponent ? <SceneComponent key={id} /> : null
+          })}
         </main>
       </SceneNavProvider>
     </>

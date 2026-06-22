@@ -1,11 +1,20 @@
 import { describe, it, expect } from 'vitest'
-import { SCENES, getSceneById, type SceneId } from '@/scenes/scenes.config'
+import { SCENES, getSceneById, getMountedSceneIds, type SceneId } from '@/scenes/scenes.config'
 
 describe('scenes.config', () => {
-  it('exposes 7 pipeline scenes plus compare plus about', () => {
-    expect(SCENES).toHaveLength(9)
+  it('has 15 total scenes (6 new + 9 existing)', () => {
+    expect(SCENES).toHaveLength(15)
+  })
+
+  it('has the exact new macro order (Part 1 before forward-pass)', () => {
     const ids = SCENES.map((s) => s.id)
     expect(ids).toEqual([
+      'intro',
+      'interlude',
+      'window',
+      'system',
+      'rag',
+      'hallucinate',
       'prompt',
       'tokenize',
       'embed',
@@ -18,7 +27,37 @@ describe('scenes.config', () => {
     ])
   })
 
-  it('attaches the spec accent token to each scene', () => {
+  it('getMountedSceneIds still returns the original 9 (runtime unchanged)', () => {
+    expect(getMountedSceneIds()).toEqual([
+      'prompt',
+      'tokenize',
+      'embed',
+      'attention',
+      'predict',
+      'decode',
+      'output',
+      'compare',
+      'about',
+    ])
+  })
+
+  it('first scene is intro', () => {
+    expect(SCENES[0].id).toBe('intro')
+  })
+
+  it('new window scene has accent window', () => {
+    expect(getSceneById('window').accent).toBe('window')
+  })
+
+  it('window scene has part part1', () => {
+    expect(getSceneById('window').part).toBe('part1')
+  })
+
+  it('prompt scene has part part2', () => {
+    expect(getSceneById('prompt').part).toBe('part2')
+  })
+
+  it('attaches the spec accent token to existing scenes', () => {
     expect(getSceneById('predict').accent).toBe('predict')
     expect(getSceneById('attention').accent).toBe('attention')
   })
@@ -31,7 +70,14 @@ describe('scenes.config', () => {
     expect(() => getSceneById('nope' as SceneId)).toThrow(/unknown scene/i)
   })
 
-  it('marks the currently-mounted scenes as implemented', () => {
+  it('marks the 6 new scenes as not implemented', () => {
+    const newIds = ['intro', 'interlude', 'window', 'system', 'rag', 'hallucinate'] as SceneId[]
+    for (const id of newIds) {
+      expect(getSceneById(id).implemented).toBe(false)
+    }
+  })
+
+  it('marks the 9 existing scenes as implemented', () => {
     const implementedIds = SCENES.filter((s) => s.implemented).map((s) => s.id)
     expect(implementedIds).toEqual([
       'prompt',

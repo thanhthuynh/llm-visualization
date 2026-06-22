@@ -18,6 +18,10 @@
   --color-accent-predict: #9d4edd;
   --color-accent-decode: #ff7b00;
   --color-accent-output: #2ee6d6;
+  --color-accent-window: #6d9eff;
+  --color-accent-system: #b8c4e0;
+  --color-accent-rag: #ff7bae;
+  --color-accent-hallucinate: #ff5c5c;
   --color-accent-caveat: #fbbf24;
 
   --font-display: 'Space Grotesk', system-ui, sans-serif;
@@ -52,19 +56,18 @@ html, body, #root {
 }
 body { margin: 0; }
 
-.stations {
-  scroll-snap-type: y mandatory;
-  overflow-y: auto;
-  height: 100vh;
-}
+/* single scroll root = the document; snap lives on the root (Phase 0 decision, snap.ts) */
+html { scroll-snap-type: y proximity; }
 .stations > section {
   scroll-snap-align: start;
   scroll-snap-stop: always;
   min-height: 100vh;
 }
+.prologue-track { scroll-snap-align: none; }          /* prologue never snaps (Phase 4) */
+.prologue-end-sentinel { scroll-snap-align: start; }
 
 @media (prefers-reduced-motion: reduce) {
-  .stations { scroll-behavior: auto; }
+  html { scroll-behavior: auto; }
 }
 
 .skip-link {
@@ -83,3 +86,4 @@ body { margin: 0; }
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
 }
+

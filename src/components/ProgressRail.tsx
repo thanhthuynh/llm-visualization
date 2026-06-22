@@ -8,7 +8,7 @@ interface ProgressRailProps {
 }
 
 export function ProgressRail({ activeId, onJump }: ProgressRailProps) {
-  const pipeline = SCENES.filter((s) => s.id !== 'about' && s.id !== 'compare')
+  const pipeline = SCENES.filter((s) => s.implemented && s.id !== 'about' && s.id !== 'compare')
   return (
     <nav
       aria-label="Scenes"
@@ -19,8 +19,7 @@ export function ProgressRail({ activeId, onJump }: ProgressRailProps) {
         const isImplemented = scene.implemented
         const accentBg =
           isActive && scene.accent ? accentHex(scene.accent) : 'var(--color-rail-inactive)'
-        const accentShadow =
-          isActive && scene.accent ? accentGlow(scene.accent, 'rail') : 'none'
+        const accentShadow = isActive && scene.accent ? accentGlow(scene.accent, 'rail') : 'none'
         const labelColor =
           isActive && scene.accent ? accentHex(scene.accent) : 'var(--color-text-muted)'
         const btnStyle = {
@@ -71,9 +70,7 @@ export function ProgressRail({ activeId, onJump }: ProgressRailProps) {
         data-umami-event="cta-rail-jump"
         data-umami-event-scene="compare"
         className={`min-w-11 min-h-11 w-4 h-4 mt-4 rounded-full border border-border cursor-pointer p-0 ${
-          activeId === 'compare'
-            ? 'bg-[var(--color-accent-predict,#9D4EDD)]'
-            : 'bg-rail-inactive'
+          activeId === 'compare' ? 'bg-[var(--color-accent-predict,#9D4EDD)]' : 'bg-rail-inactive'
         }`}
       />
       <button
