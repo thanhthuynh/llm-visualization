@@ -15,6 +15,7 @@ const TOP5 = sky.nextToken.slice(0, 5)
 
 /** Render a candidate token without its leading space, for compact labels. */
 function tokenLabel(token: string): string {
+  // G1: this label feeds the "blue 71%" provenance assertion (PrologueBeats/Prologue/PrologueStatic tests) — keep the rendered "blue"/percentage tied to sky.json; don't "unify" whitespace handling away.
   return token.trim()
 }
 
