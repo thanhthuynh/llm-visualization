@@ -22,12 +22,12 @@ import { getSceneById, getMountedSceneIds, type SceneId } from '@/scenes/scenes.
 const MOUNTED_IDS: SceneId[] = getMountedSceneIds()
 
 function readInitialSceneId(): SceneId {
-  if (typeof window === 'undefined') return 'prompt'
+  if (typeof window === 'undefined') return 'prompt' // FLIP-TO-INTRO GATE (Phase 4)
   const raw = window.location.hash.replace(/^#/, '').toLowerCase()
-  return (MOUNTED_IDS as readonly string[]).includes(raw) ? (raw as SceneId) : 'prompt'
+  return (MOUNTED_IDS as readonly string[]).includes(raw) ? (raw as SceneId) : 'prompt' // FLIP-TO-INTRO GATE (Phase 4)
 }
 
-export function App() {
+export function Site() {
   return (
     <RunningExampleProvider>
       <DepthProvider>
@@ -44,7 +44,7 @@ function Shell() {
   useTrackSceneReach(activeId, globalDepth)
 
   useLayoutEffect(() => {
-    if (activeId === 'prompt') return
+    if (activeId === 'prompt') return // FLIP-TO-INTRO GATE (Phase 4)
     document.getElementById(activeId)?.scrollIntoView()
     // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: honor deep-link once on mount before scroll-spy fires
   }, [])
@@ -92,6 +92,7 @@ function Shell() {
   return (
     <>
       <a className="skip-link" href="#prompt">
+        {/* FLIP-TO-INTRO GATE (Phase 4) */}
         Skip to content
       </a>
       <ProgressRail activeId={activeId} onJump={goTo} />

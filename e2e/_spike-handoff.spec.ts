@@ -16,6 +16,11 @@
  */
 import { test, expect } from '@playwright/test'
 
+// TODO(Phase 0 cleanup): SpikeHarness removed from main.tsx in Task 1.1 (route collapse).
+// The /?spike=handoff route no longer exists. This spec is decommissioned with the harness;
+// it will be deleted in the deferred Phase-0 cleanup task after the human's real-Safari pass.
+test.skip(true, 'SpikeHarness removed in Task 1.1 — decommissioned pending Phase-0 cleanup')
+
 const FRAME_BUDGET_MS = 16.7 // ≈58fps; the 95p frame-delta ceiling
 const SWEEP_STEPS = 40
 const STEP_PX = 220
@@ -40,7 +45,10 @@ test('prologue sticky→snap handoff: 58fps under 4× throttle + clean seam snap
   // Throttle the CPU 4× via CDP so the transform-only scrub is stress-tested on a
   // mid-tier device proxy. Chromium only — guarded so a non-Chromium engine still
   // runs the functional assertions.
-  const client = await page.context().newCDPSession(page).catch(() => null)
+  const client = await page
+    .context()
+    .newCDPSession(page)
+    .catch(() => null)
   if (client) {
     await client.send('Emulation.setCPUThrottlingRate', { rate: 4 })
   }
@@ -78,16 +86,17 @@ test('prologue sticky→snap handoff: 58fps under 4× throttle + clean seam snap
   // Drop the first few deltas (warm-up / layout) before computing the percentile.
   const steady = deltas.slice(3)
   const p95 = percentile(steady, 95)
-  const medianFps =
-    steady.length > 0 ? Math.round(1000 / percentile(steady, 50)) : 0
+  const medianFps = steady.length > 0 ? Math.round(1000 / percentile(steady, 50)) : 0
 
   // Attach the numbers to the report so they show up without console logging.
-  test.info().annotations.push(
-    { type: 'spike-engine', description: test.info().project.name },
-    { type: 'spike-median-fps', description: String(medianFps) },
-    { type: 'spike-p95-frame-delta-ms', description: p95.toFixed(2) },
-    { type: 'spike-frames-sampled', description: String(steady.length) },
-  )
+  test
+    .info()
+    .annotations.push(
+      { type: 'spike-engine', description: test.info().project.name },
+      { type: 'spike-median-fps', description: String(medianFps) },
+      { type: 'spike-p95-frame-delta-ms', description: p95.toFixed(2) },
+      { type: 'spike-frames-sampled', description: String(steady.length) },
+    )
 
   expect(steady.length, 'frame probe collected samples during the sweep').toBeGreaterThan(20)
   expect(p95, `95p frame delta ${p95.toFixed(2)}ms ≤ ${FRAME_BUDGET_MS}ms`).toBeLessThanOrEqual(
