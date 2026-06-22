@@ -44,6 +44,13 @@
   --stage-h: clamp(640px, 76vh, 820px);
   --surface-max-w: 506px;
   --stage-padding: clamp(24px, 3vw, 48px);
+
+  --motion-micro: 160ms;
+  --motion-standard: 320ms;
+  --motion-max: 360ms;
+  --motion-stagger: 40ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
 }
 
 html, body, #root {
