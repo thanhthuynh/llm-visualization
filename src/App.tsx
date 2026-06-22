@@ -19,6 +19,8 @@ import { CompareScene } from '@/scenes/CompareScene'
 import { AboutScene } from '@/scenes/AboutScene'
 import { getSceneById, getMountedSceneIds, type SceneId } from '@/scenes/scenes.config'
 import { SCROLL_ROOT_SELECTOR } from '@/prologue/snap'
+import { usePrologueGate } from '@/prologue/usePrologueGate'
+import { Prologue } from '@/prologue/Prologue'
 
 const MOUNTED_IDS: SceneId[] = getMountedSceneIds()
 
@@ -36,9 +38,9 @@ const SCENE_COMPONENTS: Partial<Record<SceneId, ComponentType>> = {
 }
 
 function readInitialSceneId(): SceneId {
-  if (typeof window === 'undefined') return 'prompt' // FLIP-TO-INTRO GATE (Phase 4)
+  if (typeof window === 'undefined') return 'intro'
   const raw = window.location.hash.replace(/^#/, '').toLowerCase()
-  return (MOUNTED_IDS as readonly string[]).includes(raw) ? (raw as SceneId) : 'prompt' // FLIP-TO-INTRO GATE (Phase 4)
+  return (MOUNTED_IDS as readonly string[]).includes(raw) ? (raw as SceneId) : 'intro'
 }
 
 export function Site() {
@@ -53,12 +55,13 @@ export function Site() {
 
 function Shell() {
   const [activeId, setActiveId] = useState<SceneId>(readInitialSceneId)
+  const { showPrologue, snapMode } = usePrologueGate()
   const { globalDepth } = useDepth()
   useHashSync(activeId)
   useTrackSceneReach(activeId, globalDepth)
 
   useLayoutEffect(() => {
-    if (activeId === 'prompt') return // FLIP-TO-INTRO GATE (Phase 4)
+    if (activeId === 'intro') return
     document.getElementById(activeId)?.scrollIntoView()
     // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: honor deep-link once on mount before scroll-spy fires
   }, [])
@@ -105,20 +108,20 @@ function Shell() {
 
   return (
     <>
-      <a className="skip-link" href="#prompt">
-        {/* FLIP-TO-INTRO GATE (Phase 4) */}
+      <a className="skip-link" href="#intro">
         Skip to content
       </a>
       <ProgressRail activeId={activeId} onJump={goTo} />
       <TopBar prompt={prompt} />
-      <SceneNavProvider ids={MOUNTED_IDS} goTo={goTo}>
-        <main className="stations" aria-label="LLM pipeline scenes">
+      <main className="stations" aria-label="LLM pipeline scenes">
+        <div id="intro">{showPrologue && <Prologue forceStatic={snapMode === 'static'} />}</div>
+        <SceneNavProvider ids={MOUNTED_IDS} goTo={goTo}>
           {MOUNTED_IDS.map((id) => {
             const SceneComponent = SCENE_COMPONENTS[id]
             return SceneComponent ? <SceneComponent key={id} /> : null
           })}
-        </main>
-      </SceneNavProvider>
+        </SceneNavProvider>
+      </main>
     </>
   )
 }
