@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import { AboutScene } from '@/scenes/AboutScene'
 import { RunningExampleProvider } from '@/app/RunningExampleContext'
 import { SCENES } from '@/scenes/scenes.config'
@@ -46,7 +46,8 @@ describe('AboutScene', () => {
 
     it('renders the pipeline wordmark with the correct number of station dots', () => {
       renderAbout()
-      const dots = screen.getAllByRole('img')
+      const wordmark = screen.getByTestId('about-wordmark')
+      const dots = within(wordmark).getAllByRole('img')
       // Each station dot has role="img"; count must match config-derived list
       expect(dots.length).toBe(WORDMARK_SCENES.length)
     })

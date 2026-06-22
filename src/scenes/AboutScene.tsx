@@ -43,7 +43,7 @@ export function AboutScene() {
           vite · react 19 · typescript 5.7 · tailwind v4 · motion · d3-scale · zod
         </p>
 
-        <div className="flex items-center gap-3" aria-label="Pipeline">
+        <div data-testid="about-wordmark" className="flex items-center gap-3" aria-label="Pipeline">
           {WORDMARK_SCENES.map((s) => {
             const accent = s.accent
             if (!accent) return null
