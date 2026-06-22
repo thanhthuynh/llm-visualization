@@ -21,11 +21,7 @@ const SPECTRUM: readonly AccentToken[] = [
 
 export function BeatProvenanceVow({ scrollYProgress }: BeatProps) {
   return (
-    <BeatShell
-      beatId="provenance"
-      label="Prologue: provenance"
-      scrollYProgress={scrollYProgress}
-    >
+    <BeatShell beatId="provenance" label="Prologue: provenance" scrollYProgress={scrollYProgress}>
       <div className="flex max-w-2xl gap-6 text-left">
         <div
           aria-hidden="true"

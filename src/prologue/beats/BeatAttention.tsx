@@ -43,9 +43,7 @@ export function BeatAttention({ scrollYProgress }: BeatProps) {
         <path d="M 175 5 Q 100 35 100 5" />
         <path d="M 175 5 Q 50 40 30 5" />
       </svg>
-      <p className="font-body text-sm text-text-muted">
-        &apos;is&apos; attends to · sky · The
-      </p>
+      <p className="font-body text-sm text-text-muted">&apos;is&apos; attends to · sky · The</p>
     </BeatShell>
   )
 }

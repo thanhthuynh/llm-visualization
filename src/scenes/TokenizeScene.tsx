@@ -21,11 +21,7 @@ export function TokenizeScene() {
       <div className="flex flex-col gap-4">
         <EyebrowLabel>From text to tokens</EyebrowLabel>
         <div className="font-mono text-[22px]">{dataset.prompt}</div>
-        <motion.div
-          layout
-          data-testid="tokens-group"
-          className="flex gap-2.5 flex-wrap"
-        >
+        <motion.div layout data-testid="tokens-group" className="flex gap-2.5 flex-wrap">
           {dataset.tokens.map((t) => (
             <Chip key={t.id} variant="token">
               {chipDisplay(t.text)}

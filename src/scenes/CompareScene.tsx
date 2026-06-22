@@ -66,9 +66,8 @@ export function CompareScene() {
       <EyebrowLabel>Claude vs ChatGPT</EyebrowLabel>
       <p className="mt-3">
         At the architecture level, these systems are <strong>more alike than different</strong> —
-        both decoder-only transformers, pretrained then post-trained with human-feedback
-        techniques. Lead with what they share, then rank differences by how durable and verifiable
-        they are.
+        both decoder-only transformers, pretrained then post-trained with human-feedback techniques.
+        Lead with what they share, then rank differences by how durable and verifiable they are.
       </p>
     </>
   )
@@ -107,9 +106,7 @@ export function CompareScene() {
         change month-to-month.
       </CaveatNote>
 
-      <p className="font-mono text-xs text-text-muted">
-        Last updated {COMPARE_CONFIG.lastUpdated}
-      </p>
+      <p className="font-mono text-xs text-text-muted">Last updated {COMPARE_CONFIG.lastUpdated}</p>
     </div>
   )
 

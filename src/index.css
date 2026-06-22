@@ -53,7 +53,9 @@
   --ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
 }
 
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
   background: var(--color-bg-base);
   color: var(--color-text-primary);
@@ -61,20 +63,30 @@ html, body, #root {
   font-size: 17px;
   line-height: 27px;
 }
-body { margin: 0; }
+body {
+  margin: 0;
+}
 
 /* single scroll root = the document; snap lives on the root (Phase 0 decision, snap.ts) */
-html { scroll-snap-type: y proximity; }
+html {
+  scroll-snap-type: y proximity;
+}
 .stations > section {
   scroll-snap-align: start;
   scroll-snap-stop: always;
   min-height: 100vh;
 }
-.prologue-track { scroll-snap-align: none; }          /* prologue never snaps (Phase 4) */
-.prologue-end-sentinel { scroll-snap-align: start; }
+.prologue-track {
+  scroll-snap-align: none;
+} /* prologue never snaps (Phase 4) */
+.prologue-end-sentinel {
+  scroll-snap-align: start;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 .skip-link {
@@ -87,10 +99,17 @@ html { scroll-snap-type: y proximity; }
   border-radius: 6px;
   z-index: 100;
 }
-.skip-link:focus { top: 8px; }
-
-@keyframes blink-caret {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
+.skip-link:focus {
+  top: 8px;
 }
 
+@keyframes blink-caret {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}

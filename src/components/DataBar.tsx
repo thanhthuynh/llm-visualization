@@ -32,9 +32,7 @@ export function DataBar({ label, value, fraction, dominant = false, accent }: Da
       className="grid items-center gap-3.5 my-1.5"
       style={{ gridTemplateColumns: '70px 1fr 52px' }}
     >
-      <span className="font-mono text-[15px] leading-[22px] text-right">
-        {label}
-      </span>
+      <span className="font-mono text-[15px] leading-[22px] text-right">{label}</span>
       <div
         role="progressbar"
         aria-label={label}
