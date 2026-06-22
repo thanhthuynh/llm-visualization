@@ -70,8 +70,20 @@ function setupSections(ids: string[]): void {
   }
 }
 
-function Probe({ ids, onActiveChange }: { ids: string[]; onActiveChange: (id: string) => void }) {
-  useScrollSpy({ ids, onActiveChange })
+function Probe({
+  ids,
+  onActiveChange,
+  rootSelector,
+}: {
+  ids: string[]
+  onActiveChange: (id: string) => void
+  rootSelector?: string
+}) {
+  useScrollSpy({
+    ids,
+    onActiveChange,
+    ...(rootSelector !== undefined ? { rootSelector } : {}),
+  })
   return null
 }
 
@@ -131,5 +143,12 @@ describe('useScrollSpy', () => {
   it('does not create an observer for an empty ids list', () => {
     render(<Probe ids={[]} onActiveChange={() => {}} />)
     expect(MockIntersectionObserver.instances).toHaveLength(0)
+  })
+
+  it('constructs the observer with root: null when rootSelector is omitted (document-root / viewport model)', () => {
+    setupSections(['a', 'b'])
+    render(<Probe ids={['a', 'b']} onActiveChange={() => {}} />)
+    expect(MockIntersectionObserver.instances).toHaveLength(1)
+    expect(MockIntersectionObserver.instances[0].options.root).toBeNull()
   })
 })

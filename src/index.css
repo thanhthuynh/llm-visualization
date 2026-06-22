@@ -52,19 +52,18 @@ html, body, #root {
 }
 body { margin: 0; }
 
-.stations {
-  scroll-snap-type: y mandatory;
-  overflow-y: auto;
-  height: 100vh;
-}
+/* single scroll root = the document; snap lives on the root (Phase 0 decision, snap.ts) */
+html { scroll-snap-type: y proximity; }
 .stations > section {
   scroll-snap-align: start;
   scroll-snap-stop: always;
   min-height: 100vh;
 }
+.prologue-track { scroll-snap-align: none; }          /* prologue never snaps (Phase 4) */
+.prologue-end-sentinel { scroll-snap-align: start; }
 
 @media (prefers-reduced-motion: reduce) {
-  .stations { scroll-behavior: auto; }
+  html { scroll-behavior: auto; }
 }
 
 .skip-link {
@@ -84,109 +83,3 @@ body { margin: 0; }
   51%, 100% { opacity: 0; }
 }
 
-/* ===========================================================================
-   Phase-0 spike (gate zero) — TEMPORARY. Document-scroll-root sticky→snap model.
-   Reached only via ?spike=handoff (src/main.tsx → SpikeHarness). Does NOT touch
-   the existing `.stations` rules above (that removal is Phase 1). These classes
-   are self-contained so the normal app is unaffected. Deletion is deferred until
-   after the human's real-Safari pass — see .superpowers/sdd/task-0-report.md.
-   =========================================================================== */
-
-/* Snap lives on the ROOT (document scroll root), not a nested overflow scroller.
-   The harness sets `html { scroll-snap-type }` INLINE at runtime per ?mode=
-   (proximity default, y mandatory for mandatory-pinned) and removes it on unmount
-   — see SpikeHarness `useEffect`. It is intentionally NOT a static CSS rule here:
-   a global `html` snap rule would leak into the normal `/explorer` app (which
-   still uses the legacy `.stations` overflow scroller until Phase 1) and break its
-   keyboard scroll/hash sync. Root-snap is therefore spike-scoped via JS only. */
-
-/* The 450vh scrubbed track is a NON-snapping region: the pinned stage must be
-   free to scrub the full track without the root trying to snap it mid-scrub. */
-.prologue-track {
-  position: relative;
-  height: 450vh;
-  scroll-snap-align: none;
-}
-
-/* Sticky stage pinned to the viewport. `contain` + `will-change` keep the moving
-   constellation on its own compositor layer (the perf-critical hint we record for
-   the production prologue: transform/opacity only, never layout). */
-.prologue-stage {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  contain: layout paint;
-  will-change: transform;
-  background:
-    radial-gradient(120% 80% at 50% 40%, #16161f 0%, var(--color-bg-base) 70%);
-}
-
-.prologue-stage-hint {
-  position: absolute;
-  top: 24px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  color: var(--color-text-muted);
-  font-family: var(--font-mono);
-  font-size: 13px;
-}
-
-/* The single transform-only motion element (opacity + translateY via motion). */
-.prologue-constellation {
-  position: relative;
-  width: min(80vw, 640px);
-  height: min(80vh, 640px);
-  will-change: transform, opacity;
-}
-
-.prologue-dot {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  margin: -5px 0 0 -5px;
-  border-radius: 999px;
-  background: var(--color-accent-embed);
-  box-shadow: 0 0 8px 1px rgba(76, 201, 240, 0.4);
-}
-
-/* 1px seam sentinel — the first real snap target after the track, so the handoff
-   lands on a concrete snap point rather than the start of a min-height station. */
-.prologue-end-sentinel {
-  height: 1px;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-}
-
-/* Dummy snapping stations. */
-.spike-station {
-  min-height: 100vh;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-top: 1px solid var(--color-border);
-}
-.spike-station:nth-of-type(odd) { background: var(--color-surface-deep); }
-.spike-station:nth-of-type(even) { background: var(--color-surface-card); }
-
-.spike-station-label {
-  font-family: var(--font-display);
-  font-size: clamp(48px, 12vw, 160px);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--color-text-primary);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .prologue-stage,
-  .prologue-constellation {
-    will-change: auto;
-  }
-}
-/* === end Phase-0 spike CSS === */

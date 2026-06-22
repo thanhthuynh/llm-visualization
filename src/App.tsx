@@ -18,6 +18,7 @@ import { AssembleScene } from '@/scenes/AssembleScene'
 import { CompareScene } from '@/scenes/CompareScene'
 import { AboutScene } from '@/scenes/AboutScene'
 import { getSceneById, getMountedSceneIds, type SceneId } from '@/scenes/scenes.config'
+import { SCROLL_ROOT_SELECTOR } from '@/prologue/snap'
 
 const MOUNTED_IDS: SceneId[] = getMountedSceneIds()
 
@@ -83,7 +84,7 @@ function Shell() {
   useScrollSpy({
     ids: MOUNTED_IDS,
     onActiveChange: handleScrollActiveChange,
-    rootSelector: '.stations',
+    ...(SCROLL_ROOT_SELECTOR !== undefined ? { rootSelector: SCROLL_ROOT_SELECTOR } : {}),
     threshold: 0.5,
   })
 
