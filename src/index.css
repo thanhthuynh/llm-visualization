@@ -18,6 +18,10 @@
   --color-accent-predict: #9d4edd;
   --color-accent-decode: #ff7b00;
   --color-accent-output: #2ee6d6;
+  --color-accent-window: #6d9eff;
+  --color-accent-system: #b8c4e0;
+  --color-accent-rag: #ff7bae;
+  --color-accent-hallucinate: #ff5c5c;
   --color-accent-caveat: #fbbf24;
 
   --font-display: 'Space Grotesk', system-ui, sans-serif;

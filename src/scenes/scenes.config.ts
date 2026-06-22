@@ -1,4 +1,10 @@
 export type SceneId =
+  | 'intro'
+  | 'interlude'
+  | 'window'
+  | 'system'
+  | 'rag'
+  | 'hallucinate'
   | 'prompt'
   | 'tokenize'
   | 'embed'
@@ -17,6 +23,10 @@ export type AccentToken =
   | 'predict'
   | 'decode'
   | 'output'
+  | 'window'
+  | 'system'
+  | 'rag'
+  | 'hallucinate'
 
 export interface SceneConfig {
   id: SceneId
@@ -25,9 +35,64 @@ export interface SceneConfig {
   prompt: string
   railLabel: string | null
   implemented: boolean
+  part?: 'intro' | 'part1' | 'part2'
 }
 
 export const SCENES: ReadonlyArray<SceneConfig> = [
+  {
+    id: 'intro',
+    title: 'Inside an LLM',
+    accent: null,
+    prompt: '',
+    railLabel: 'INTRO',
+    implemented: false,
+    part: 'intro',
+  },
+  {
+    id: 'interlude',
+    title: 'Around the model',
+    accent: null,
+    prompt: '',
+    railLabel: 'PART 1',
+    implemented: false,
+    part: 'part1',
+  },
+  {
+    id: 'window',
+    title: 'Context Window',
+    accent: 'window',
+    prompt: '',
+    railLabel: 'WINDOW',
+    implemented: false,
+    part: 'part1',
+  },
+  {
+    id: 'system',
+    title: 'The System Prompt',
+    accent: 'system',
+    prompt: '',
+    railLabel: 'SYSTEM',
+    implemented: false,
+    part: 'part1',
+  },
+  {
+    id: 'rag',
+    title: 'Retrieval (RAG)',
+    accent: 'rag',
+    prompt: '',
+    railLabel: 'RETRIEVE',
+    implemented: false,
+    part: 'part1',
+  },
+  {
+    id: 'hallucinate',
+    title: 'Hallucination',
+    accent: 'hallucinate',
+    prompt: '',
+    railLabel: 'HALLUCINATE',
+    implemented: false,
+    part: 'part1',
+  },
   {
     id: 'prompt',
     title: 'Prompt Input',
@@ -35,6 +100,7 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     prompt: 'The sky is',
     railLabel: 'PROMPT',
     implemented: true,
+    part: 'part2',
   },
   {
     id: 'tokenize',
@@ -43,6 +109,7 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     prompt: 'The sky is',
     railLabel: 'TOKENIZE',
     implemented: true,
+    part: 'part2',
   },
   {
     id: 'embed',
@@ -51,6 +118,7 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     prompt: 'The sky is',
     railLabel: 'EMBED',
     implemented: true,
+    part: 'part2',
   },
   {
     id: 'attention',
@@ -59,6 +127,7 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     prompt: 'The cat sat down because it was tired',
     railLabel: 'ATTENTION',
     implemented: true,
+    part: 'part2',
   },
   {
     id: 'predict',
@@ -67,6 +136,7 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     prompt: 'The sky is',
     railLabel: 'PREDICT',
     implemented: true,
+    part: 'part2',
   },
   {
     id: 'decode',
@@ -75,6 +145,7 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     prompt: 'The sky is',
     railLabel: 'DECODE',
     implemented: true,
+    part: 'part2',
   },
   {
     id: 'output',
@@ -83,6 +154,7 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     prompt: 'The sky is',
     railLabel: 'OUTPUT',
     implemented: true,
+    part: 'part2',
   },
   {
     id: 'compare',
@@ -120,4 +192,8 @@ export const ACCENT_HEX: Record<AccentToken, string> = {
   predict: '#9D4EDD',
   decode: '#FF7B00',
   output: '#2EE6D6',
+  window: '#6D9EFF',
+  system: '#B8C4E0',
+  rag: '#FF7BAE',
+  hallucinate: '#FF5C5C',
 }
