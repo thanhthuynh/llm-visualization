@@ -27,9 +27,7 @@ export function resolveSnapMode(reduced: boolean, search: string): PrologueSnapM
 export function usePrologueGate(): { showPrologue: boolean; snapMode: PrologueSnapMode } {
   const reduced = useReducedMotionPref()
   // read window.location.hash + search at call time (the gate is decided on mount; deep-link bypass is one-shot)
-  const showPrologue = shouldShowPrologue(
-    typeof window === 'undefined' ? '' : window.location.hash,
-  )
+  const showPrologue = shouldShowPrologue(typeof window === 'undefined' ? '' : window.location.hash)
   const snapMode = resolveSnapMode(
     reduced,
     typeof window === 'undefined' ? '' : window.location.search,

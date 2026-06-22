@@ -44,7 +44,8 @@ describe('beatAtProgress', () => {
   it('0.65 → predict-output', () => expect(beatAtProgress(0.65)).toBe('predict-output'))
   it('0.8 → provenance', () => expect(beatAtProgress(0.8)).toBe('provenance'))
   it('0.9 → choose-path', () => expect(beatAtProgress(0.9)).toBe('choose-path'))
-  it('1 → choose-path (last beat covers p===1)', () => expect(beatAtProgress(1)).toBe('choose-path'))
+  it('1 → choose-path (last beat covers p===1)', () =>
+    expect(beatAtProgress(1)).toBe('choose-path'))
   it('-0.5 → hook (clamp below 0)', () => expect(beatAtProgress(-0.5)).toBe('hook'))
   it('1.5 → choose-path (clamp above 1)', () => expect(beatAtProgress(1.5)).toBe('choose-path'))
 })

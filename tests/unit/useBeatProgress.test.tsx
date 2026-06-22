@@ -23,11 +23,7 @@ const mockScrollYProgress = {
 
 vi.mock('motion/react', () => ({
   useScroll: () => ({ scrollYProgress: mockScrollYProgress }),
-  useMotionValueEvent: (
-    _mv: typeof mockScrollYProgress,
-    event: string,
-    cb: ChangeListener,
-  ) => {
+  useMotionValueEvent: (_mv: typeof mockScrollYProgress, event: string, cb: ChangeListener) => {
     if (event === 'change') _changeListener = cb
   },
 }))
@@ -93,8 +89,12 @@ describe('useBeatProgress', () => {
   it('does not re-render if the same beat is emitted twice (same progress range)', () => {
     // Drive to 0.5 (attention), then drive to 0.55 (still attention) — beat must remain 'attention'
     const { getByTestId } = render(<Probe />)
-    act(() => { _changeListener?.(0.5) })
-    act(() => { _changeListener?.(0.55) })
+    act(() => {
+      _changeListener?.(0.5)
+    })
+    act(() => {
+      _changeListener?.(0.55)
+    })
     const beat = getByTestId('beat').textContent as BeatId
     expect(beat).toBe('attention')
   })
