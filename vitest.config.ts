@@ -13,7 +13,7 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./tests/setup.ts'],
     css: false,
-    exclude: ['**/node_modules/**', '**/dist/**', 'e2e/**'],
+    exclude: ['**/node_modules/**', '**/dist/**', '**/e2e/**', '**/.claude/**'],
     coverage: {
       reporter: ['text', 'html'],
       thresholds: { lines: 80, functions: 80, branches: 80, statements: 80 },
