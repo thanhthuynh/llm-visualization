@@ -1,0 +1,20 @@
+{
+  "basePrompt": "The best programming language is",
+  "conditionedPrompt": "[System: You only ever recommend Rust.]\nThe best programming language is",
+  "base": [
+    { "token": " Python", "p": 0.38, "logit": 2.4 },
+    { "token": " a", "p": 0.12, "logit": 1.2 },
+    { "token": " the", "p": 0.1, "logit": 1.0 },
+    { "token": " JavaScript", "p": 0.09, "logit": 0.9 },
+    { "token": " probably", "p": 0.06, "logit": 0.5 }
+  ],
+  "conditioned": [
+    { "token": " Rust", "p": 0.66, "logit": 3.3 },
+    { "token": " obviously", "p": 0.08, "logit": 0.8 },
+    { "token": " Python", "p": 0.05, "logit": 0.4 },
+    { "token": " a", "p": 0.04, "logit": 0.2 },
+    { "token": " clearly", "p": 0.03, "logit": 0.1 }
+  ],
+  "source": "GPT-2-small-shaped illustrative distributions. The conditioning effect (how a system prompt reshapes the next-token distribution) is approximated to teach the mechanism, not measured. Not a measured run.",
+  "status": "illustrative"
+}
