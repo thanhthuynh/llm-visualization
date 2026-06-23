@@ -109,7 +109,7 @@ function Shell() {
     threshold: 0.5,
   })
 
-  const prompt = getSceneById(activeId).prompt
+  const activeScene = getSceneById(activeId)
 
   return (
     <>
@@ -117,7 +117,7 @@ function Shell() {
         Skip to content
       </a>
       <ProgressRail activeId={activeId} onJump={goTo} />
-      <TopBar prompt={prompt} />
+      <TopBar scene={activeScene} />
       <main className="stations" aria-label="LLM pipeline scenes">
         <div id="intro">{showPrologue && <Prologue forceStatic={snapMode === 'static'} />}</div>
         <SceneNavProvider ids={MOUNTED_IDS} goTo={goTo}>
