@@ -67,6 +67,11 @@ function Shell() {
   }, [])
 
   const goTo = useCallback((id: SceneId) => {
+    if (id === 'intro') {
+      setActiveId('intro')
+      document.getElementById('intro')?.scrollIntoView()
+      return
+    }
     if (MOUNTED_IDS.includes(id)) {
       setActiveId(id)
       document.getElementById(id)?.scrollIntoView()

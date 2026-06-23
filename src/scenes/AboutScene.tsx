@@ -3,7 +3,7 @@ import { accentHex } from '@/utils/accent'
 import { useRunningExample } from '@/app/RunningExampleContext'
 
 const WORDMARK_SCENES = SCENES.filter(
-  (s) => (s.part === 'part1' || s.part === 'part2') && s.accent !== null,
+  (s) => s.implemented && (s.part === 'part1' || s.part === 'part2') && s.accent !== null,
 )
 
 export function AboutScene() {

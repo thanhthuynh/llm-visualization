@@ -5,7 +5,7 @@ import { RunningExampleProvider } from '@/app/RunningExampleContext'
 import { SCENES } from '@/scenes/scenes.config'
 
 const WORDMARK_SCENES = SCENES.filter(
-  (s) => (s.part === 'part1' || s.part === 'part2') && s.accent !== null,
+  (s) => s.implemented && (s.part === 'part1' || s.part === 'part2') && s.accent !== null,
 )
 
 function renderAbout() {
@@ -56,8 +56,8 @@ describe('AboutScene', () => {
 
     it('wordmark dots include expected station aria-labels (spot-check)', () => {
       renderAbout()
-      expect(screen.getByRole('img', { name: 'Context Window' })).toBeInTheDocument()
       expect(screen.getByRole('img', { name: 'Prompt Input' })).toBeInTheDocument()
+      expect(screen.getByRole('img', { name: 'Output Assembly' })).toBeInTheDocument()
     })
 
     it('has a GitHub link with the correct href', () => {
