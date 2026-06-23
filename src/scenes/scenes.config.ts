@@ -54,7 +54,7 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     accent: null,
     prompt: '',
     railLabel: 'PART 1',
-    implemented: false,
+    implemented: true,
     part: 'part1',
   },
   {
