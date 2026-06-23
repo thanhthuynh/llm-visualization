@@ -16,7 +16,7 @@ test('rail jump goes directly to Tokenization', async ({ page }) => {
   // The Tokenize rail button's aria-label includes the rail label and title.
   // Tokenization is the 2nd pipeline scene; its accessible name contains "Tokenization".
   await page
-    .getByRole('button', { name: /tokenization/i })
+    .getByRole('button', { name: /tokenize/i })
     .first()
     .click()
   await expect(page).toHaveURL(/#tokenize$/)
@@ -28,7 +28,7 @@ test('rail navigation between scenes updates URL hash and active rail segment', 
 }) => {
   await page.goto('/explorer#prompt')
   await page
-    .getByRole('button', { name: /decoding loop/i })
+    .getByRole('button', { name: /decode/i })
     .first()
     .click()
   await expect(page).toHaveURL(/#decode$/)
