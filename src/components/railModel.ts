@@ -11,7 +11,8 @@ export type RailItem =
 export function buildRailModel(scenes: readonly SceneConfig[]): RailItem[] {
   const items: RailItem[] = []
 
-  // Always start with intro
+  // Always start with intro. The INTRO tick maps to the always-present #intro Prologue
+  // anchor (via goTo('intro')), so it is intentionally not gated on intro.implemented.
   items.push({ kind: 'intro' })
 
   // Collect part1 and part2 implemented stations (accent !== null)

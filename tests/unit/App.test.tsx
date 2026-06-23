@@ -59,7 +59,7 @@ describe('App — deep-link via hash', () => {
     history.replaceState(null, '', '/#decode')
     render(<Site />)
     const rail = screen.getByRole('navigation', { name: /scenes/i })
-    expect(within(rail).getByRole('button', { name: /decoding loop/i })).toHaveAttribute(
+    expect(within(rail).getByRole('button', { name: /decode/i })).toHaveAttribute(
       'aria-current',
       'step',
     )

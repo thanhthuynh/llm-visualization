@@ -85,7 +85,7 @@ export function ProgressRail({ activeId, onJump }: ProgressRailProps) {
               <button
                 type="button"
                 onClick={() => onJump(scene.id)}
-                aria-label={`${number} ${scene.railLabel ?? scene.title} ${scene.title}`}
+                aria-label={`${number} ${scene.railLabel ?? scene.title}`}
                 {...(isActive ? { 'aria-current': 'step' as const } : {})}
                 data-umami-event="cta-rail-jump"
                 data-umami-event-scene={scene.id}

@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { SceneStation } from '@/components/SceneStation'
+import { SceneStation, ENTRANCE_CHILD_DURATION } from '@/components/SceneStation'
 import { DepthProvider } from '@/app/DepthContext'
 import { MOTION } from '@/motion/tokens'
 import { __setReducedMotion } from '../setup'
@@ -131,5 +131,13 @@ describe('SceneStation', () => {
 
   it('MOTION.stagger is 0.04 (40 ms stagger guard)', () => {
     expect(MOTION.stagger).toBe(0.04)
+  })
+
+  it('ENTRANCE_CHILD_DURATION is 0.24s', () => {
+    expect(ENTRANCE_CHILD_DURATION).toBe(0.24)
+  })
+
+  it('composed cascade total (last child delay + duration) is ≤ MOTION.max (360 ms budget guard)', () => {
+    expect(3 * MOTION.stagger + ENTRANCE_CHILD_DURATION).toBeLessThanOrEqual(MOTION.max)
   })
 })

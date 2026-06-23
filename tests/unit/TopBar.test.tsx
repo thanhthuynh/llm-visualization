@@ -37,4 +37,12 @@ describe('TopBar', () => {
     // Pill container is absent
     expect(screen.queryByTestId('topbar-pill')).toBeNull()
   })
+
+  it('about scene: pill renders but title text appears exactly once (no duplicate)', () => {
+    render(<TopBar scene={getSceneById('about')} />)
+    // Pill is still rendered
+    expect(screen.getByTestId('topbar-pill')).toBeInTheDocument()
+    // Title "About this explainer" appears exactly once — not duplicated in both eyebrow and content span
+    expect(screen.getAllByText(/about this explainer/i)).toHaveLength(1)
+  })
 })

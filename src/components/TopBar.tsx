@@ -9,7 +9,9 @@ interface TopBarProps {
 export function TopBar({ scene }: TopBarProps) {
   const isPrologue = scene.id === 'intro'
   const eyebrowLabel = scene.railLabel ?? scene.title
-  const pillContent = scene.prompt !== '' ? scene.prompt : scene.title
+  // Render content only when it differs from the eyebrow to avoid announcing the
+  // title twice (e.g. About has railLabel:null so eyebrow already shows the title).
+  const pillContent = scene.prompt !== '' ? scene.prompt : scene.railLabel ? scene.title : null
   const accentColor = scene.accent ? accentHex(scene.accent) : undefined
 
   return (
@@ -25,7 +27,7 @@ export function TopBar({ scene }: TopBarProps) {
           ) : (
             <EyebrowLabel>{eyebrowLabel}</EyebrowLabel>
           )}
-          <span className="font-mono text-[13px]">{pillContent}</span>
+          {pillContent !== null && <span className="font-mono text-[13px]">{pillContent}</span>}
         </div>
       )}
     </header>

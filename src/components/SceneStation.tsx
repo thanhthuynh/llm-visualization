@@ -11,6 +11,10 @@ import type { AccentToken, SceneId } from '@/scenes/scenes.config'
 import { EASE_DECELERATE, MOTION } from '@/motion/tokens'
 import type { Variants } from 'motion/react'
 
+// 4 children staggered at MOTION.stagger; the last starts at 3*MOTION.stagger,
+// so cap each child's duration so delay(last) + duration <= MOTION.max (0.36s).
+export const ENTRANCE_CHILD_DURATION = MOTION.max - 3 * MOTION.stagger // 0.24s
+
 interface SceneStationProps {
   id: SceneId
   title: string
@@ -41,7 +45,7 @@ const titleVariants: Variants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: MOTION.standard, ease: [...EASE_DECELERATE] },
+    transition: { duration: ENTRANCE_CHILD_DURATION, ease: [...EASE_DECELERATE] },
   },
 }
 
@@ -50,7 +54,7 @@ const stageVariants: Variants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: MOTION.standard, ease: [...EASE_DECELERATE] },
+    transition: { duration: ENTRANCE_CHILD_DURATION, ease: [...EASE_DECELERATE] },
   },
 }
 
@@ -59,7 +63,7 @@ const surfaceVariants: Variants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: MOTION.standard, ease: [...EASE_DECELERATE] },
+    transition: { duration: ENTRANCE_CHILD_DURATION, ease: [...EASE_DECELERATE] },
   },
 }
 
