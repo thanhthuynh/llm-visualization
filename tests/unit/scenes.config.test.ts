@@ -27,9 +27,11 @@ describe('scenes.config', () => {
     ])
   })
 
-  it('getMountedSceneIds returns 10 scenes (interlude now implemented)', () => {
+  it('getMountedSceneIds returns 12 scenes', () => {
     expect(getMountedSceneIds()).toEqual([
       'interlude',
+      'window',
+      'system',
       'prompt',
       'tokenize',
       'embed',
@@ -71,17 +73,19 @@ describe('scenes.config', () => {
     expect(() => getSceneById('nope' as SceneId)).toThrow(/unknown scene/i)
   })
 
-  it('marks the 5 not-yet-built new scenes as not implemented', () => {
-    const newIds = ['intro', 'window', 'system', 'rag', 'hallucinate'] as SceneId[]
+  it('marks the 3 not-yet-built new scenes as not implemented', () => {
+    const newIds = ['intro', 'rag', 'hallucinate'] as SceneId[]
     for (const id of newIds) {
       expect(getSceneById(id).implemented).toBe(false)
     }
   })
 
-  it('marks the 10 implemented scenes correctly (interlude now included)', () => {
+  it('marks the 12 implemented scenes correctly', () => {
     const implementedIds = SCENES.filter((s) => s.implemented).map((s) => s.id)
     expect(implementedIds).toEqual([
       'interlude',
+      'window',
+      'system',
       'prompt',
       'tokenize',
       'embed',

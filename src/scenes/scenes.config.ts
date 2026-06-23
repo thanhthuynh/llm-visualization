@@ -63,7 +63,7 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     accent: 'window',
     prompt: '',
     railLabel: 'WINDOW',
-    implemented: false,
+    implemented: true,
     part: 'part1',
   },
   {
@@ -72,7 +72,7 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     accent: 'system',
     prompt: '',
     railLabel: 'SYSTEM',
-    implemented: false,
+    implemented: true,
     part: 'part1',
   },
   {

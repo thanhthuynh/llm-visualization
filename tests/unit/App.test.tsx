@@ -21,9 +21,13 @@ describe('App', () => {
     // Stations still mount below the prologue.
     expect(screen.getByRole('heading', { level: 2, name: /prompt input/i })).toBeInTheDocument()
   })
-  it('renders all ten mounted scene headings', () => {
+  it('renders all twelve mounted scene headings', () => {
     render(<Site />)
     expect(screen.getByRole('heading', { level: 2, name: /around the model/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 2, name: /context window/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { level: 2, name: /the system prompt/i }),
+    ).toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 2, name: /prompt input/i })).toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 2, name: /tokenization/i })).toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 2, name: /embeddings/i })).toBeInTheDocument()
