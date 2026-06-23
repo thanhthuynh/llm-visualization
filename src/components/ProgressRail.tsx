@@ -111,6 +111,8 @@ export function ProgressRail({ activeId, onJump }: ProgressRailProps) {
           const { scene } = item
           const isActive = activeId === 'compare'
           const activeBg = isActive && scene.accent ? accentHex(scene.accent) : undefined
+          const activeShadow =
+            isActive && scene.accent ? accentGlow(scene.accent, 'rail') : undefined
           return (
             <button
               key="compare"
@@ -120,9 +122,13 @@ export function ProgressRail({ activeId, onJump }: ProgressRailProps) {
               {...(isActive ? { 'aria-current': 'step' as const } : {})}
               data-umami-event="cta-rail-jump"
               data-umami-event-scene="compare"
-              style={isActive && activeBg ? { background: activeBg } : undefined}
+              style={
+                isActive && activeBg && activeShadow
+                  ? ({ background: activeBg, '--rail-shadow': activeShadow } as CSSProperties)
+                  : undefined
+              }
               className={`min-w-11 min-h-11 w-4 h-4 mt-4 rounded-full border border-border cursor-pointer p-0 ${
-                isActive ? '' : 'bg-rail-inactive'
+                isActive ? 'shadow-[var(--rail-shadow)]' : 'bg-rail-inactive'
               }`}
             />
           )

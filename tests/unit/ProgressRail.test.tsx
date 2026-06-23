@@ -57,6 +57,12 @@ describe('ProgressRail', () => {
     expect(screen.getByRole('button', { name: /compare/i })).toHaveAttribute('aria-current', 'step')
   })
 
+  it('applies the accent glow to the active Compare dot (--rail-shadow)', () => {
+    render(<ProgressRail activeId="compare" onJump={() => {}} />)
+    const compare = screen.getByRole('button', { name: /compare/i })
+    expect(compare.style.getPropertyValue('--rail-shadow')).toContain('rgba(157, 78, 221')
+  })
+
   it('"PART 2" group label is present in the document', () => {
     render(<ProgressRail activeId="predict" onJump={() => {}} />)
     expect(screen.getByText('PART 2')).toBeInTheDocument()
