@@ -25,10 +25,8 @@ function toneColor(tone: TapeBlock['tone']): string {
 
 export function WindowTape({ ruler, blocks, overflow = false }: WindowTapeProps) {
   return (
-    <div aria-label="Context window tape" className="flex flex-col gap-1">
-      <p className="font-mono text-[11px] text-text-muted mb-2" aria-hidden="true">
-        {ruler}
-      </p>
+    <div className="flex flex-col gap-1">
+      <p className="font-mono text-[11px] text-text-muted mb-2">{ruler}</p>
       {overflow && (
         <p className="font-mono text-[11px] text-text-muted mb-1" aria-label="Overflow marker">
           ↑ oldest tokens gone

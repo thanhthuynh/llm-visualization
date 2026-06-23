@@ -176,7 +176,7 @@ export function RagScene() {
       </p>
 
       <CaveatNote>
-        Toy retrieval over five sentences with GPT-2 embeddings. Real systems use dedicated
+        Toy retrieval over five sentences with illustrative embeddings. Real systems use dedicated
         embedding models over millions of chunks — same geometry, different scale.
       </CaveatNote>
     </div>

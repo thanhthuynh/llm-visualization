@@ -87,8 +87,14 @@ describe('RagScene', () => {
     renderScene()
     await userEvent.click(screen.getByRole('button', { name: /go deeper/i }))
     expect(
-      screen.getByText(/Toy retrieval over five sentences with GPT-2 embeddings/i),
+      screen.getByText(/Toy retrieval over five sentences with illustrative embeddings/i),
     ).toBeInTheDocument()
+  })
+
+  it('does NOT contain "measured" claim (provenance discipline)', async () => {
+    const { container } = renderScene()
+    await userEvent.click(screen.getByRole('button', { name: /go deeper/i }))
+    expect(container.textContent).not.toMatch(/\bmeasured\b/i)
   })
 
   it('has unique landmark label — section#rag with aria-labelledby="rag-title"', () => {

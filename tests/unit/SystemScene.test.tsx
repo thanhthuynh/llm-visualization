@@ -60,10 +60,15 @@ describe('SystemScene', () => {
     expect(note.textContent).toMatch(/base model|additionally trained/i)
   })
 
-  it('does NOT contain "measured" claim (provenance discipline)', async () => {
+  it('Deep shows mechanism sentence (brief-required)', async () => {
     renderScene()
     await userEvent.click(screen.getByRole('button', { name: /go deeper/i }))
-    const body = document.body.textContent ?? ''
-    expect(body).not.toMatch(/this is a measured run|real gpt-2 numbers/i)
+    expect(screen.getByText(/not a special channel/i)).toBeInTheDocument()
+  })
+
+  it('does NOT contain "measured" claim (provenance discipline)', async () => {
+    const { container } = renderScene()
+    await userEvent.click(screen.getByRole('button', { name: /go deeper/i }))
+    expect(container.textContent).not.toMatch(/\bmeasured\b/i)
   })
 })
