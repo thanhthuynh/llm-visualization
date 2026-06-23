@@ -40,7 +40,9 @@ describe('AboutScene', () => {
     it('displays the built-with tech string', () => {
       renderAbout()
       expect(
-        screen.getByText(/vite · react 19 · typescript 5\.7 · tailwind v4 · motion · d3-scale · zod/i),
+        screen.getByText(
+          /vite · react 19 · typescript 5\.7 · tailwind v4 · motion · d3-scale · zod/i,
+        ),
       ).toBeInTheDocument()
     })
 

@@ -19,17 +19,14 @@ test.describe('a11y — full pipeline', () => {
       await page.goto(`/explorer#${id}`)
       await page.waitForLoadState('networkidle')
 
-      const results = await new AxeBuilder({ page })
-        .withTags(['wcag2a', 'wcag2aa'])
-        .analyze()
+      const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze()
 
       // color-contrast deferred — accent tokens on dark surfaces sit at ~3.9:1.
       // Tracked in docs/a11y/2026-06-01-audit.md as a brand-level follow-up.
       const DEFERRED = new Set(['color-contrast'])
 
       const blocking = results.violations.filter(
-        (v) =>
-          (v.impact === 'critical' || v.impact === 'serious') && !DEFERRED.has(v.id),
+        (v) => (v.impact === 'critical' || v.impact === 'serious') && !DEFERRED.has(v.id),
       )
 
       const deferred = results.violations.filter((v) => DEFERRED.has(v.id))

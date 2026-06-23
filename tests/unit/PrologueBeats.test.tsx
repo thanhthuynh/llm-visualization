@@ -30,9 +30,7 @@ function renderBeatAt(
   Beat: (props: { scrollYProgress: MotionValue<number> }) => ReactNode,
 ) {
   return render(
-    <ProgressHarness progress={progress}>
-      {(mv) => <Beat scrollYProgress={mv} />}
-    </ProgressHarness>,
+    <ProgressHarness progress={progress}>{(mv) => <Beat scrollYProgress={mv} />}</ProgressHarness>,
   )
 }
 
