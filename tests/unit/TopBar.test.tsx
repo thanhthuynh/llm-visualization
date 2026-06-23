@@ -12,6 +12,8 @@ describe('TopBar', () => {
 
   it('shows the scene-aware pill for a prompted scene (predict)', () => {
     render(<TopBar scene={getSceneById('predict')} />)
+    // Pill container is rendered
+    expect(screen.getByTestId('topbar-pill')).toBeInTheDocument()
     // Eyebrow shows the railLabel, not the static "Prompt"
     expect(screen.getByText(/^PREDICT$/)).toBeInTheDocument()
     // Prompt text is present
@@ -32,8 +34,7 @@ describe('TopBar', () => {
   it('shows wordmark-only for prologue (intro) — no pill', () => {
     render(<TopBar scene={getSceneById('intro')} />)
     expect(screen.getByText(/inside an llm/i)).toBeInTheDocument()
-    // No pill eyebrow or content should appear
-    expect(screen.queryByText(/^INTRO$/)).toBeNull()
-    expect(screen.queryByText(/inside an llm: the pill/i)).toBeNull()
+    // Pill container is absent
+    expect(screen.queryByTestId('topbar-pill')).toBeNull()
   })
 })
