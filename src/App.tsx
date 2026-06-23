@@ -2,6 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useState, type ComponentType }
 import { DepthProvider, useDepth } from '@/app/DepthContext'
 import { RunningExampleProvider } from '@/app/RunningExampleContext'
 import { SceneNavProvider } from '@/app/SceneNavContext'
+import { scrollToScene } from '@/app/scrollToScene'
 import { useHashSync, SCENE_JUMP_EVENT } from '@/app/useHashSync'
 import { useKeyboardNav } from '@/app/useKeyboardNav'
 import { useScrollSpy } from '@/app/useScrollSpy'
@@ -62,19 +63,19 @@ function Shell() {
 
   useLayoutEffect(() => {
     if (activeId === 'intro') return
-    document.getElementById(activeId)?.scrollIntoView()
+    scrollToScene(activeId)
     // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: honor deep-link once on mount before scroll-spy fires
   }, [])
 
   const goTo = useCallback((id: SceneId) => {
     if (id === 'intro') {
       setActiveId('intro')
-      document.getElementById('intro')?.scrollIntoView()
+      scrollToScene('intro', { smooth: true })
       return
     }
     if (MOUNTED_IDS.includes(id)) {
       setActiveId(id)
-      document.getElementById(id)?.scrollIntoView()
+      scrollToScene(id, { smooth: true })
     }
   }, [])
 
