@@ -1,14 +1,17 @@
 import { test, expect } from '@playwright/test'
 
-test('Compare rail jump shows Claude vs ChatGPT framing + tier badges + caveat', async ({ page }) => {
+test('Compare rail jump shows Claude vs ChatGPT framing + tier badges + caveat', async ({
+  page,
+}) => {
   await page.goto('/explorer#prompt')
 
-  await page.getByRole('button', { name: /^compare$/i }).first().click()
+  await page
+    .getByRole('button', { name: /^compare$/i })
+    .first()
+    .click()
   await expect(page).toHaveURL(/#compare$/)
 
-  await expect(
-    page.getByRole('heading', { level: 2, name: /claude vs chatgpt/i }),
-  ).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: /claude vs chatgpt/i })).toBeVisible()
 
   await expect(page.getByText(/more alike than different/i)).toBeVisible()
 

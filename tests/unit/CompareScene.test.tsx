@@ -18,7 +18,9 @@ function renderScene() {
 describe('CompareScene', () => {
   it('renders the heading', () => {
     renderScene()
-    expect(screen.getByRole('heading', { level: 2, name: /claude vs chatgpt/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { level: 2, name: /claude vs chatgpt/i }),
+    ).toBeInTheDocument()
   })
 
   it("leads with 'more alike than different' framing", () => {

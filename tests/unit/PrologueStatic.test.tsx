@@ -14,9 +14,9 @@ function renderStatic() {
 describe('PrologueStatic', () => {
   it('renders all 7 unique beat landmark labels', () => {
     const { container } = renderStatic()
-    const labels = Array.from(
-      container.querySelectorAll('section[aria-label^="Prologue:"]'),
-    ).map((el) => el.getAttribute('aria-label'))
+    const labels = Array.from(container.querySelectorAll('section[aria-label^="Prologue:"]')).map(
+      (el) => el.getAttribute('aria-label'),
+    )
     expect(labels).toHaveLength(7)
     expect(new Set(labels).size).toBe(7)
   })

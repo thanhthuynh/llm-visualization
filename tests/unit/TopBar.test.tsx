@@ -1,15 +1,48 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { TopBar } from '@/components/TopBar'
+import { getSceneById } from '@/scenes/scenes.config'
+import { accentHex } from '@/utils/accent'
 
 describe('TopBar', () => {
-  it('shows the wordmark', () => {
-    render(<TopBar prompt="The sky is" />)
+  it('shows the wordmark for any scene', () => {
+    render(<TopBar scene={getSceneById('predict')} />)
     expect(screen.getByText(/inside an llm/i)).toBeInTheDocument()
   })
-  it('shows the running-example pill driven by the active scene prompt', () => {
-    render(<TopBar prompt="The cat sat down because it was tired" />)
-    expect(screen.getByText(/the cat sat down because it was tired/i)).toBeInTheDocument()
-    expect(screen.getByText(/prompt/i)).toBeInTheDocument()
+
+  it('shows the scene-aware pill for a prompted scene (predict)', () => {
+    render(<TopBar scene={getSceneById('predict')} />)
+    // Pill container is rendered
+    expect(screen.getByTestId('topbar-pill')).toBeInTheDocument()
+    // Eyebrow shows the railLabel, not the static "Prompt"
+    expect(screen.getByText(/^PREDICT$/)).toBeInTheDocument()
+    // Prompt text is present
+    expect(screen.getByText(/the sky is/i)).toBeInTheDocument()
+    // Eyebrow is accent-tinted
+    const eyebrow = screen.getByText(/^PREDICT$/)
+    expect(eyebrow).toHaveStyle({ color: accentHex('predict') })
+  })
+
+  it('shows a non-empty fallback for a promptless scene (compare)', () => {
+    render(<TopBar scene={getSceneById('compare')} />)
+    // Pill is still rendered (not hidden), eyebrow = railLabel
+    expect(screen.getByText(/^COMPARE$/)).toBeInTheDocument()
+    // Fallback content = scene title
+    expect(screen.getByText(/claude vs chatgpt/i)).toBeInTheDocument()
+  })
+
+  it('shows wordmark-only for prologue (intro) — no pill', () => {
+    render(<TopBar scene={getSceneById('intro')} />)
+    expect(screen.getByText(/inside an llm/i)).toBeInTheDocument()
+    // Pill container is absent
+    expect(screen.queryByTestId('topbar-pill')).toBeNull()
+  })
+
+  it('about scene: pill renders but title text appears exactly once (no duplicate)', () => {
+    render(<TopBar scene={getSceneById('about')} />)
+    // Pill is still rendered
+    expect(screen.getByTestId('topbar-pill')).toBeInTheDocument()
+    // Title "About this explainer" appears exactly once — not duplicated in both eyebrow and content span
+    expect(screen.getAllByText(/about this explainer/i)).toHaveLength(1)
   })
 })

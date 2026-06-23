@@ -4,7 +4,10 @@ test('AttentionScene shows the surface Simplified note and TWO caveats in deep',
   page,
 }) => {
   await page.goto('/explorer#prompt')
-  await page.getByRole('button', { name: /attention/i }).first().click()
+  await page
+    .getByRole('button', { name: /attention/i })
+    .first()
+    .click()
   await expect(page).toHaveURL(/#attention$/)
 
   const attentionSection = page.getByLabel('Attention', { exact: true })
@@ -29,7 +32,7 @@ test('AttentionScene shows the surface Simplified note and TWO caveats in deep',
 
 test('EmbedScene shows the meaning-space and a CaveatNote in Deep', async ({ page }) => {
   await page.goto('/explorer#prompt')
-  await page.getByRole('button', { name: /embeddings/i }).first().click()
+  await page.getByRole('button', { name: /embed/i }).first().click()
   await expect(page).toHaveURL(/#embed$/)
 
   const embedSection = page.getByLabel('Embeddings', { exact: true })

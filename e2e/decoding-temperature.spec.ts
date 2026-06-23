@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test'
 test('temperature slider reshapes the live distribution in DecodeScene', async ({ page }) => {
   await page.goto('/explorer#decode')
   await page
-    .getByRole('button', { name: /decoding loop/i })
+    .getByRole('button', { name: /decode/i })
     .first()
     .click()
   await expect(page.getByRole('heading', { level: 2, name: 'Decoding Loop' })).toBeVisible()
