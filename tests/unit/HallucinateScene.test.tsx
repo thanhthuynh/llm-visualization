@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { HallucinateScene } from '@/scenes/HallucinateScene'
 import { DepthProvider } from '@/app/DepthContext'
@@ -31,9 +31,19 @@ describe('HallucinateScene', () => {
     expect(sydneyBar).toHaveAttribute('aria-valuenow', '46')
   })
 
-  it('stage: truth marker "✓ truth" appears associated with Canberra', () => {
+  it('stage: truth marker "✓ truth" is co-located with the Canberra bar row', () => {
+    const hc = loadHallucinationCase()
     renderScene()
-    expect(screen.getByText(/✓ truth/i)).toBeInTheDocument()
+    // The truth token is hc.truth (" Canberra"). Each token row is a flex div wrapping DataBar + badge.
+    // Find the progressbar labelled "Canberra", then walk up to its row container and assert
+    // the badge lives inside that same container — not next to Melbourne or Sydney.
+    const truthLabel = hc.truth.trim() // "Canberra"
+    const canberraBar = screen.getByRole('progressbar', { name: new RegExp(truthLabel, 'i') })
+    // The row wrapper is the flex div that contains both the DataBar and the ✓ truth badge.
+    // Walking up: progressbar → DataBar root → flex-1 div → row div (parent of flex-1 + badge).
+    const rowContainer = canberraBar.closest('.flex.items-center.gap-2')
+    expect(rowContainer).not.toBeNull()
+    expect(within(rowContainer as HTMLElement).getByText(/✓ truth/i)).toBeInTheDocument()
   })
 
   it('stage: Sydney fraction > Canberra fraction (from loadHallucinationCase())', () => {

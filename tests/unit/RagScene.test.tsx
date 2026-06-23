@@ -57,15 +57,17 @@ describe('RagScene', () => {
     expect(screen.getByText(/same geometry as Embeddings/i)).toBeInTheDocument()
   })
 
-  it('Deep: max-sim chunk (chunks[0]) is highlighted — description mentions it', async () => {
+  it('Deep: max-sim chunk (chunks[0]) is highlighted — sr-only description names it with its sim value', async () => {
     const rt = loadRetrievalToy()
     renderScene()
     await userEvent.click(screen.getByRole('button', { name: /go deeper/i }))
-    // The sr-only description mentions the top chunk text (may appear in multiple elements)
-    const matches = screen.getAllByText(
-      new RegExp(rt.chunks[0].text.slice(0, 15).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'),
-    )
-    expect(matches.length).toBeGreaterThanOrEqual(1)
+    // The meaning-space sr-only paragraph explicitly names the nearest chunk and its sim value.
+    // This assertion is tied to chunks[0] (text + sim) so it fails if a different dot were highlighted.
+    const nearestText = rt.chunks[0].text.slice(0, 30).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    const simValue = rt.chunks[0].sim // 0.83
+    expect(
+      screen.getByText(new RegExp(`nearest chunk.*${nearestText}.*similarity.*${simValue}`, 'is')),
+    ).toBeInTheDocument()
   })
 
   it('Deep: vector-DB cards contain "REGULAR DB" and "VECTOR DB" text', async () => {
