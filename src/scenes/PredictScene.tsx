@@ -44,8 +44,7 @@ export function PredictScene() {
   const stage = (
     <div className="p-(--stage-padding) flex flex-col gap-4 h-full">
       <div className="font-mono text-[15px] text-text-muted">
-        P( next token |{' '}
-        <span className="text-text-primary">&quot;{dataset.prompt}&quot;</span> )
+        P( next token | <span className="text-text-primary">&quot;{dataset.prompt}&quot;</span> )
       </div>
       <div className="flex flex-col">
         {candidates.map((c, i) => (
@@ -60,12 +59,8 @@ export function PredictScene() {
         ))}
       </div>
       <div className="mt-auto flex flex-col gap-1.5">
-        <label
-          htmlFor="temperature"
-          className="font-body font-semibold text-sm"
-        >
-          Temperature:{' '}
-          <span className="font-mono">{temperature.toFixed(1)}</span>
+        <label htmlFor="temperature" className="font-body font-semibold text-sm">
+          Temperature: <span className="font-mono">{temperature.toFixed(1)}</span>
         </label>
         <input
           id="temperature"

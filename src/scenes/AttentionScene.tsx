@@ -107,8 +107,8 @@ export function AttentionScene() {
         <AttentionMatrix tokens={tokens} weights={headWeights} queryIndex={QUERY_INDEX} />
       </div>
       <p className="font-body text-[13px] text-text-muted">
-        Darker = more attention. The upper triangle is blank — a token can only attend to itself
-        and earlier tokens, never the future.
+        Darker = more attention. The upper triangle is blank — a token can only attend to itself and
+        earlier tokens, never the future.
       </p>
       <div className="flex flex-col gap-1.5">
         <EyebrowLabel>Under the hood</EyebrowLabel>

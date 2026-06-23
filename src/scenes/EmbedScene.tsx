@@ -8,8 +8,7 @@ import { ILLUSTRATIVE_DOTS } from '@/data/illustrative-embeddings'
 const SCENE = getSceneById('embed')
 
 export function EmbedScene() {
-  const tagClass =
-    'px-2.5 py-1 rounded-pill border border-border text-text-muted'
+  const tagClass = 'px-2.5 py-1 rounded-pill border border-border text-text-muted'
 
   const stage = (
     <div className="p-(--stage-padding) flex flex-col gap-4 h-full">

@@ -24,9 +24,7 @@ export function Chip({ children, onClick, active = false, accent, variant = 'tok
     'border border-(--chip-ring)',
     'bg-surface-card text-text-primary',
     'shadow-[var(--chip-shadow)]',
-    isToken
-      ? 'font-mono text-[15px] leading-[22px]'
-      : 'font-body text-sm leading-[1.3]',
+    isToken ? 'font-mono text-[15px] leading-[22px]' : 'font-body text-sm leading-[1.3]',
     onClick ? 'cursor-pointer' : 'cursor-default',
   ].join(' ')
 

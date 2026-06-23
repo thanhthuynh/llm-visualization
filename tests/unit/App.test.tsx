@@ -12,10 +12,13 @@ describe('App', () => {
     const domIds = sections.map((s) => s.id)
     expect(domIds).toEqual(getMountedSceneIds())
   })
-  it('renders the rail, topbar wordmark, and prompt scene as default', () => {
-    render(<Site />)
+  it('mounts the prologue by default, with the rail, topbar wordmark, and stations below', () => {
+    const { container } = render(<Site />)
     expect(screen.getByRole('navigation', { name: /scenes/i })).toBeInTheDocument()
     expect(screen.getAllByText(/inside an llm/i).length).toBeGreaterThan(0)
+    // No hash → the animated prologue mounts (reduced-motion off in jsdom).
+    expect(container.querySelector('.prologue-track')).not.toBeNull()
+    // Stations still mount below the prologue.
     expect(screen.getByRole('heading', { level: 2, name: /prompt input/i })).toBeInTheDocument()
   })
   it('renders all nine mounted scene headings', () => {
@@ -36,11 +39,11 @@ describe('App', () => {
       screen.getByRole('heading', { level: 2, name: /about this explainer/i }),
     ).toBeInTheDocument()
   })
-  it('includes a skip-to-content link pointing at the prompt scene', () => {
+  it('includes a skip-to-content link pointing at the intro anchor', () => {
     render(<Site />)
     const link = screen.getByRole('link', { name: /skip to content/i })
     expect(link).toBeInTheDocument()
-    expect(link).toHaveAttribute('href', '#prompt')
+    expect(link).toHaveAttribute('href', '#intro')
   })
   it('drives the TopBar pill from the active scene prompt', () => {
     render(<Site />)
@@ -82,24 +85,17 @@ describe('App — deep-link via hash', () => {
     )
   })
 
-  it('falls back to the prompt scene for an unknown scene hash', () => {
+  it('falls back to the prologue/intro for an unknown scene hash', () => {
     history.replaceState(null, '', '/#nonexistent')
-    render(<Site />)
-    const rail = screen.getByRole('navigation', { name: /scenes/i })
-    expect(within(rail).getByRole('button', { name: /prompt input/i })).toHaveAttribute(
-      'aria-current',
-      'step',
-    )
+    const { container } = render(<Site />)
+    // Unknown hash → showPrologue:true → the prologue mounts; no station is the active fallback.
+    expect(container.querySelector('.prologue-track')).not.toBeNull()
   })
 
-  it('falls back to the prompt scene when there is no hash', () => {
+  it('falls back to the prologue/intro when there is no hash', () => {
     history.replaceState(null, '', '/')
-    render(<Site />)
-    const rail = screen.getByRole('navigation', { name: /scenes/i })
-    expect(within(rail).getByRole('button', { name: /prompt input/i })).toHaveAttribute(
-      'aria-current',
-      'step',
-    )
+    const { container } = render(<Site />)
+    expect(container.querySelector('.prologue-track')).not.toBeNull()
   })
 
   it('scrolls the deep-linked scene into view on mount', () => {
@@ -112,7 +108,7 @@ describe('App — deep-link via hash', () => {
     spy.mockRestore()
   })
 
-  it('does not scroll on mount when there is no deep-link (activeId stays at prompt)', () => {
+  it('does not scroll on mount when there is no deep-link (activeId stays at intro)', () => {
     history.replaceState(null, '', '/')
     const spy = vi.spyOn(Element.prototype, 'scrollIntoView')
     render(<Site />)

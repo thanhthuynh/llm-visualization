@@ -29,9 +29,7 @@ export function AssembleScene() {
           </Chip>
         ))}
       </div>
-      <div className="font-body text-[13px] text-text-muted">
-        detokenize ↓
-      </div>
+      <div className="font-body text-[13px] text-text-muted">detokenize ↓</div>
       <ReplyBubble text={REPLY_TEXT} streaming />
       <p className="m-0 font-body text-[13px] text-text-muted">
         Each token becomes characters and joins the reply — you see it appear word by word.

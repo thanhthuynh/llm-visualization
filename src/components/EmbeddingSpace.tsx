@@ -55,13 +55,7 @@ export function EmbeddingSpace({
         y2={height / 2}
         stroke="var(--color-border)"
       />
-      <line
-        x1={width / 2}
-        y1={PAD}
-        x2={width / 2}
-        y2={height - PAD}
-        stroke="var(--color-border)"
-      />
+      <line x1={width / 2} y1={PAD} x2={width / 2} y2={height - PAD} stroke="var(--color-border)" />
       <text x={width - PAD + 4} y={height / 2 + 4} fontSize={11} fill="var(--color-text-muted)">
         meaning →
       </text>

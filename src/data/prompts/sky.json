@@ -7,16 +7,20 @@
     { "text": " is", "id": 318 }
   ],
   "nextToken": [
-    { "token": " blue",  "p": 0.71, "logit": 3.1  },
-    { "token": " not",   "p": 0.06, "logit": 0.9  },
-    { "token": " the",   "p": 0.04, "logit": 0.4  },
-    { "token": " a",     "p": 0.03, "logit": 0.2  },
-    { "token": " very",  "p": 0.02, "logit": 0.0  },
-    { "token": " so",    "p": 0.02, "logit": -0.05 },
+    { "token": " blue", "p": 0.71, "logit": 3.1 },
+    { "token": " not", "p": 0.06, "logit": 0.9 },
+    { "token": " the", "p": 0.04, "logit": 0.4 },
+    { "token": " a", "p": 0.03, "logit": 0.2 },
+    { "token": " very", "p": 0.02, "logit": 0.0 },
+    { "token": " so", "p": 0.02, "logit": -0.05 },
     { "token": " clear", "p": 0.01, "logit": -0.4 },
     { "token": " still", "p": 0.01, "logit": -0.5 }
   ],
-  "embedding2d": [[0.12, -0.44], [-0.3, 0.5], [0.05, 0.1]],
+  "embedding2d": [
+    [0.12, -0.44],
+    [-0.3, 0.5],
+    [0.05, 0.1]
+  ],
   "attention": {
     "heads": [
       [

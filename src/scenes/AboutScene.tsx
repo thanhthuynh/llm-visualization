@@ -1,4 +1,10 @@
+import { SCENES } from '@/scenes/scenes.config'
+import { accentHex } from '@/utils/accent'
 import { useRunningExample } from '@/app/RunningExampleContext'
+
+const WORDMARK_SCENES = SCENES.filter(
+  (s) => (s.part === 'part1' || s.part === 'part2') && s.accent !== null,
+)
 
 export function AboutScene() {
   const { dataset } = useRunningExample()
@@ -27,6 +33,50 @@ export function AboutScene() {
         <p className="mt-6 font-mono text-[13px] text-text-muted leading-5">
           Source: {dataset.source}
         </p>
+      </div>
+
+      <div className="mt-12 pt-6 border-t border-border flex flex-col gap-4">
+        <p className="font-mono text-[11px] uppercase tracking-widest text-text-muted">
+          Built with
+        </p>
+        <p className="font-mono text-[13px] text-text-muted">
+          vite · react 19 · typescript 5.7 · tailwind v4 · motion · d3-scale · zod
+        </p>
+
+        <div data-testid="about-wordmark" className="flex items-center gap-3" aria-label="Pipeline">
+          {WORDMARK_SCENES.map((s) => {
+            const accent = s.accent
+            if (!accent) return null
+            return (
+              <span
+                key={s.id}
+                role="img"
+                aria-label={s.title}
+                className="block w-2 h-2 rounded-full"
+                style={{ background: accentHex(accent) }}
+              />
+            )
+          })}
+        </div>
+
+        <div className="flex items-center gap-6 font-mono text-[13px] text-text-muted">
+          <a
+            href="https://github.com/thanhthuynh/llm-visualization"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:underline"
+          >
+            GitHub
+          </a>
+          <a
+            href="https://github.com/thanhthuynh/llm-visualization/blob/main/LICENSE"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:underline"
+          >
+            MIT
+          </a>
+        </div>
       </div>
     </section>
   )

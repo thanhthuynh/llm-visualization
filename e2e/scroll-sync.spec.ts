@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test('scrolling the document updates the left-rail active indicator', async ({ page }) => {
-  await page.goto('/')
+  await page.goto('/#prompt')
   await expect(page.getByRole('heading', { level: 2, name: 'Prompt Input' })).toBeVisible()
 
   // Confirm .stations is present (CSS role changed but class is still in DOM)
