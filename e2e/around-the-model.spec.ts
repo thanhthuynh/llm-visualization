@@ -17,3 +17,21 @@ test('SystemScene deep-links and surface+Deep toggle works', async ({ page }) =>
   await systemSection.getByRole('button', { name: /go deeper/i }).click()
   await expect(systemSection.getByRole('note')).toBeVisible()
 })
+
+test('RagScene deep-links and surface+Deep toggle works', async ({ page }) => {
+  await page.goto('/explorer#rag')
+  await expect(page.getByRole('heading', { level: 2, name: /retrieval \(rag\)/i })).toBeVisible()
+  const ragSection = page.getByLabel('Retrieval (RAG)', { exact: true })
+  await expect(ragSection.getByText(/retrieval step searches/i)).toBeVisible()
+  await ragSection.getByRole('button', { name: /go deeper/i }).click()
+  await expect(ragSection.getByText(/toy retrieval over five sentences/i)).toBeVisible()
+})
+
+test('HallucinateScene deep-links and surface+Deep toggle works', async ({ page }) => {
+  await page.goto('/explorer#hallucinate')
+  await expect(page.getByRole('heading', { level: 2, name: /hallucination/i })).toBeVisible()
+  const halluSection = page.getByLabel('Hallucination', { exact: true })
+  await expect(halluSection.getByText(/plausible-sounding text/i)).toBeVisible()
+  await halluSection.getByRole('button', { name: /go deeper/i }).click()
+  await expect(halluSection.getByText(/court filing.*cases that never existed/i)).toBeVisible()
+})

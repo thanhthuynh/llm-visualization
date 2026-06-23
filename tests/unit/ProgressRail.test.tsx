@@ -4,10 +4,10 @@ import userEvent from '@testing-library/user-event'
 import { ProgressRail } from '@/components/ProgressRail'
 
 describe('ProgressRail', () => {
-  it('renders 12 buttons: INTRO + 2 Part-1 stations + 7 Part-2 stations + Compare + About', () => {
+  it('renders 14 buttons: INTRO + 4 Part-1 stations + 7 Part-2 stations + Compare + About', () => {
     render(<ProgressRail activeId="predict" onJump={() => {}} />)
     const nav = screen.getByRole('navigation', { name: /scenes/i })
-    expect(within(nav).getAllByRole('button')).toHaveLength(12)
+    expect(within(nav).getAllByRole('button')).toHaveLength(14)
   })
 
   it('renders INTRO button and clicking it calls onJump("intro")', async () => {

@@ -81,7 +81,7 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     accent: 'rag',
     prompt: '',
     railLabel: 'RETRIEVE',
-    implemented: false,
+    implemented: true,
     part: 'part1',
   },
   {
@@ -90,7 +90,7 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     accent: 'hallucinate',
     prompt: '',
     railLabel: 'HALLUCINATE',
-    implemented: false,
+    implemented: true,
     part: 'part1',
   },
   {
