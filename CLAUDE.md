@@ -4,7 +4,7 @@ Agent-facing entry doc. Public pitch + screenshots live in [README.md](README.md
 
 ## What this repo is
 
-A single-page React + TypeScript explainer of what happens between "you typed a prompt" and "the answer streamed out" of an LLM. Nine scenes (7 pipeline + Compare + About), each with a Surface beat and a Deep beat behind a per-scene depth toggle. One page, nine hash anchors, no router.
+A single-page React + TypeScript explainer of what happens between "you typed a prompt" and "the answer streamed out" of an LLM. One cinematic prologue overture, then 14 stations across two parts — **Part 1 · Around the model** (interlude + Context Window + System Prompt + Retrieval/RAG + Hallucination) and **Part 2 · Inside the model** (Prompt → Tokenize → Embed → Attention → Predict → Decode → Output) — plus Compare and About. Each station has a Surface beat and a Deep beat behind a per-scene depth toggle. One scrolling page, hash anchors per station, no router.
 
 ## Stack (lock these in your mental model)
 
@@ -12,7 +12,7 @@ A single-page React + TypeScript explainer of what happens between "you typed a 
 |---|---|---|
 | Build | Vite 7 | `npm run dev` → `localhost:5173` |
 | UI | React 19 | Function components only |
-| Types | TypeScript 5.7 **strict** | `noUncheckedIndexedAccess`; no `any` in app code (use `unknown` + narrowing) |
+| Types | TypeScript 5.7 **strict** | `exactOptionalPropertyTypes` on; `noUncheckedIndexedAccess` NOT enabled — narrow indexed access by convention; no `any` in app code (use `unknown` + narrowing) |
 | Styles | Tailwind v4 with `@theme` tokens | Canonical theme classes preferred; arbitrary-form is fallback |
 | Motion | `motion` (React-native) only | **No GSAP, no Three.js, no Framer Motion** |
 | Math/scales | `d3-scale`, `d3-scale-chromatic` | No other D3 modules |
@@ -38,18 +38,18 @@ A single-page React + TypeScript explainer of what happens between "you typed a 
 | `npm run test:coverage` | v8 coverage | Spot-checks only; no hard threshold enforced |
 | `npm run e2e` | Playwright full suite (Chromium) | Before merging anything that touches scenes, scroll, or landing |
 | `npm run a11y` | vitest-axe per-scene + app-shell | After any landmark/label change |
-| `npm run a11y:e2e` | Playwright + axe across all 9 scenes | Before claiming the audit still passes |
+| `npm run a11y:e2e` | Playwright + axe across all stations | Before claiming the audit still passes |
 
 ## Architecture in 60 seconds
 
-- **`src/scenes/scenes.config.ts` is the single source of truth.** It declares the 9 scene IDs, accent colors, order, and metadata. Any new scene starts there; the scene component, hash anchor, and nav follow.
-- **No routing library.** One page, nine hash anchors, one `useHashSync` hook in `src/app/`.
+- **`src/scenes/scenes.config.ts` is the single source of truth.** It declares all station IDs, accent colors, order, and metadata. Any new station starts there; the scene component, hash anchor, and nav follow.
+- **No routing library.** One scrolling page, hash anchors per station, one `useHashSync` hook in `src/app/`.
 - **Scroll-snap stations, not scroll-scrubbing.** Each scene plays its entrance once on entry, then hands control to the user. Don't add scroll-tied animations.
 - **Two reading paths via per-scene depth toggle.** Surface for intuition, Deep for receipts. State lives in `DepthContext` (`src/app/`).
 - **Top-level dirs (see [docs/CODEMAPS/](docs/CODEMAPS/) for detail):**
   - `app/` — providers + cross-cutting hooks (hash-sync, keyboard, scroll-spy)
   - `components/` — primitives (Chip, DataBar, CaveatNote, ProgressRail, TopBar, …)
-  - `scenes/` — 9 scene components + `scenes.config.ts`
+  - `scenes/` — station scene components + `scenes.config.ts`
   - `landing/` — landing-page sections (hero, scene cards, methods, two-paths, footer)
   - `analytics/` — Umami wrapper, event taxonomy, scene-reach hook
   - `data/` — Zod-validated dataset loader + `prompts/{sky,cat}.json`
@@ -61,7 +61,7 @@ A single-page React + TypeScript explainer of what happens between "you typed a 
 - **Motion budget ≤360 ms per transition.** Every animation respects `prefers-reduced-motion`. The landing page has one ambient hero loop — that's the only continuous motion in the app.
 - **Analytics hard ceiling: ≤15 named events.** Currently 10 (see `src/analytics/events.ts`). Adding an event needs a justification. Button clicks should use Umami's `data-umami-event="..."` attribute, not JS. Scene-reach uses the `useTrackSceneReach` hook with once-per-session dedupe.
 - **Zod at the boundary.** Every dataset loaded from `src/data/` is validated. Treat external input as `unknown` until narrowed.
-- **TS strict + `noUncheckedIndexedAccess`.** Indexed access returns `T | undefined`. Don't suppress with `!`; narrow with a guard.
+- **TS strict; treat indexed access defensively.** `noUncheckedIndexedAccess` is NOT enabled, so the compiler won't force it — but narrow array/record access with a guard rather than `!` by convention.
 
 ## Provenance discipline (this is the project's primary success criterion)
 

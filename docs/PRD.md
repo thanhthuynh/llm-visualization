@@ -58,7 +58,7 @@ LLMs are explained badly almost everywhere. "AI thinks" / "AI understands" frami
 
 ## 2. Scope as shipped
 
-Nine scenes mounted in production (`src/scenes/scenes.config.ts:30-103`):
+Stations mounted in production (see `src/scenes/scenes.config.ts` for current list):
 
 | # | Scene | Accent | Surface beat | Deep beat |
 |---|---|---|---|---|

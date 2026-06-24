@@ -4,7 +4,7 @@
 
 ## Shape
 
-Single-page React app. One HTML page (`index.html`), one React root (`src/main.tsx`), one composing shell (`src/App.tsx`). No routing library. Nine scenes mount in a scroll-snap column; nine hash anchors map 1:1 to scene IDs.
+Single-page React app. One HTML page (`index.html`), one React root (`src/main.tsx`), one composing shell (`src/App.tsx`). No routing library. Stations mount in a scroll-snap column; hash anchors map 1:1 to station IDs (see `src/scenes/scenes.config.ts`).
 
 ## Mount chain
 
