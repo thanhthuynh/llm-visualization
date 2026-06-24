@@ -70,16 +70,16 @@ src/
 ├── app/              # Context providers + cross-cutting hooks (hash-sync, keyboard, scroll-spy)
 ├── components/       # Primitives (Chip, DataBar, CaveatNote, ProgressRail, TopBar, ...)
 ├── scenes/           # Station scene components + scenes.config.ts (single source of truth)
-├── landing/          # Landing-page sections (hero, scene cards, methods, two-paths, footer)
+├── prologue/         # Cinematic entry track + beats + reduced-motion static variant
 ├── analytics/        # Umami wrapper + scene-reach hook + event taxonomy
-├── data/             # Zod-validated dataset loader + prompts/{sky,cat}.json
+├── data/             # Zod-validated dataset loader + prompts/{sky,cat,conditioning,retrieval-toy,hallucination-case}.json
 ├── utils/            # Small pure helpers
 ├── App.tsx           # App shell — composes providers + mounts scenes
 ├── main.tsx          # React entry
 └── index.css         # Tailwind v4 @theme tokens
 
 tests/                # Unit + a11y-unit (vitest + jsdom)
-e2e/                  # Playwright specs (happy-path, mvp-flow, a11y, honesty, decode, scroll, landing, compare)
+e2e/                  # Playwright specs (happy-path, mvp-flow, a11y, honesty-scenes, decoding-temperature, scroll-sync, prologue, rail, around-the-model, compare-section)
 docs/                 # Audit reports, design direction, brand voice, migration cheat sheets
 ```
 

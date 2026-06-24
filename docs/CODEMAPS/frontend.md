@@ -108,4 +108,4 @@ All station entrance animations reference these tokens to enforce the ≤360 ms 
 - `tests/unit/*.test.tsx` — Vitest + jsdom, component-focused
 - `tests/a11y/*.a11y.test.tsx` — vitest-axe per-scene axe smoke tests (16 files covering all stations + app shell)
 - `tests/setup.ts`, `tests/vitest-axe.d.ts` — test infra
-- `e2e/*.spec.ts` — Playwright (Chromium): `happy-path`, `mvp-flow`, `a11y` (14-station axe scan), `honesty-scenes`, `decoding-temperature`, `scroll-sync`, `compare-section`, `prologue`, `rail`, `keyboard-nav`
+- `e2e/*.spec.ts` — Playwright (Chromium): `happy-path`, `mvp-flow`, `a11y` (14-station axe scan), `honesty-scenes`, `decoding-temperature`, `scroll-sync`, `compare-section`, `prologue`, `rail`, `around-the-model`
