@@ -1,4 +1,4 @@
-<!-- Generated: 2026-06-04 | Files scanned: 47 | Token estimate: ~900 -->
+<!-- Generated: 2026-06-04 | Updated: 2026-06-23 (one-scroll cutover) | Files scanned: 70+ | Token estimate: ~1000 -->
 
 # Frontend
 
@@ -7,13 +7,14 @@
 ```
 src/
 ├── main.tsx              ReactDOM entry
-├── App.tsx               Shell: composes providers + mounts scenes + landing + rail
+├── App.tsx               Shell: composes providers + mounts prologue + 14 stations + rail
 ├── index.css             Tailwind v4 @theme tokens (--color-*, --font-*, --radius-*)
 ├── vite-env.d.ts
 ├── app/                  Providers + cross-cutting hooks
-├── components/           24 primitives
-├── scenes/               9 scene components + scenes.config.ts (SSoT)
-├── landing/              8 landing-page sections
+├── components/           Primitives (layout, display, scene-specific visuals)
+├── scenes/               14-station scene components + scenes.config.ts (SSoT)
+├── prologue/             Cinematic entry track + beats + reduced-motion static variant
+├── motion/               Shared entrance token constants (@/motion/tokens)
 ├── analytics/            Umami wrapper + event taxonomy + scene-reach hook
 └── data/                 Zod schemas + loader + datasets + prompts
 ```
@@ -30,52 +31,71 @@ src/
 | `useScrollSpy.ts` | IntersectionObserver → active scene ID |
 | `useReducedMotionPref.ts` | `matchMedia('(prefers-reduced-motion: reduce)')` |
 
-## src/scenes/ (10 files)
+## src/scenes/ (15 files)
 
-| File | Scene | Accent |
-|---|---|---|
-| `scenes.config.ts` | — (SSoT: SCENES, SceneId, ACCENT_HEX, getSceneById, getMountedSceneIds) | — |
-| `PromptScene.tsx` | 1. Prompt | prompt |
-| `TokenizeScene.tsx` | 2. Tokenize | tokenize |
-| `EmbedScene.tsx` | 3. Embed | embed |
-| `AttentionScene.tsx` | 4. Attention | attention |
-| `PredictScene.tsx` | 5. Predict | predict |
-| `DecodeScene.tsx` | 6. Decode | decode |
-| `AssembleScene.tsx` | 7. Output (a.k.a. assemble) | output |
-| `CompareScene.tsx` | + Compare | (neutral) |
-| `AboutScene.tsx` | + About | (neutral) |
+| File | Scene | Part | Accent |
+|---|---|---|---|
+| `scenes.config.ts` | — (SSoT: SCENES, SceneId, ACCENT_HEX, getSceneById, getMountedSceneIds) | — | — |
+| `InterludeScene.tsx` | Around the model (interlude) | Part 1 | — |
+| `WindowScene.tsx` | Context Window | Part 1 | window |
+| `SystemScene.tsx` | The System Prompt | Part 1 | system |
+| `RagScene.tsx` | Retrieval (RAG) | Part 1 | rag |
+| `HallucinateScene.tsx` | Hallucination | Part 1 | hallucinate |
+| `PromptScene.tsx` | Prompt Input | Part 2 | prompt |
+| `TokenizeScene.tsx` | Tokenization | Part 2 | tokenize |
+| `EmbedScene.tsx` | Embeddings | Part 2 | embed |
+| `AttentionScene.tsx` | Attention | Part 2 | attention |
+| `PredictScene.tsx` | Next-Token Prediction | Part 2 | predict |
+| `DecodeScene.tsx` | Decoding Loop | Part 2 | decode |
+| `AssembleScene.tsx` | Output Assembly | Part 2 | output |
+| `CompareScene.tsx` | Compare | — | (neutral) |
+| `AboutScene.tsx` | About | — | (neutral) |
 
-The `AssembleScene` file backs the "Output" SceneId — the file name is historical (assembly metaphor from earlier drafts). When adding a scene: add to `SceneId` union, add `SCENES` entry, add component file, add hash anchor — `useHashSync` and nav update automatically.
+The `AssembleScene` file backs the "Output" SceneId — the file name is historical. When adding a scene: add to `SceneId` union, add `SCENES` entry (with `part`), add component file, add hash anchor — `useHashSync` and nav update automatically.
 
-## src/components/ (24 primitives)
+## src/prologue/ (8 files)
+
+| File | Role |
+|---|---|
+| `Prologue.tsx` | Entry point — delegates to `PrologueAnimated` or `PrologueStatic` |
+| `PrologueAnimated.tsx` | Scroll-scrubbed 7-beat cinematic intro (Chromium-only smooth scroll) |
+| `PrologueStatic.tsx` | Static reduced-motion variant (identical content, no scroll tie) |
+| `PrologueMode.tsx` | Mode-selection logic (reduced-motion pref + `?prologue=static` override) |
+| `beats.config.ts` | Beat definitions: id, label, copy, data binding |
+| `beats/` | Individual beat components (`BeatShell`, `BeatEmbed`, `BeatProvenanceVow`, …) |
+| `snap.ts` | Scroll-snap geometry constants |
+| `useBeatProgress.ts` | Maps scroll position → active beat index |
+| `usePrologueGate.ts` | Guards the gate: `INTRO` tick in rail maps to prologue anchor |
+
+## src/components/ (primitives)
 
 Grouped by purpose:
 
 | Group | Files |
 |---|---|
-| **Layout / station** | `SceneStation`, `DeepPanel`, `DeepToggle`, `EyebrowLabel`, `TopBar`, `SceneNav`, `ProgressRail` |
-| **Display primitives** | `Chip`, `DataBar`, `ContextWindowBar`, `AccentRule`, `CaveatNote`, `ClaimTier`, `PhilosophyCard` |
+| **Layout / station** | `SceneStation`, `DeepPanel`, `DeepToggle`, `EyebrowLabel` (accent-capable), `TopBar`, `SceneNav`, `ProgressRail`, `ActDivider` |
+| **Display primitives** | `Chip`, `DataBar`, `ContextWindowBar`, `AccentRule`, `CaveatNote`, `ClaimTier`, `PhilosophyCard`, `WindowTape` |
 | **Scene-specific visuals** | `TokenizerCount`, `EmbeddingDot`, `EmbeddingSpace`, `AttentionArc`, `AttentionMatrix`, `HeadSelector`, `DistributionPair`, `ReplyBubble`, `PromptField` |
 | **Tables** | `CompareTable` |
+| **Non-component modules** | `railModel.ts` (builds typed `RailItem[]` list for `ProgressRail`) |
 
 `CaveatNote` is load-bearing — it's the amber-warning component that gates honesty for any Deep panel that could mislead. Do not remove or weaken instances without product review.
 
 `SceneStation` is the canonical wrapper for every scene's `<section>` — handles the unique `aria-labelledby`, scroll-snap, and the per-scene accent passthrough.
 
-## src/landing/ (8 sections)
+`ActDivider` renders the visual separator between Part 1 and Part 2 in the scroll column.
+
+`WindowTape` is a shared visual used by `WindowScene` and other Part-1 scenes that need a context-window strip metaphor.
+
+`EyebrowLabel` is accent-capable (accepts an `accent` prop) — used by `TopBar` to show the active station name in its theme color.
+
+## src/motion/
 
 | File | Role |
 |---|---|
-| `Landing.tsx` | Composes sections in order |
-| `Hero.tsx` | Top — pitch + chip-strip mechanic + ambient motion loop |
-| `HeroPipelinePreview.tsx` | Mini-pipeline visualization (illustrative) |
-| `SceneCardGrid.tsx` | 9 scene cards, deep-link to `#hash` |
-| `SurfaceDeepPreview.tsx` | Demonstrates Surface ↔ Deep toggle |
-| `ProvenanceBlock.tsx` | "Methods section, not a disclaimer" — provenance prose |
-| `TechStack.tsx` | Stack listing |
-| `LandingFooter.tsx` | Footer + GitHub link |
+| `tokens.ts` | Shared entrance animation constants: duration, easing, stagger. Import as `@/motion/tokens`. |
 
-The 5 files with pending-triage inline `style={{}}` (per cheat-sheet update 2026-06-04): `Hero`, `HeroPipelinePreview`, `LandingFooter`, `SceneCardGrid`, `SurfaceDeepPreview`.
+All station entrance animations reference these tokens to enforce the ≤360 ms motion budget.
 
 ## Styling
 
@@ -86,5 +106,6 @@ The 5 files with pending-triage inline `style={{}}` (per cheat-sheet update 2026
 ## Tests
 
 - `tests/unit/*.test.tsx` — Vitest + jsdom, component-focused
+- `tests/a11y/*.a11y.test.tsx` — vitest-axe per-scene axe smoke tests (16 files covering all stations + app shell)
 - `tests/setup.ts`, `tests/vitest-axe.d.ts` — test infra
-- `e2e/*.spec.ts` — Playwright (Chromium): `happy-path`, `mvp-flow`, `a11y`, `honesty-scenes`, `decoding-temperature`, `scroll-sync`, `landing`, `compare-section`
+- `e2e/*.spec.ts` — Playwright (Chromium): `happy-path`, `mvp-flow`, `a11y` (14-station axe scan), `honesty-scenes`, `decoding-temperature`, `scroll-sync`, `compare-section`, `prologue`, `rail`, `around-the-model`

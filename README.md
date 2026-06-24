@@ -1,6 +1,6 @@
 # Inside an LLM — Interactive Explainer
 
-> Watch a prompt become an answer, one token at a time. Seven scenes, two reading paths — gist on the surface, receipts underneath.
+> Watch a prompt become an answer, one token at a time — the words around the model and the forward pass inside it. Two reading paths: gist on the surface, receipts underneath.
 
 A single-page, interactive explainer of what happens inside a Large Language Model between "you typed a prompt" and "the answer streamed out." Designed for two readers at once: a non-technical friend who wants the intuition, and a technically literate peer who wants to confirm nothing was hand-waved. The mechanism for serving both is progressive disclosure (Surface vs Deep toggles per scene), not two separate sites.
 
@@ -59,7 +59,7 @@ npm run dev            # Vite dev server on http://localhost:5173
 | `npm run test:coverage` | Vitest with v8 coverage |
 | `npm run e2e` | Playwright — full E2E suite (Chromium) |
 | `npm run a11y` | vitest-axe — per-scene + app-shell axe smoke |
-| `npm run a11y:e2e` | Playwright + `@axe-core/playwright` — E2E axe scan across all 9 scenes |
+| `npm run a11y:e2e` | Playwright + `@axe-core/playwright` — E2E axe scan across all stations |
 
 ---
 
@@ -69,17 +69,17 @@ npm run dev            # Vite dev server on http://localhost:5173
 src/
 ├── app/              # Context providers + cross-cutting hooks (hash-sync, keyboard, scroll-spy)
 ├── components/       # Primitives (Chip, DataBar, CaveatNote, ProgressRail, TopBar, ...)
-├── scenes/           # Nine scene components + scenes.config.ts (single source of truth)
-├── landing/          # Landing-page sections (hero, scene cards, methods, two-paths, footer)
+├── scenes/           # Station scene components + scenes.config.ts (single source of truth)
+├── prologue/         # Cinematic entry track + beats + reduced-motion static variant
 ├── analytics/        # Umami wrapper + scene-reach hook + event taxonomy
-├── data/             # Zod-validated dataset loader + prompts/{sky,cat}.json
+├── data/             # Zod-validated dataset loader + prompts/{sky,cat,conditioning,retrieval-toy,hallucination-case}.json
 ├── utils/            # Small pure helpers
 ├── App.tsx           # App shell — composes providers + mounts scenes
 ├── main.tsx          # React entry
 └── index.css         # Tailwind v4 @theme tokens
 
 tests/                # Unit + a11y-unit (vitest + jsdom)
-e2e/                  # Playwright specs (happy-path, mvp-flow, a11y, honesty, decode, scroll, landing, compare)
+e2e/                  # Playwright specs (happy-path, mvp-flow, a11y, honesty-scenes, decoding-temperature, scroll-sync, prologue, rail, around-the-model, compare-section)
 docs/                 # Audit reports, design direction, brand voice, migration cheat sheets
 ```
 
