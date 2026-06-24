@@ -54,7 +54,7 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     accent: null,
     prompt: '',
     railLabel: 'PART 1',
-    implemented: false,
+    implemented: true,
     part: 'part1',
   },
   {
@@ -63,7 +63,7 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     accent: 'window',
     prompt: '',
     railLabel: 'WINDOW',
-    implemented: false,
+    implemented: true,
     part: 'part1',
   },
   {
@@ -72,7 +72,7 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     accent: 'system',
     prompt: '',
     railLabel: 'SYSTEM',
-    implemented: false,
+    implemented: true,
     part: 'part1',
   },
   {
@@ -81,7 +81,7 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     accent: 'rag',
     prompt: '',
     railLabel: 'RETRIEVE',
-    implemented: false,
+    implemented: true,
     part: 'part1',
   },
   {
@@ -90,7 +90,7 @@ export const SCENES: ReadonlyArray<SceneConfig> = [
     accent: 'hallucinate',
     prompt: '',
     railLabel: 'HALLUCINATE',
-    implemented: false,
+    implemented: true,
     part: 'part1',
   },
   {

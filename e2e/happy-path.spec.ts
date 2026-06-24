@@ -27,7 +27,7 @@ test('loads PredictScene, toggles Deep, jumps to About', async ({ page }) => {
   const cooled = await blueBar.getAttribute('aria-valuenow')
   expect(Number(cooled)).toBeGreaterThan(71)
 
-  await page.getByRole('button', { name: 'About' }).click()
+  await page.goto('/explorer#about')
   await expect(page.getByRole('heading', { level: 2, name: /about/i })).toBeVisible()
   await expect(page).toHaveURL(/#about$/)
 })

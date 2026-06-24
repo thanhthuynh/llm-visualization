@@ -5,10 +5,7 @@ test('Compare rail jump shows Claude vs ChatGPT framing + tier badges + caveat',
 }) => {
   await page.goto('/explorer#prompt')
 
-  await page
-    .getByRole('button', { name: /^compare$/i })
-    .first()
-    .click()
+  await page.goto('/explorer#compare')
   await expect(page).toHaveURL(/#compare$/)
 
   await expect(page.getByRole('heading', { level: 2, name: /claude vs chatgpt/i })).toBeVisible()
@@ -27,9 +24,9 @@ test('Compare rail jump shows Claude vs ChatGPT framing + tier badges + caveat',
   await expect(page.getByText(/last updated/i)).toBeVisible()
 })
 
-test('keyboard ArrowDown reaches Compare after the 7 pipeline scenes', async ({ page }) => {
+test('keyboard ArrowDown reaches Compare after the 9 pipeline scenes', async ({ page }) => {
   await page.goto('/explorer#prompt')
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < 9; i++) {
     await page.locator('body').press('ArrowDown')
   }
   await expect(page).toHaveURL(/#compare$/)

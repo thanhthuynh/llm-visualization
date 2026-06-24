@@ -18,6 +18,11 @@ import { DecodeScene } from '@/scenes/DecodeScene'
 import { AssembleScene } from '@/scenes/AssembleScene'
 import { CompareScene } from '@/scenes/CompareScene'
 import { AboutScene } from '@/scenes/AboutScene'
+import { InterludeScene } from '@/scenes/InterludeScene'
+import { WindowScene } from '@/scenes/WindowScene'
+import { SystemScene } from '@/scenes/SystemScene'
+import { RagScene } from '@/scenes/RagScene'
+import { HallucinateScene } from '@/scenes/HallucinateScene'
 import { getSceneById, getMountedSceneIds, type SceneId } from '@/scenes/scenes.config'
 import { SCROLL_ROOT_SELECTOR } from '@/prologue/snap'
 import { usePrologueGate } from '@/prologue/usePrologueGate'
@@ -26,6 +31,11 @@ import { Prologue } from '@/prologue/Prologue'
 const MOUNTED_IDS: SceneId[] = getMountedSceneIds()
 
 const SCENE_COMPONENTS: Partial<Record<SceneId, ComponentType>> = {
+  interlude: InterludeScene,
+  window: WindowScene,
+  system: SystemScene,
+  rag: RagScene,
+  hallucinate: HallucinateScene,
   prompt: PromptScene,
   tokenize: TokenizeScene,
   embed: EmbedScene,
@@ -35,7 +45,6 @@ const SCENE_COMPONENTS: Partial<Record<SceneId, ComponentType>> = {
   output: AssembleScene, // id 'output' → AssembleScene (id ≠ component name)
   compare: CompareScene,
   about: AboutScene,
-  // interlude/window/system/rag/hallucinate added in Phases 6-7 (with implemented:true)
 }
 
 function readInitialSceneId(): SceneId {

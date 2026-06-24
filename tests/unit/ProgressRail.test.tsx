@@ -4,10 +4,10 @@ import userEvent from '@testing-library/user-event'
 import { ProgressRail } from '@/components/ProgressRail'
 
 describe('ProgressRail', () => {
-  it('renders 10 buttons: INTRO + 7 Part-2 stations + Compare + About', () => {
+  it('renders 14 buttons: INTRO + 4 Part-1 stations + 7 Part-2 stations + Compare + About', () => {
     render(<ProgressRail activeId="predict" onJump={() => {}} />)
     const nav = screen.getByRole('navigation', { name: /scenes/i })
-    expect(within(nav).getAllByRole('button')).toHaveLength(10)
+    expect(within(nav).getAllByRole('button')).toHaveLength(14)
   })
 
   it('renders INTRO button and clicking it calls onJump("intro")', async () => {
@@ -68,9 +68,9 @@ describe('ProgressRail', () => {
     expect(screen.getByText('PART 2')).toBeInTheDocument()
   })
 
-  it('"PART 1" group label is ABSENT (no part1 stations implemented)', () => {
+  it('"PART 1" group label is present (window + system are implemented)', () => {
     render(<ProgressRail activeId="predict" onJump={() => {}} />)
-    expect(screen.queryByText('PART 1')).not.toBeInTheDocument()
+    expect(screen.getByText('PART 1')).toBeInTheDocument()
   })
 
   it('first Part-2 station shows "1"', () => {

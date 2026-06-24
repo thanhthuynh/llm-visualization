@@ -1,0 +1,13 @@
+{
+  "prompt": "The capital of Australia is",
+  "truth": " Canberra",
+  "nextToken": [
+    { "token": " Sydney", "p": 0.46, "logit": 2.6 },
+    { "token": " Melbourne", "p": 0.22, "logit": 1.8 },
+    { "token": " the", "p": 0.08, "logit": 0.6 },
+    { "token": " Canberra", "p": 0.07, "logit": 0.5 },
+    { "token": " a", "p": 0.04, "logit": 0.1 }
+  ],
+  "source": "Illustrative next-token distribution for the classic confident-but-wrong case: a frequency-biased wrong answer (Sydney) outranks the truth (Canberra). Approximates GPT-2-small-style behavior to teach that highest probability != correctness. Not a measured run; frontier models answer this correctly via the same underlying mechanism.",
+  "status": "illustrative"
+}
