@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test'
 test('AttentionScene shows the surface Simplified note and TWO caveats in deep', async ({
   page,
 }) => {
-  await page.goto('/explorer#prompt')
+  await page.goto('/#prompt')
   await page
     .getByRole('button', { name: /attention/i })
     .first()
@@ -31,7 +31,7 @@ test('AttentionScene shows the surface Simplified note and TWO caveats in deep',
 })
 
 test('EmbedScene shows the meaning-space and a CaveatNote in Deep', async ({ page }) => {
-  await page.goto('/explorer#prompt')
+  await page.goto('/#prompt')
   await page.getByRole('button', { name: /embed/i }).first().click()
   await expect(page).toHaveURL(/#embed$/)
 

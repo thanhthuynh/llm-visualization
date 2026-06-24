@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test('WindowScene deep-links and surface+Deep toggle works', async ({ page }) => {
-  await page.goto('/explorer#window')
+  await page.goto('/#window')
   await expect(page.getByRole('heading', { level: 2, name: /context window/i })).toBeVisible()
   const windowSection = page.getByLabel('Context Window', { exact: true })
   await expect(windowSection.getByText(/fixed budget of tokens/i)).toBeVisible()
@@ -10,7 +10,7 @@ test('WindowScene deep-links and surface+Deep toggle works', async ({ page }) =>
 })
 
 test('SystemScene deep-links and surface+Deep toggle works', async ({ page }) => {
-  await page.goto('/explorer#system')
+  await page.goto('/#system')
   await expect(page.getByRole('heading', { level: 2, name: /the system prompt/i })).toBeVisible()
   const systemSection = page.getByLabel('The System Prompt', { exact: true })
   await expect(systemSection.getByText(/before your first word/i)).toBeVisible()
@@ -19,7 +19,7 @@ test('SystemScene deep-links and surface+Deep toggle works', async ({ page }) =>
 })
 
 test('RagScene deep-links and surface+Deep toggle works', async ({ page }) => {
-  await page.goto('/explorer#rag')
+  await page.goto('/#rag')
   await expect(page.getByRole('heading', { level: 2, name: /retrieval \(rag\)/i })).toBeVisible()
   const ragSection = page.getByLabel('Retrieval (RAG)', { exact: true })
   await expect(ragSection.getByText(/retrieval step searches/i)).toBeVisible()
@@ -28,7 +28,7 @@ test('RagScene deep-links and surface+Deep toggle works', async ({ page }) => {
 })
 
 test('HallucinateScene deep-links and surface+Deep toggle works', async ({ page }) => {
-  await page.goto('/explorer#hallucinate')
+  await page.goto('/#hallucinate')
   await expect(page.getByRole('heading', { level: 2, name: /hallucination/i })).toBeVisible()
   const halluSection = page.getByLabel('Hallucination', { exact: true })
   await expect(halluSection.getByText(/plausible-sounding text/i)).toBeVisible()

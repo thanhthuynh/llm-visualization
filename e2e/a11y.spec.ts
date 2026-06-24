@@ -2,6 +2,11 @@ import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 
 const SCENE_IDS = [
+  'interlude',
+  'window',
+  'system',
+  'rag',
+  'hallucinate',
   'prompt',
   'tokenize',
   'embed',
@@ -16,7 +21,7 @@ const SCENE_IDS = [
 test.describe('a11y — full pipeline', () => {
   for (const id of SCENE_IDS) {
     test(`${id} scene has no critical/serious axe violations`, async ({ page }) => {
-      await page.goto(`/explorer#${id}`)
+      await page.goto(`/#${id}`)
       await page.waitForLoadState('networkidle')
 
       const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze()

@@ -1,11 +1,14 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, type Page } from '@playwright/test'
+
+async function arrowDownTo(page: Page, hash: string) {
+  await page.locator('body').press('ArrowDown')
+  await expect(page).toHaveURL(new RegExp(`${hash}$`)) // settle: each press advances exactly one
+}
 
 test('Compare rail jump shows Claude vs ChatGPT framing + tier badges + caveat', async ({
   page,
 }) => {
-  await page.goto('/explorer#prompt')
-
-  await page.goto('/explorer#compare')
+  await page.goto('/#compare')
   await expect(page).toHaveURL(/#compare$/)
 
   await expect(page.getByRole('heading', { level: 2, name: /claude vs chatgpt/i })).toBeVisible()
@@ -24,10 +27,16 @@ test('Compare rail jump shows Claude vs ChatGPT framing + tier badges + caveat',
   await expect(page.getByText(/last updated/i)).toBeVisible()
 })
 
-test('keyboard ArrowDown reaches Compare after the 9 pipeline scenes', async ({ page }) => {
-  await page.goto('/explorer#prompt')
-  for (let i = 0; i < 9; i++) {
-    await page.locator('body').press('ArrowDown')
-  }
-  await expect(page).toHaveURL(/#compare$/)
+test('keyboard ArrowDown reaches Compare after the 7 Part-2 pipeline scenes (tokenize→output)', async ({
+  page,
+}) => {
+  await page.goto('/#prompt')
+  // prompt → tokenize → embed → attention → predict → decode → output → compare (7 steps)
+  await arrowDownTo(page, '#tokenize')
+  await arrowDownTo(page, '#embed')
+  await arrowDownTo(page, '#attention')
+  await arrowDownTo(page, '#predict')
+  await arrowDownTo(page, '#decode')
+  await arrowDownTo(page, '#output')
+  await arrowDownTo(page, '#compare')
 })
