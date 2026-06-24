@@ -1,10 +1,10 @@
-<!-- Generated: 2026-06-04 | Files scanned: 53 | Token estimate: ~700 -->
+<!-- Generated: 2026-06-04 | Updated: 2026-06-23 (one-scroll cutover) | Files scanned: 70+ | Token estimate: ~850 -->
 
 # Architecture
 
 ## Shape
 
-Single-page React app. One HTML page (`index.html`), one React root (`src/main.tsx`), one composing shell (`src/App.tsx`). No routing library. Stations mount in a scroll-snap column; hash anchors map 1:1 to station IDs (see `src/scenes/scenes.config.ts`).
+Single-page React app. One HTML page (`index.html`), one React root (`src/main.tsx`), one composing shell (`src/App.tsx`). No routing library. A cinematic prologue is the site entry; 14 stations then mount in a scroll-snap column; hash anchors map 1:1 to station IDs (see `src/scenes/scenes.config.ts`).
 
 ## Mount chain
 
@@ -15,24 +15,32 @@ index.html
            ├── DepthContext             per-scene Surface↔Deep state
            ├── RunningExampleContext    shared prompt across scenes
            ├── SceneNavContext          prev/next + hash sync
-           ├── <TopBar />               nav + depth-all toggle
-           ├── <Landing />              src/landing/Landing.tsx
-           ├── SCENES.map(scene => <SceneStation>{...})
-           └── <ProgressRail />         right-edge per-scene jump
+           ├── <TopBar />               scene-aware pill (EyebrowLabel) + depth-all toggle
+           ├── <Prologue />             src/prologue/Prologue.tsx — cinematic entry track
+           ├── <ActDivider />           visual separator between Part 1 and Part 2
+           ├── SCENES.map(scene => <SceneStation>{...})   14 stations
+           └── <ProgressRail />         right-edge grouped rail (intro + Part 1 + Part 2 + Compare + About)
 ```
 
-## Scene pipeline (the product)
+## Station pipeline (the product)
 
 ```
-Prompt → Tokenize → Embed → Attention → Predict → Decode → Output
-                                                                 ↘ Compare (Claude vs ChatGPT)
-                                                                 ↘ About    (provenance + dataset)
+[Prologue — cinematic entry]
+
+Part 1 · Around the model:
+  Interlude → Context Window → System Prompt → Retrieval/RAG → Hallucination
+
+Part 2 · Inside the model:
+  Prompt → Tokenize → Embed → Attention → Predict → Decode → Output
+
+  ↘ Compare (Claude vs ChatGPT)
+  ↘ About    (provenance + dataset)
 ```
 
 Source of truth: `src/scenes/scenes.config.ts`. Exports:
-- `SceneId` union type — the 9 IDs
-- `AccentToken` — 7 accent colors used per scene
-- `SceneConfig` interface — `{ id, label, accent, ... }`
+- `SceneId` union type — 15 IDs (intro + 5 Part-1 + 7 Part-2 + compare + about)
+- `AccentToken` — 11 accent colors (7 Part-2 + 4 Part-1)
+- `SceneConfig` interface — `{ id, title, accent, prompt, railLabel, implemented, part }`
 - `SCENES: ReadonlyArray<SceneConfig>` — ordered list
 - `getSceneById(id)`, `getMountedSceneIds()` — helpers
 - `ACCENT_HEX: Record<AccentToken, string>` — color lookup
@@ -42,13 +50,20 @@ Source of truth: `src/scenes/scenes.config.ts`. Exports:
 ```
 src/data/prompts/*.json
    ↓ (load + Zod validate)
-src/data/loader.ts → typed RunningExample
-   ↓ (provide)
+src/data/loader.ts → typed datasets
+   ↓ (sky/cat: provide via context)
 RunningExampleContext (src/app/)
    ↓ (consume)
-each scene component reads selected fields
-   ↓ (illustrative datasets for Deep panels)
-src/data/illustrative-embeddings.ts, compare.config.ts
+Part-2 scene components read selected fields
+
+   ↓ (Act 2 datasets: loaded directly by scene)
+loadConditioning()      → SystemScene
+loadRetrievalToy()      → RagScene
+loadHallucinationCase() → HallucinateScene
+
+   ↓ (other illustrative datasets)
+src/data/illustrative-embeddings.ts  → EmbedScene
+src/data/compare.config.ts           → CompareScene
 ```
 
 All external/JSON input is `unknown` until Zod-validated at `src/data/loader.ts`. Scene components consume typed data only.
@@ -77,7 +92,7 @@ No Redux, Zustand, Jotai, or other store. Context + local `useState` only.
 
 ## Analytics
 
-Three files under `src/analytics/`. The `track()` wrapper no-ops without `window.umami`. Button clicks use Umami's declarative `data-umami-event` attribute (no JS). Scene-reach uses `useTrackSceneReach` with once-per-session dedupe. Hard ceiling: 15 named events. Currently 10. See `dependencies.md`.
+Three files under `src/analytics/`. The `track()` wrapper no-ops without `window.umami`. Button clicks use Umami's declarative `data-umami-event` attribute (no JS). Scene-reach uses `useTrackSceneReach` with once-per-session dedupe. Hard ceiling: 15 named events. Currently 7 (Sub-Plan B pruned 3 dead landing events from 10; the prologue and Act-2 scenes added zero new events). See `dependencies.md`.
 
 ## Provenance (product invariant)
 

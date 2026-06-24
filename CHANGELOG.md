@@ -6,6 +6,91 @@ PR numbers are canonical.
 
 ---
 
+## [2026-06-23] — One-scroll cutover (Sub-Plan E)
+
+**PR [#20](https://github.com/thanhthuynh/llm-visualization/pull/20) · `feat(cutover): Sub-Plan E — test canonicalization, OG/meta, CLAUDE.md corrections, docs/provenance sweep`**
+
+### Added
+- E2E `/#`-entry canonical test: all 14 implemented stations reachable from root hash.
+- 14-station Playwright a11y coverage (expanded from 9 to cover all Part-1 + Part-2 + Compare + About).
+- Deterministic keyboard-nav E2E spec (settled flake from rail-label refactor).
+
+### Changed
+- `index.html` OG/meta tags updated to reflect the 14-station one-scroll reality (title, description, `og:title`, `og:description`).
+- `CLAUDE.md` corrected: `noUncheckedIndexedAccess` claim, 14-station architecture description, stale `landing/` references removed, analytics event count updated 10→7, motion budget note updated to prologue-accurate framing.
+- CODEMAPS (`data.md`, `architecture.md`, `frontend.md`) refreshed to reflect prologue + 14 stations + 3 Act-2 datasets + new components (`WindowTape`, `ActDivider`, `EyebrowLabel` accent-capable, `railModel`, `@/motion/tokens`); `src/landing/` references removed.
+- `CHANGELOG.md` backfilled with entries for PRs #16–#20.
+
+---
+
+## [2026-06-22] — Act 2: Around the model (Sub-Plan D)
+
+**PR [#19](https://github.com/thanhthuynh/llm-visualization/pull/19) · `feat: Act 2 — Around the model (data layer + 5 Part-1 scenes; one-scroll Sub-Plan D)`**
+
+### Added
+- Three illustrative datasets + Zod schemas + loaders (all `status:'illustrative'`):
+  - `conditioning.json` / `ConditioningDatasetSchema` / `loadConditioning` — System Prompt scene.
+  - `retrieval-toy.json` / `RetrievalToyDatasetSchema` / `loadRetrievalToy` — RAG scene.
+  - `hallucination-case.json` / `HallucinationCaseDatasetSchema` / `loadHallucinationCase` — Hallucination scene; `superRefine` asserts `top-1 ≠ truth` and `truth ∈ candidates`.
+- Five Part-1 scene components: `InterludeScene`, `WindowScene`, `SystemScene`, `RagScene`, `HallucinateScene`.
+- `WindowTape` shared component — context-window strip visual used across Part-1 scenes.
+- `DatasetStatusSchema` (`'illustrative' | 'measured'`) + shared `refineMeasuredSource` guard in `schema.ts`.
+- 14-station mount: `scenes.config.ts` updated with Part-1 scene entries (`part:'part1'`); `getMountedSceneIds()` now returns all 14 implemented stations.
+- Unit tests for all three Act-2 datasets (schema validation, superRefine negative cases).
+- A11y smoke tests for `WindowScene`, `SystemScene`, `RagScene`, `HallucinateScene`, `InterludeScene`.
+
+---
+
+## [2026-06-21] — Unified chrome (Sub-Plan C)
+
+**PR [#18](https://github.com/thanhthuynh/llm-visualization/pull/18) · `feat: unified chrome — grouped rail, scene-aware top bar, entrance grammar (one-scroll Sub-Plan C)`**
+
+### Added
+- `railModel.ts` — typed `RailItem[]` builder; `ProgressRail` now renders grouped Part 1 / Part 2 / Compare / About sections with implementation-aware ticks.
+- `ActDivider` component — visual separator between Part 1 and Part 2 in the scroll column.
+- `EyebrowLabel` accent-capable — accepts `accent` prop; `TopBar` uses it to show active station name in its theme color.
+- `scrollToScene` helper — reduced-motion-aware programmatic scroll; all nav sources (rail, keyboard, prev/next) route through it.
+- `@/motion/tokens` (`src/motion/tokens.ts`) — shared entrance animation constants enforcing the ≤360 ms budget; used by all station entrance animations.
+- Shared once-on-enter station entrance grammar — opacity/transform cascade capped at 360 ms, reduced-motion safe.
+
+### Changed
+- `ProgressRail` redesigned: grouped intro + part-label + station ticks + compare + about; dot labels collapsed to single `aria-label` per tick.
+- `TopBar` pill now reflects the active scene accent color via `EyebrowLabel`.
+
+---
+
+## [2026-06-20] — Cinematic prologue (Sub-Plan B)
+
+**PR [#17](https://github.com/thanhthuynh/llm-visualization/pull/17) · `feat: cinematic prologue as site entry (one-scroll Sub-Plan B)`**
+
+### Added
+- `src/prologue/` — cinematic 7-beat scroll-scrubbed intro (`PrologueAnimated`), reduced-motion static variant (`PrologueStatic`), mode selector (`PrologueMode`), beat config (`beats.config.ts`), per-beat components, snap geometry (`snap.ts`), `useBeatProgress`, `usePrologueGate`.
+- "INTRO" tick in `ProgressRail` maps to `#intro` prologue anchor.
+- Skip-intro affordance wired to the interlude forward target.
+- Prologue E2E spec + a11y axe scan at `/`.
+
+### Removed
+- `src/landing/` — all 8 landing-page section files deleted. Copy and provenance prose migrated to the `AboutScene` finale.
+
+### Changed
+- Analytics: 3 dead landing-page events pruned from `events.ts` (10 → 7 named events).
+
+---
+
+## [2026-06-19] — One-scroll foundation (Sub-Plan A)
+
+**PR [#16](https://github.com/thanhthuynh/llm-visualization/pull/16) · `feat: one-scroll foundation — /explorer→/ route collapse, body scroll model, registry-driven scene mount (Sub-Plan A)`**
+
+### Added
+- Registry-driven scene mount: `App.tsx` maps `SCENES` entries to `<SceneStation>` components; new scenes require only a `scenes.config.ts` entry + component file.
+
+### Changed
+- Route collapsed: `/explorer` → `/`. Single URL, single page.
+- Scroll model: document/body scroll (was container-scroll); enables native scroll-snap across the full page.
+- `scenes.config.ts` extended with `part` field (`'intro' | 'part1' | 'part2'`) to support grouped rail and `ActDivider` placement.
+
+---
+
 ## [2026-06-02] — Analytics + Public Launch
 
 **PR [#13](https://github.com/thanhthuynh/llm-visualization/pull/13) · `feat(analytics): Umami Cloud tracking + CF Pages deploy spec`**
