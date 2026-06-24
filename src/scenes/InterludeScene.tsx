@@ -1,5 +1,8 @@
+import { motion } from 'motion/react'
 import { EyebrowLabel } from '@/components/EyebrowLabel'
 import { accentHex } from '@/utils/accent'
+import { useReducedMotionPref } from '@/app/useReducedMotionPref'
+import { entranceContainer, entranceItem } from '@/motion/entrance'
 import type { AccentToken } from '@/scenes/scenes.config'
 
 interface TermRow {
@@ -30,6 +33,17 @@ const TERM_INDEX: TermRow[] = [
 ]
 
 export function InterludeScene() {
+  const reduced = useReducedMotionPref()
+
+  const outerMotionProps = reduced
+    ? ({ initial: false } as const)
+    : ({
+        variants: entranceContainer,
+        initial: 'hidden',
+        whileInView: 'visible',
+        viewport: { once: true, amount: 0.3 },
+      } as const)
+
   return (
     <section
       id="interlude"
@@ -37,47 +51,108 @@ export function InterludeScene() {
       className="min-h-screen pt-26 pb-8 pl-(--gutter-left) pr-(--gutter-right)"
       style={{ maxWidth: 'calc(760px + var(--gutter-left))' }}
     >
-      <EyebrowLabel>PART 1 · AROUND THE MODEL</EyebrowLabel>
+      <motion.div {...outerMotionProps}>
+        {reduced ? (
+          <EyebrowLabel>PART 1 · AROUND THE MODEL</EyebrowLabel>
+        ) : (
+          <motion.div variants={entranceItem}>
+            <EyebrowLabel>PART 1 · AROUND THE MODEL</EyebrowLabel>
+          </motion.div>
+        )}
 
-      <h2
-        id="interlude-title"
-        tabIndex={-1}
-        className="mt-3 m-0 font-display font-bold text-[28px] leading-[34px] tracking-[-1px]"
-      >
-        Around the model.
-      </h2>
-
-      <p className="mt-6 leading-[27px] text-text-secondary max-w-prose">
-        The model you just watched race through the intro lives inside a wrapper — rules you never
-        see, a token budget, sometimes a search step. Here are the seven words for that layer;
-        we&apos;ll open up the machinery itself in Part 2.
-      </p>
-
-      <ol className="mt-10 list-none p-0 m-0 flex flex-col gap-5">
-        {TERM_INDEX.map(({ term, tag, href, accent }) => (
-          <li
-            key={`${term}-${href}`}
-            className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-4"
+        {reduced ? (
+          <h2
+            id="interlude-title"
+            tabIndex={-1}
+            className="mt-3 m-0 font-display font-bold text-[28px] leading-[34px] tracking-[-1px]"
           >
-            <span className="font-display font-semibold text-[15px] leading-[22px] text-text-primary min-w-[180px]">
-              {term}
-            </span>
-            <span className="font-mono text-[12px] text-text-muted leading-[22px] flex-1">
-              {tag}
-            </span>
-            <a
-              href={href}
-              className="font-mono text-[11px] px-2 py-0.5 rounded border self-start sm:self-auto whitespace-nowrap"
-              style={{
-                color: accentHex(accent),
-                borderColor: accentHex(accent),
-              }}
-            >
-              {href}
-            </a>
-          </li>
-        ))}
-      </ol>
+            Around the model.
+          </h2>
+        ) : (
+          <motion.h2
+            id="interlude-title"
+            tabIndex={-1}
+            className="mt-3 m-0 font-display font-bold text-[28px] leading-[34px] tracking-[-1px]"
+            variants={entranceItem}
+          >
+            Around the model.
+          </motion.h2>
+        )}
+
+        {reduced ? (
+          <p className="mt-6 leading-[27px] text-text-secondary max-w-prose">
+            The model you just watched race through the intro lives inside a wrapper — rules you
+            never see, a token budget, sometimes a search step. Here are the seven words for that
+            layer; we&apos;ll open up the machinery itself in Part 2.
+          </p>
+        ) : (
+          <motion.p
+            className="mt-6 leading-[27px] text-text-secondary max-w-prose"
+            variants={entranceItem}
+          >
+            The model you just watched race through the intro lives inside a wrapper — rules you
+            never see, a token budget, sometimes a search step. Here are the seven words for that
+            layer; we&apos;ll open up the machinery itself in Part 2.
+          </motion.p>
+        )}
+
+        {reduced ? (
+          <ol className="mt-10 list-none p-0 m-0 flex flex-col gap-5">
+            {TERM_INDEX.map(({ term, tag, href, accent }) => (
+              <li
+                key={`${term}-${href}`}
+                className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-4"
+              >
+                <span className="font-display font-semibold text-[15px] leading-[22px] text-text-primary min-w-[180px]">
+                  {term}
+                </span>
+                <span className="font-mono text-[12px] text-text-muted leading-[22px] flex-1">
+                  {tag}
+                </span>
+                <a
+                  href={href}
+                  className="font-mono text-[11px] px-2 py-0.5 rounded border self-start sm:self-auto whitespace-nowrap"
+                  style={{
+                    color: accentHex(accent),
+                    borderColor: accentHex(accent),
+                  }}
+                >
+                  {href}
+                </a>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <motion.ol
+            className="mt-10 list-none p-0 m-0 flex flex-col gap-5"
+            variants={entranceItem}
+          >
+            {TERM_INDEX.map(({ term, tag, href, accent }) => (
+              <li
+                key={`${term}-${href}`}
+                className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-4"
+              >
+                <span className="font-display font-semibold text-[15px] leading-[22px] text-text-primary min-w-[180px]">
+                  {term}
+                </span>
+                <span className="font-mono text-[12px] text-text-muted leading-[22px] flex-1">
+                  {tag}
+                </span>
+                <a
+                  href={href}
+                  className="font-mono text-[11px] px-2 py-0.5 rounded border self-start sm:self-auto whitespace-nowrap"
+                  style={{
+                    color: accentHex(accent),
+                    borderColor: accentHex(accent),
+                  }}
+                >
+                  {href}
+                </a>
+              </li>
+            ))}
+          </motion.ol>
+        )}
+      </motion.div>
     </section>
   )
 }

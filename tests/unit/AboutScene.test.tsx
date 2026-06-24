@@ -1,8 +1,9 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { render, screen, within } from '@testing-library/react'
 import { AboutScene } from '@/scenes/AboutScene'
 import { RunningExampleProvider } from '@/app/RunningExampleContext'
 import { SCENES } from '@/scenes/scenes.config'
+import { __setReducedMotion } from '../setup'
 
 const WORDMARK_SCENES = SCENES.filter(
   (s) => s.implemented && (s.part === 'part1' || s.part === 'part2') && s.accent !== null,
@@ -82,6 +83,30 @@ describe('AboutScene', () => {
     it('does not contain a dead /explorer CTA link', () => {
       renderAbout()
       expect(screen.queryByText(/launch the explainer/i)).not.toBeInTheDocument()
+    })
+  })
+
+  describe('reduced-motion: instant/visible path', () => {
+    beforeEach(() => __setReducedMotion(true))
+
+    it('heading is immediately visible when reduced-motion is preferred', () => {
+      renderAbout()
+      expect(screen.getByRole('heading', { level: 2, name: /about/i })).toBeVisible()
+    })
+
+    it('about-body is immediately visible when reduced-motion is preferred', () => {
+      renderAbout()
+      expect(screen.getByTestId('about-body')).toBeVisible()
+    })
+
+    it('about-wordmark is immediately visible when reduced-motion is preferred', () => {
+      renderAbout()
+      expect(screen.getByTestId('about-wordmark')).toBeVisible()
+    })
+
+    it('GitHub link is immediately visible when reduced-motion is preferred', () => {
+      renderAbout()
+      expect(screen.getByRole('link', { name: /github/i })).toBeVisible()
     })
   })
 })

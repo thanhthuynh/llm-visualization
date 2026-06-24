@@ -1,6 +1,7 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { InterludeScene } from '@/scenes/InterludeScene'
+import { __setReducedMotion } from '../setup'
 
 function renderInterlude() {
   return render(<InterludeScene />)
@@ -101,5 +102,29 @@ describe('InterludeScene', () => {
     const { container } = renderInterlude()
     const elementsWithUmami = container.querySelectorAll('[data-umami-event]')
     expect(elementsWithUmami).toHaveLength(0)
+  })
+
+  describe('reduced-motion: instant/visible path', () => {
+    beforeEach(() => __setReducedMotion(true))
+
+    it('heading is immediately visible when reduced-motion is preferred', () => {
+      renderInterlude()
+      expect(screen.getByRole('heading', { level: 2, name: /around the model\./i })).toBeVisible()
+    })
+
+    it('eyebrow label is immediately visible when reduced-motion is preferred', () => {
+      renderInterlude()
+      expect(screen.getByText('PART 1 · AROUND THE MODEL')).toBeVisible()
+    })
+
+    it('lede paragraph is immediately visible when reduced-motion is preferred', () => {
+      renderInterlude()
+      expect(screen.getByText(/lives inside a wrapper/i)).toBeVisible()
+    })
+
+    it('term index list is immediately visible when reduced-motion is preferred', () => {
+      renderInterlude()
+      expect(screen.getByText('Context window')).toBeVisible()
+    })
   })
 })

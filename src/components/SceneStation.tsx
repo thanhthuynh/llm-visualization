@@ -9,11 +9,14 @@ import { DeepToggle } from './DeepToggle'
 import { SceneNav } from './SceneNav'
 import type { AccentToken, SceneId } from '@/scenes/scenes.config'
 import { EASE_DECELERATE, MOTION } from '@/motion/tokens'
+import { ENTRANCE_CHILD_DURATION as _ENTRANCE_CHILD_DURATION } from '@/motion/entrance'
 import type { Variants } from 'motion/react'
 
-// 4 children staggered at MOTION.stagger; the last starts at 3*MOTION.stagger,
-// so cap each child's duration so delay(last) + duration <= MOTION.max (0.36s).
-export const ENTRANCE_CHILD_DURATION = MOTION.max - 3 * MOTION.stagger // 0.24s
+// Re-exported from @/motion/entrance so tests importing it from SceneStation
+// continue to work without change.
+export { ENTRANCE_CHILD_DURATION } from '@/motion/entrance'
+// Keep local alias for use within this file.
+const ENTRANCE_CHILD_DURATION = _ENTRANCE_CHILD_DURATION
 
 interface SceneStationProps {
   id: SceneId
