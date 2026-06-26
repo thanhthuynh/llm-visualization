@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { motion } from 'motion/react'
 import { useDepth } from '@/app/DepthContext'
 import { useReducedMotionPref } from '@/app/useReducedMotionPref'
@@ -79,6 +79,26 @@ export function SceneStation({ id, title, accent, stage, surface, deeper }: Scen
   const canPrev = idx > 0
   const canNext = idx >= 0 && idx < nav!.ids.length - 1
 
+  // Below xl the layout stacks and a diagram wider than the card pans
+  // horizontally (the stage is overflow-x-auto on mobile — see index.css).
+  // Center that pan on mount so the focal content (e.g. the attention arcs
+  // converging on "it", or the embedding cluster) shows at rest instead of the
+  // empty left edge. No-op at >= xl, where the stage clips and never overflows.
+  const stageFrameRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const el = stageFrameRef.current
+    if (!el) return
+    const id = requestAnimationFrame(() => {
+      if (window.innerWidth >= 1280) {
+        el.scrollLeft = 0
+        return
+      }
+      const max = el.scrollWidth - el.clientWidth
+      if (max > 0) el.scrollLeft = Math.round(max / 2)
+    })
+    return () => cancelAnimationFrame(id)
+  }, [])
+
   // When reduced-motion is preferred, pass initial={false} so motion skips the
   // enter animation and renders all content at its final (visible) state immediately.
   // When animate is active, drive entrance via whileInView (plays once).
@@ -99,15 +119,17 @@ export function SceneStation({ id, title, accent, stage, surface, deeper }: Scen
       >
         {reduced ? (
           <div
+            ref={stageFrameRef}
             data-stage-frame
-            className="relative w-full min-w-0 h-(--stage-h) bg-surface-card border border-border rounded-card overflow-clip"
+            className="relative w-full min-w-0 h-(--stage-h) bg-surface-card border border-border rounded-card overflow-clip max-xl:overflow-x-auto max-xl:overflow-y-hidden"
           >
             {stage}
           </div>
         ) : (
           <motion.div
+            ref={stageFrameRef}
             data-stage-frame
-            className="relative w-full min-w-0 h-(--stage-h) bg-surface-card border border-border rounded-card overflow-clip"
+            className="relative w-full min-w-0 h-(--stage-h) bg-surface-card border border-border rounded-card overflow-clip max-xl:overflow-x-auto max-xl:overflow-y-hidden"
             variants={stageVariants}
           >
             {stage}

@@ -67,4 +67,25 @@ test.describe('responsive: no horizontal overflow on narrow viewports', () => {
       expect(scrollWidth).toBeLessThanOrEqual(clientWidth + 1)
     })
   }
+
+  test('a wide diagram stage pans within its card and auto-centers its focal content', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/#attention')
+    await page.waitForLoadState('networkidle')
+    await page.waitForTimeout(700) // allow the mount-time centering rAF to run
+
+    const { pan, scrollLeft } = await page.evaluate(() => {
+      const stage = document.querySelector('#attention [data-stage-frame]')
+      if (!stage) return { pan: -1, scrollLeft: -1 }
+      return { pan: stage.scrollWidth - stage.clientWidth, scrollLeft: stage.scrollLeft }
+    })
+
+    // The 620px attention diagram is wider than the mobile card → it pans
+    // (contained, never overflowing the page), and is centered on mount rather
+    // than stuck at the empty left edge.
+    expect(pan).toBeGreaterThan(0)
+    expect(scrollLeft).toBeGreaterThan(pan * 0.3)
+  })
 })
