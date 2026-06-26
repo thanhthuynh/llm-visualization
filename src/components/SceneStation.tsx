@@ -94,10 +94,7 @@ export function SceneStation({ id, title, accent, stage, surface, deeper }: Scen
   return (
     <section id={id} aria-labelledby={`${id}-title`}>
       <motion.div
-        className="relative min-h-screen pt-26 pb-6 grid pl-(--gutter-left) pr-(--gutter-right)"
-        style={{
-          gridTemplateColumns: 'minmax(var(--stage-min-w), 1fr) var(--col-gap) var(--col-right)',
-        }}
+        className="relative min-h-screen pt-26 pb-6 grid grid-cols-1 gap-y-8 pl-(--gutter-left) pr-(--gutter-right) xl:gap-y-0 xl:[grid-template-columns:minmax(var(--stage-min-w),1fr)_var(--col-gap)_var(--col-right)]"
         {...outerMotionProps}
       >
         {reduced ? (
@@ -116,7 +113,7 @@ export function SceneStation({ id, title, accent, stage, surface, deeper }: Scen
             {stage}
           </motion.div>
         )}
-        <div />
+        <div className="hidden xl:block" aria-hidden="true" />
         <div className="relative min-w-0">
           {reduced ? (
             <h2
