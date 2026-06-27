@@ -40,10 +40,10 @@ export function AttentionScene() {
   // Mobile-native view of the same arcs: how much "it" attends to each earlier
   // token, as horizontal bars sorted strongest-first (the arc diagram can't fit
   // 8 tokens readably in a narrow column — see the desktop SVG below).
-  const mobileRows = SURFACE_ARCS.map((a) => ({ label: a.label, weight: queryRow[a.from] })).sort(
-    (a, b) => b.weight - a.weight,
-  )
-  const topWeight = mobileRows.length > 0 ? mobileRows[0]!.weight : 0
+  const mobileRows = [...SURFACE_ARCS]
+    .map((a) => ({ label: a.label, weight: queryRow[a.from] }))
+    .sort((a, b) => b.weight - a.weight)
+  const topWeight = mobileRows[0]?.weight ?? 0
 
   const stage = (
     <div
@@ -57,8 +57,11 @@ export function AttentionScene() {
     >
       <EyebrowLabel>Who is &ldquo;it&rdquo; looking at?</EyebrowLabel>
       {isCompact ? (
-        <div className="flex flex-col">
-          <p className="m-0 mb-2 font-mono text-[11px] uppercase tracking-widest text-text-muted">
+        <div role="group" aria-labelledby="attention-attends-label" className="flex flex-col">
+          <p
+            id="attention-attends-label"
+            className="m-0 mb-2 font-mono text-[11px] uppercase tracking-widest text-text-muted"
+          >
             how much <span className="text-text-primary">it</span> attends to each earlier token
           </p>
           {mobileRows.map((r) => (
