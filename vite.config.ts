@@ -15,7 +15,26 @@ function readBuildCommit(): string {
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: { alias: { '@': path.resolve(__dirname, 'src') } },
-  build: { target: 'es2022', sourcemap: true },
+  build: {
+    target: 'es2022',
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        // Split heavy, rarely-changing vendor code out of the app entry so the
+        // main chunk stays well under Vite's 500 kB warning and vendors cache
+        // independently of app deploys.
+        manualChunks(id: string): string | undefined {
+          if (!id.includes('node_modules')) return undefined
+          if (/[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/.test(id)) {
+            return 'vendor-react'
+          }
+          if (/[\\/]node_modules[\\/]motion[\\/]/.test(id)) return 'vendor-motion'
+          if (/[\\/]node_modules[\\/]d3-/.test(id)) return 'vendor-d3'
+          return undefined
+        },
+      },
+    },
+  },
   define: {
     __BUILD_COMMIT__: JSON.stringify(readBuildCommit()),
   },

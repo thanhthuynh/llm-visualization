@@ -4,22 +4,35 @@ import { EmbeddingSpace } from '@/components/EmbeddingSpace'
 import { EyebrowLabel } from '@/components/EyebrowLabel'
 import { getSceneById } from '@/scenes/scenes.config'
 import { ILLUSTRATIVE_DOTS } from '@/data/illustrative-embeddings'
+import { useMediaQuery } from '@/app/useMediaQuery'
+import { useElementWidth } from '@/app/useElementWidth'
 
 const SCENE = getSceneById('embed')
 
 export function EmbedScene() {
   const tagClass = 'px-2.5 py-1 rounded-pill border border-border text-text-muted'
 
+  // The 2D scatter can't shrink-to-fit via viewBox without making its labels
+  // unreadable, so below xl we render it at the container's actual pixel width
+  // (labels stay fixed-size). Desktop (>= xl) keeps the exact original dims.
+  const isCompact = useMediaQuery('(max-width: 1279px)')
+  const [surfaceVizRef, surfaceVizW] = useElementWidth()
+  const [deepVizRef, deepVizW] = useElementWidth()
+  const surfaceW = isCompact && surfaceVizW > 0 ? surfaceVizW : 600
+  const surfaceH = isCompact && surfaceVizW > 0 ? Math.round(surfaceVizW * 0.92) : 420
+  const deepW = isCompact && deepVizW > 0 ? deepVizW : 520
+  const deepH = isCompact && deepVizW > 0 ? Math.round(deepVizW * 0.6) : 300
+
   const stage = (
     <div className="p-(--stage-padding) flex flex-col gap-4 h-full">
       <EyebrowLabel>A space of meaning</EyebrowLabel>
-      <div className="flex-1 min-h-0">
+      <div ref={surfaceVizRef} className="flex-1 min-h-0">
         <EmbeddingSpace
           dots={ILLUSTRATIVE_DOTS}
           cluster={{ cx: -0.4, cy: -0.3, rx: 0.35, ry: 0.35 }}
           accent="embed"
-          width={600}
-          height={420}
+          width={surfaceW}
+          height={surfaceH}
         />
       </div>
       <p className="font-body text-[13px] text-text-muted">
@@ -41,13 +54,13 @@ export function EmbedScene() {
   const deeper = (
     <div className="flex flex-col gap-4">
       <EyebrowLabel>Contextual shift</EyebrowLabel>
-      <div className="w-full">
+      <div ref={deepVizRef} className="w-full">
         <EmbeddingSpace
           dots={ILLUSTRATIVE_DOTS}
           shift={{ from: 'sky', to: { x: -0.1, y: -0.45 } }}
           accent="embed"
-          width={520}
-          height={300}
+          width={deepW}
+          height={deepH}
         />
       </div>
       <div className="flex flex-wrap gap-2.5 font-mono text-xs">

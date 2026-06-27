@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { SceneStation } from '@/components/SceneStation'
 import { CaveatNote } from '@/components/CaveatNote'
+import { DataBar } from '@/components/DataBar'
 import { EyebrowLabel } from '@/components/EyebrowLabel'
 import { AttentionArc } from '@/components/AttentionArc'
+import { useMediaQuery } from '@/app/useMediaQuery'
 import { AttentionMatrix } from '@/components/AttentionMatrix'
 import { HeadSelector } from '@/components/HeadSelector'
 import { getSceneById } from '@/scenes/scenes.config'
@@ -30,9 +32,18 @@ function chipDisplay(text: string): string {
 
 export function AttentionScene() {
   const [head, setHead] = useState<0 | 1 | 2>(0)
+  const isCompact = useMediaQuery('(max-width: 1279px)')
   const tokens = CAT.tokens.map((t) => chipDisplay(t.text))
   const headWeights = CAT.attention.heads[head]
   const queryRow = headWeights[QUERY_INDEX]
+
+  // Mobile-native view of the same arcs: how much "it" attends to each earlier
+  // token, as horizontal bars sorted strongest-first (the arc diagram can't fit
+  // 8 tokens readably in a narrow column — see the desktop SVG below).
+  const mobileRows = [...SURFACE_ARCS]
+    .map((a) => ({ label: a.label, weight: queryRow[a.from] }))
+    .sort((a, b) => b.weight - a.weight)
+  const topWeight = mobileRows[0]?.weight ?? 0
 
   const stage = (
     <div
@@ -45,43 +56,64 @@ export function AttentionScene() {
       }}
     >
       <EyebrowLabel>Who is &ldquo;it&rdquo; looking at?</EyebrowLabel>
-      <svg width={620} height={300} viewBox="0 0 620 300" aria-label="Attention arcs">
-        {SURFACE_ARCS.map((a) => (
-          <AttentionArc
-            key={a.label}
-            x1={TOKEN_X[QUERY_INDEX]}
-            x2={TOKEN_X[a.from]}
-            baseline={BASELINE_Y}
-            weight={queryRow[a.from]}
-            label={a.label}
-          />
-        ))}
-        {tokens.map((t, i) => (
-          <g key={i}>
-            <rect
-              x={TOKEN_X[i] - 28}
-              y={BASELINE_Y - 4}
-              width={56}
-              height={28}
-              rx={14}
-              fill={
-                i === QUERY_INDEX ? 'var(--color-accent-attention)' : 'var(--color-surface-card)'
-              }
-              stroke="var(--color-border)"
+      {isCompact ? (
+        <div role="group" aria-labelledby="attention-attends-label" className="flex flex-col">
+          <p
+            id="attention-attends-label"
+            className="m-0 mb-2 font-mono text-[11px] uppercase tracking-widest text-text-muted"
+          >
+            how much <span className="text-text-primary">it</span> attends to each earlier token
+          </p>
+          {mobileRows.map((r) => (
+            <DataBar
+              key={r.label}
+              label={r.label}
+              value={`${Math.round(r.weight * 100)}%`}
+              fraction={r.weight}
+              dominant={r.weight === topWeight}
+              accent="attention"
             />
-            <text
-              x={TOKEN_X[i]}
-              y={BASELINE_Y + 14}
-              textAnchor="middle"
-              fontFamily="var(--font-mono)"
-              fontSize={12}
-              fill={i === QUERY_INDEX ? '#fff' : 'var(--color-text-primary)'}
-            >
-              {t}
-            </text>
-          </g>
-        ))}
-      </svg>
+          ))}
+        </div>
+      ) : (
+        <svg width={620} height={300} viewBox="0 0 620 300" aria-label="Attention arcs">
+          {SURFACE_ARCS.map((a) => (
+            <AttentionArc
+              key={a.label}
+              x1={TOKEN_X[QUERY_INDEX]}
+              x2={TOKEN_X[a.from]}
+              baseline={BASELINE_Y}
+              weight={queryRow[a.from]}
+              label={a.label}
+            />
+          ))}
+          {tokens.map((t, i) => (
+            <g key={i}>
+              <rect
+                x={TOKEN_X[i] - 28}
+                y={BASELINE_Y - 4}
+                width={56}
+                height={28}
+                rx={14}
+                fill={
+                  i === QUERY_INDEX ? 'var(--color-accent-attention)' : 'var(--color-surface-card)'
+                }
+                stroke="var(--color-border)"
+              />
+              <text
+                x={TOKEN_X[i]}
+                y={BASELINE_Y + 14}
+                textAnchor="middle"
+                fontFamily="var(--font-mono)"
+                fontSize={12}
+                fill={i === QUERY_INDEX ? '#fff' : 'var(--color-text-primary)'}
+              >
+                {t}
+              </text>
+            </g>
+          ))}
+        </svg>
+      )}
       <p className="m-0 font-body text-[13px] text-text-muted">
         Simplified — open Go deeper to see what&apos;s really going on.
       </p>
