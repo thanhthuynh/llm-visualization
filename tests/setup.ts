@@ -57,3 +57,14 @@ window.IntersectionObserver = class StubIntersectionObserver {
     return []
   }
 } as unknown as typeof IntersectionObserver
+
+// ResizeObserver stub: no-op so jsdom doesn't throw when code measures element
+// size (e.g. useElementWidth). The callback never fires, so size-driven hooks
+// keep their initial value (0) and consumers fall back to their default width —
+// correct for a headless environment with no real layout.
+window.ResizeObserver = class StubResizeObserver {
+  constructor(_cb: () => void) {}
+  observe(_target: Element) {}
+  unobserve(_target: Element) {}
+  disconnect() {}
+} as unknown as typeof ResizeObserver

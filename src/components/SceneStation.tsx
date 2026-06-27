@@ -79,11 +79,12 @@ export function SceneStation({ id, title, accent, stage, surface, deeper }: Scen
   const canPrev = idx > 0
   const canNext = idx >= 0 && idx < nav!.ids.length - 1
 
-  // Below xl the layout stacks and a diagram wider than the card pans
-  // horizontally (the stage is overflow-x-auto on mobile — see index.css).
-  // Center that pan on mount so the focal content (e.g. the attention arcs
-  // converging on "it", or the embedding cluster) shows at rest instead of the
-  // empty left edge. No-op at >= xl, where the stage clips and never overflows.
+  // Defensive: the stage is overflow-x-auto below xl (see index.css), so if a
+  // stage's content is ever wider than the card it pans instead of overflowing
+  // the page. Center that pan on mount so the middle shows at rest rather than
+  // the empty left edge. The two wide diagram vizes now reflow to fit on mobile
+  // (attention → weight bars, embed → fitted scatter), so this is a no-op for
+  // them; it guards any future wide stage content. No-op at >= xl.
   const stageFrameRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const el = stageFrameRef.current

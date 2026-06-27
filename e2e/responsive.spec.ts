@@ -68,24 +68,30 @@ test.describe('responsive: no horizontal overflow on narrow viewports', () => {
     })
   }
 
-  test('a wide diagram stage pans within its card and auto-centers its focal content', async ({
+  test('the wide diagram vizes reflow to fit the mobile card (no horizontal pan)', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 390, height: 844 })
+    for (const id of ['attention', 'embed']) {
+      await page.goto(`/#${id}`)
+      await page.waitForLoadState('networkidle')
+      await page.waitForTimeout(500)
+      const pan = await page.evaluate((sid) => {
+        const stage = document.querySelector(`#${sid} [data-stage-frame]`)
+        return stage ? stage.scrollWidth - stage.clientWidth : -1
+      }, id)
+      expect(pan, `#${id} stage should fit the card without horizontal pan`).toBeLessThanOrEqual(1)
+    }
+  })
+
+  test('attention renders weight bars (not the arc SVG) on mobile', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
     await page.goto('/#attention')
     await page.waitForLoadState('networkidle')
-    await page.waitForTimeout(700) // allow the mount-time centering rAF to run
-
-    const { pan, scrollLeft } = await page.evaluate(() => {
-      const stage = document.querySelector('#attention [data-stage-frame]')
-      if (!stage) return { pan: -1, scrollLeft: -1 }
-      return { pan: stage.scrollWidth - stage.clientWidth, scrollLeft: stage.scrollLeft }
-    })
-
-    // The 620px attention diagram is wider than the mobile card → it pans
-    // (contained, never overflowing the page), and is centered on mount rather
-    // than stuck at the empty left edge.
-    expect(pan).toBeGreaterThan(0)
-    expect(scrollLeft).toBeGreaterThan(pan * 0.3)
+    await page.waitForTimeout(400)
+    const stage = page.locator('#attention [data-stage-frame]')
+    // mobile uses DataBars (role=progressbar); the desktop arc SVG is not rendered
+    await expect(stage.getByRole('progressbar').first()).toBeVisible()
+    await expect(stage.locator('svg[aria-label="Attention arcs"]')).toHaveCount(0)
   })
 })
