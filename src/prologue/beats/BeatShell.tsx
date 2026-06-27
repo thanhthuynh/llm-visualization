@@ -28,7 +28,7 @@ export function BeatShell({ beatId, label, scrollYProgress, children }: BeatShel
     return (
       <section
         aria-label={label}
-        className="relative flex min-h-screen flex-col items-center justify-center gap-8 px-6 py-24 text-center"
+        className="relative flex min-h-screen flex-col items-center justify-center gap-8 px-6 py-24 text-center max-xl:pl-20"
       >
         {children}
       </section>
@@ -39,7 +39,7 @@ export function BeatShell({ beatId, label, scrollYProgress, children }: BeatShel
     <motion.section
       aria-label={label}
       style={{ opacity, y }}
-      className="absolute inset-0 flex flex-col items-center justify-center gap-8 px-6 text-center"
+      className="absolute inset-0 flex flex-col items-center justify-center gap-8 px-6 text-center max-xl:pl-20"
     >
       {children}
     </motion.section>

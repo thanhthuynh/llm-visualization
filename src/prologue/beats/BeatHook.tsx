@@ -13,7 +13,7 @@ export function BeatHook({ scrollYProgress }: BeatProps) {
       <p className="font-mono text-xs uppercase tracking-widest text-text-muted">
         INTERACTIVE EXPLAINER
       </p>
-      <h1 className="font-display text-6xl md:text-7xl font-medium tracking-[-0.02em] text-text-primary">
+      <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-medium tracking-[-0.02em] text-text-primary">
         Inside an LLM.
       </h1>
       <Chip accent={accentHex('prompt')} active variant="token">

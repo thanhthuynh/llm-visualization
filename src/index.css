@@ -89,6 +89,27 @@ html {
   }
 }
 
+/* Responsive: below the xl breakpoint (1280px) the station shell stacks to a
+   single column (see SceneStation). The fixed 3-column grid needs ~1180px, so
+   narrower viewports — phones, portrait tablets, small windows — would otherwise
+   scroll horizontally. Tighten the gutters (the rail is 72px wide), shrink the
+   stage so a stacked section is not absurdly tall, and let the page scroll
+   freely: scroll-snapping tall stacked sections fights natural touch scrolling. */
+@media (max-width: 1279px) {
+  :root {
+    --gutter-left: 84px;
+    --gutter-right: 16px;
+    --stage-h: clamp(360px, 52vh, 520px);
+  }
+  html {
+    scroll-snap-type: none;
+  }
+  .stations > section {
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+  }
+}
+
 .skip-link {
   position: absolute;
   top: -40px;
