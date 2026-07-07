@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { render } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import { Site } from '@/App'
 import { SECTION_IDS, SECTIONS } from '@/plates/plates.config'
 
@@ -25,34 +25,40 @@ describe('Site — Atlas shell', () => {
     expect(container.querySelector('a.skip-link')).not.toBeNull()
   })
 
-  it('renders the three volume dividers with their labels', () => {
-    const { getByText } = render(<Site />)
-    expect(getByText('VOLUME I · FOUNDATIONS')).toBeInTheDocument()
-    expect(getByText('VOLUME II · AGENTS')).toBeInTheDocument()
-    expect(getByText('APPENDIX · REFERENCE')).toBeInTheDocument()
+  it('renders the three volume dividers in order between section groups', () => {
+    const { container } = render(<Site />)
+    const dividers = Array.from(container.querySelectorAll('main > div[aria-hidden="true"]'))
+    expect(dividers.map((d) => d.textContent)).toEqual([
+      'VOLUME I · FOUNDATIONS',
+      'VOLUME II · AGENTS',
+      'APPENDIX · REFERENCE',
+    ])
   })
 
   it('renders the sticky header with brand and CHARTS · GLOSSARY · ABOUT nav', () => {
-    const { getByText } = render(<Site />)
-    expect(getByText('The Atlas')).toBeInTheDocument()
-    expect(getByText('CHARTS').closest('a')).toHaveAttribute('href', '#/home')
-    expect(getByText('GLOSSARY').closest('a')).toHaveAttribute('href', '#/gazetteer')
-    expect(getByText('ABOUT').closest('a')).toHaveAttribute('href', '#/about')
+    render(<Site />)
+    const header = within(screen.getByRole('banner'))
+    expect(header.getByText('The Atlas')).toBeInTheDocument()
+    expect(header.getByText('CHARTS').closest('a')).toHaveAttribute('href', '#/home')
+    expect(header.getByText('GLOSSARY').closest('a')).toHaveAttribute('href', '#/gazetteer')
+    expect(header.getByText('ABOUT').closest('a')).toHaveAttribute('href', '#/about')
   })
 
   it('renders the station rail with 11 stations and group captions', () => {
-    const { getByLabelText, getByText } = render(<Site />)
-    const rail = getByLabelText('Stations')
+    render(<Site />)
+    const rail = screen.getByLabelText('Stations')
+    const inRail = within(rail)
     expect(rail.querySelectorAll('a[data-route]')).toHaveLength(SECTION_IDS.length)
-    expect(getByText('VOLUME I')).toBeInTheDocument()
-    expect(getByText('VOLUME II')).toBeInTheDocument()
-    expect(getByText('REFERENCE')).toBeInTheDocument()
-    expect(getByText('IV·D · SOUNDED')).toBeInTheDocument()
+    expect(inRail.getByText('VOLUME I')).toBeInTheDocument()
+    expect(inRail.getByText('VOLUME II')).toBeInTheDocument()
+    expect(inRail.getByText('REFERENCE')).toBeInTheDocument()
+    expect(inRail.getByText('IV·D · SOUNDED')).toBeInTheDocument()
   })
 
   it('marks the CHARTS nav item active for the initial home section', () => {
-    const { getByText } = render(<Site />)
-    expect(getByText('CHARTS').closest('a')).toHaveAttribute('aria-current', 'true')
-    expect(getByText('GLOSSARY').closest('a')).not.toHaveAttribute('aria-current')
+    render(<Site />)
+    const header = within(screen.getByRole('banner'))
+    expect(header.getByText('CHARTS').closest('a')).toHaveAttribute('aria-current', 'true')
+    expect(header.getByText('GLOSSARY').closest('a')).not.toHaveAttribute('aria-current')
   })
 })

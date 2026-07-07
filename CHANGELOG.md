@@ -46,6 +46,13 @@ Full product replacement: "Inside an LLM" → **The Atlas**, a nautical-chart-th
 - **Added** `PlateVII` (*The Circuit*): the closed loop with turn markers, the three-turn iterations table, and the goal-met / step-limit / no-progress stop conditions.
 - SVG marker ids namespaced per plate (`pv-`/`pvi-`/`pvii-`) so arrowheads can't collide on the one-scroll page. 22 render tests.
 
+### M5 — Reference screens
+
+- **Added** `HomePlate` hero: kicker, display H1, stat block, and the chart-panel route map — SVG route network plus station rings, the Plate IV gateway diamond, and the Plate V bullseye, with seven clickable station labels routing to their plates.
+- **Added** `GazetteerPlate` + `gazetteer.data.ts`: 17 alphabetized entries (term · plate ref · one-line definition), every entry a cross-link to its plate; the `17 ENTRIES` footer count derives from the data.
+- **Added** `ColophonPlate` (*About the Atlas*): premise, HOW TO READ THESE CHARTS legend, colophon card, and the clickable IN THIS EDITION plate index.
+- Shell test queries scoped to header/rail/dividers now that hero and colophon legitimately repeat those strings.
+
 ---
 
 ## [2026-06-23] — One-scroll cutover (Sub-Plan E)
