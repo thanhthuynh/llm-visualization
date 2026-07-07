@@ -26,6 +26,13 @@ Full product replacement: "Inside an LLM" → **The Atlas**, a nautical-chart-th
 - **Changed** hook internals per the handoff spec: `useScrollSpy` now uses the viewport-midpoint rule behind rAF (was IntersectionObserver), `useHashSync` writes `#/{id}` slugs via replaceState, `useKeyboardNav` pages with ←/k and →/j (was ↑/↓), `scrollToScene` offsets by header height × stage zoom + 26px (was scrollIntoView).
 - **Changed** hook unit tests to the new behaviors; shell tests cover header/rail rendering and active-state mapping.
 
+### M2 — Volume I plates
+
+- **Added** `PlateI` (*The Boundaries of Memory*): 128K context-window transect — axis, six-segment bar (System/Retrieved/Conversation/Input/Reserved-hatch/Open) with leader lines and token counts, three-column notes grid, `1 SQUARE = 1,024 TOKENS` footer.
+- **Added** `PlateII` (*Standing Orders*): pinned SYSTEM message stack + six order entries + `COST · 412 TOKENS` callout.
+- **Added** `PlateIII` (*Bearings from Afar*): 760×360 vector-space SVG (solid near-docs vs dashed far-docs with similarity scores), `RETRIEVED → CONTEXT` panel, five-step retrieval pipeline strip.
+- All copy verbatim from the design reference; all numbers illustrative and commented as such. Render tests per plate.
+
 ---
 
 ## [2026-06-23] — One-scroll cutover (Sub-Plan E)
