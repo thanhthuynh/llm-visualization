@@ -31,7 +31,7 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.node.json",
-    "lint": "eslint .",
+    "lint": "eslint . --ignore-pattern 'design_handoff_atlas_website/**' --ignore-pattern 'support.js'",
     "format": "prettier --write \"src/**/*.{ts,tsx,css,json,md}\" \"tests/**/*.{ts,tsx}\" \"e2e/**/*.ts\"",
     "test": "vitest run --passWithNoTests",
     "test:watch": "vitest",

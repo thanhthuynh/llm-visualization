@@ -6,6 +6,21 @@ PR numbers are canonical.
 
 ---
 
+## [Unreleased] — The Atlas rebuild (branch `feat/atlas-rebuild`)
+
+Full product replacement: "Inside an LLM" → **The Atlas**, a nautical-chart-themed single-page explainer of LLM internals (7 plates + Plate IV·Detail in two volumes, gazetteer, colophon). Recreated natively from the design handoff in the existing Vite + React 19 + TS strict + Tailwind v4 stack. One commit per milestone.
+
+### M0 — Theme + scaffold
+
+- **Added** Atlas `@theme` design tokens (page/sheet/panel surfaces, gold + blue accents, 8-step ink ramp, Fraunces/Hanken Grotesk/Spline Sans Mono families, sheet shadow, motion durations). Dark only — no light mode.
+- **Added** self-hosted variable fonts (latin subsets, `public/fonts/*.woff2`) replacing all third-party Google Fonts requests; preloads in `index.html`.
+- **Added** `src/plates/plates.config.ts` — successor to `scenes.config.ts`: 11 canonical section ids (`home`, `plate-i`…`plate-vii`, `plate-iv-detail`, `gazetteer`, `about`), rail labels/groups, header-nav mapping, volume-divider placement.
+- **Added** `<PlateSheet>` chart frame (1280×960 sheet, 48px survey grid, double gold frame at insets 34/42, tick strips, chart/hero variants) plus `PlateTitleRow`/`PlateLede`/`PlateFooter`, `<VolumeDivider>`, `<AtlasSection>` (unique landmark labels).
+- **Changed** `App.tsx` to the Atlas scroll column (1280 canvas, 36px section gap, volume dividers); placeholder plate components stubbed for the M2–M5 workstreams.
+- **Changed** `npm run lint` to ignore the vendored design-handoff prototype files.
+
+---
+
 ## [2026-06-23] — One-scroll cutover (Sub-Plan E)
 
 **PR [#20](https://github.com/thanhthuynh/llm-visualization/pull/20) · `feat(cutover): Sub-Plan E — test canonicalization, OG/meta, CLAUDE.md corrections, docs/provenance sweep`**
