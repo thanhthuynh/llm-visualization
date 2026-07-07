@@ -18,6 +18,8 @@ export function RouteLink({ to, children, onClick, ...rest }: RouteLinkProps) {
   return (
     <a
       data-route={to}
+      data-umami-event="cta-route-link"
+      data-umami-event-to={to}
       href={`#/${to}`}
       onClick={(event) => {
         onClick?.(event)

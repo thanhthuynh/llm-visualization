@@ -13,3 +13,9 @@ test-results
 
 # Claude Code local workspace (never re-commit agent planning artifacts)
 .claude/
+
+# Design handoff package (maintainer notes; never commit)
+design_handoff_atlas_website/
+/support.js
+/The Atlas - Website.dc.html
+/screens/

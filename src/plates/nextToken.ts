@@ -2,7 +2,7 @@
  * Plate IV·Detail — next-token distribution math.
  *
  * Pure re-implementation of the design prototype's `computeNextToken()`
- * (`design_handoff_atlas_website/The Atlas - Website.dc.html`): softmax over
+ * (the design handoff (kept in maintainer notes)): softmax over
  * fixed candidate logits at the effective temperature, ranked descending,
  * with a top-p nucleus marked by cumulative probability *before* each row
  * (greedy decoding admits only rank 1). Every derived display string the

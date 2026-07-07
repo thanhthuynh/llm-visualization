@@ -38,6 +38,8 @@ export function AtlasHeader() {
             to={to}
             aria-current={activeKey === key ? 'true' : undefined}
             className={activeKey === key ? 'text-gold' : 'text-ink-nav'}
+            data-umami-event="cta-nav"
+            data-umami-event-target={key}
           >
             {label}
           </RouteLink>

@@ -7,8 +7,10 @@ import {
   useState,
   type ComponentType,
 } from 'react'
+import { useTrackSceneReach } from '@/analytics/useTrackSceneReach'
 import { AtlasNavProvider, type AtlasNav } from '@/app/AtlasNav'
 import { scrollToScene } from '@/app/scrollToScene'
+import { useAtlasEntrance } from '@/motion/useAtlasEntrance'
 import { useHashSync, parseSectionHash, SECTION_JUMP_EVENT } from '@/app/useHashSync'
 import { useKeyboardNav } from '@/app/useKeyboardNav'
 import { useScaleToFit } from '@/app/useScaleToFit'
@@ -67,6 +69,8 @@ export function Site() {
   const stageRef = useRef<HTMLDivElement>(null)
   useScaleToFit(stageRef)
   useHashSync(activeId)
+  useTrackSceneReach(activeId)
+  useAtlasEntrance()
 
   const go = useCallback((id: SectionId) => {
     setActiveId(id)

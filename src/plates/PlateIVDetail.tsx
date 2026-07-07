@@ -145,6 +145,8 @@ function DecodeChip({ mode, current, onSelect }: DecodeChipProps) {
     <button
       type="button"
       aria-pressed={selected}
+      data-umami-event="cta-decode-control"
+      data-umami-event-mode={mode}
       onClick={() => onSelect(mode)}
       className={`cursor-pointer rounded-[2px] border px-[11px] py-[5px] font-mono text-[10px] font-medium tracking-[.1em] ${
         selected

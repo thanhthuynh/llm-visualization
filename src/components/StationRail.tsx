@@ -34,6 +34,8 @@ export function StationRail() {
               to={section.id}
               aria-current={on ? 'true' : undefined}
               className="flex items-center gap-[10px] px-[2px] py-[4px]"
+              data-umami-event="cta-rail-jump"
+              data-umami-event-scene={section.id}
             >
               <span
                 aria-hidden="true"

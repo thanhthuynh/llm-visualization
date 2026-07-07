@@ -1,15 +1,15 @@
 import { useEffect, useRef } from 'react'
-import type { SceneId } from '@/scenes/scenes.config'
-import type { Depth } from '@/app/DepthContext'
+import type { SectionId } from '@/plates/plates.config'
 import { track } from './umami'
 
-export function useTrackSceneReach(sceneId: SceneId | null, depth: Depth): void {
-  const reached = useRef<Set<SceneId>>(new Set())
+/** Fire `scene-reached` once per section per session as it becomes active. */
+export function useTrackSceneReach(sectionId: SectionId | null): void {
+  const reached = useRef<Set<SectionId>>(new Set())
 
   useEffect(() => {
-    if (sceneId === null) return
-    if (reached.current.has(sceneId)) return
-    reached.current.add(sceneId)
-    track('scene-reached', { scene: sceneId, depth })
-  }, [sceneId, depth])
+    if (sectionId === null) return
+    if (reached.current.has(sectionId)) return
+    reached.current.add(sectionId)
+    track('scene-reached', { scene: sectionId })
+  }, [sectionId])
 }

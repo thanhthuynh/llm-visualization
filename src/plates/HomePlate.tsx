@@ -6,7 +6,7 @@ import type { SectionId } from '@/plates/plates.config'
  * Home hero — "An atlas of language models" over the clickable route map.
  * Every coordinate below (marker/label %-positions, SVG polyline points) is a
  * constant transcribed from the design reference
- * (`design_handoff_atlas_website/The Atlas - Website.dc.html`, `#home`).
+ * (the design handoff (kept in maintainer notes), `#home`).
  */
 
 interface MapStation {

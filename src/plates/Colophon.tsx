@@ -7,7 +7,7 @@ import type { SectionId } from '@/plates/plates.config'
  * Chart No. 00 — the Colophon (About). Hero-variant sheet: premise + chart
  * legend on the left, colophon card + edition index on the right. All copy
  * transcribed verbatim from the design reference
- * (`design_handoff_atlas_website/The Atlas - Website.dc.html`, `#about`).
+ * (the design handoff (kept in maintainer notes), `#about`).
  */
 
 const CHART_LEGEND: ReadonlyArray<{ symbol: string; gloss: string }> = [

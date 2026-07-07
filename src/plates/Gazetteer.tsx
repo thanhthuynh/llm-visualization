@@ -5,7 +5,7 @@ import { GAZETTEER_ENTRIES } from '@/plates/gazetteer.data'
 /**
  * Appendix — Gazetteer of Terms. 17 alphabetized entries in a 3-column grid,
  * each cross-linked to its plate. Layout and copy transcribed from the design
- * reference (`design_handoff_atlas_website/The Atlas - Website.dc.html`,
+ * reference (the design handoff (kept in maintainer notes),
  * `#gazetteer`).
  */
 export function GazetteerPlate() {

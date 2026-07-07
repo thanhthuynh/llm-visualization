@@ -1,53 +1,66 @@
-import { test, expect, type Page } from '@playwright/test'
+import { test, expect } from '@playwright/test'
 
-async function arrowDownTo(page: Page, hash: string) {
-  await page.locator('body').press('ArrowDown')
-  await expect(page).toHaveURL(new RegExp(`${hash}$`)) // settle: each press advances exactly one
-}
+/**
+ * The one-scroll happy path: land on home, walk the whole atlas, use the
+ * reference cross-links. Section ids double as hash slugs (#/{id}).
+ */
+test.describe('happy path', () => {
+  test('lands on the hero with header and rail', async ({ page }) => {
+    await page.goto('/')
+    await expect(page.getByRole('heading', { name: /An atlas of/ })).toBeVisible()
+    await expect(page.getByRole('banner').getByText('The Atlas')).toBeVisible()
+    await expect(page.getByRole('navigation', { name: 'Stations' })).toBeVisible()
+    await expect(
+      page.getByRole('navigation', { name: 'Primary' }).getByText('CHARTS'),
+    ).toBeVisible()
+  })
 
-test('loads PredictScene, toggles Deep, jumps to About', async ({ page }) => {
-  await page.goto('/#prompt')
-  await expect(page.getByText('Inside an LLM').first()).toBeVisible()
+  test('every section is reachable by scrolling and updates the hash', async ({ page }) => {
+    await page.goto('/')
+    const ids = [
+      'home',
+      'plate-i',
+      'plate-ii',
+      'plate-iii',
+      'plate-iv',
+      'plate-iv-detail',
+      'plate-v',
+      'plate-vi',
+      'plate-vii',
+      'gazetteer',
+      'about',
+    ]
+    for (const id of ids) {
+      await page.evaluate((sectionId) => {
+        const el = document.getElementById(sectionId)
+        if (!el) throw new Error(`missing section ${sectionId}`)
+        window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 60 })
+      }, id)
+      await page.waitForTimeout(150)
+      await expect.poll(() => page.evaluate(() => window.location.hash)).toBe(`#/${id}`)
+    }
+  })
 
-  // Navigate to Predict scene via the rail (default scene is now Prompt).
-  await page
-    .getByRole('button', { name: /predict/i })
-    .first()
-    .click()
-  await expect(page.getByRole('heading', { level: 2, name: 'Next-Token Prediction' })).toBeVisible()
+  test('gazetteer entries cross-link to their plates', async ({ page }) => {
+    await page.goto('/#/gazetteer')
+    await page.waitForLoadState('networkidle')
+    const entry = page.locator('#gazetteer a[data-route="plate-v"]').first()
+    await entry.click()
+    await expect.poll(() => page.evaluate(() => window.location.hash)).toBe('#/plate-v')
+    await expect
+      .poll(() =>
+        page.evaluate(() => {
+          const el = document.getElementById('plate-v')
+          return el ? Math.abs(el.getBoundingClientRect().top) < 200 : false
+        }),
+      )
+      .toBe(true)
+  })
 
-  const blueBar = page.getByRole('progressbar', { name: 'blue' })
-  await expect(blueBar).toHaveAttribute('aria-valuenow', '71')
-
-  await page
-    .getByLabel('Next-Token Prediction', { exact: true })
-    .getByRole('button', { name: /go deeper/i })
-    .click()
-  await expect(
-    page.getByLabel('Next-Token Prediction', { exact: true }).getByRole('note'),
-  ).toContainText(/illustrative|gpt-2/i)
-  await expect(page.getByText('softmax')).toBeVisible()
-
-  await page.getByLabel('Temperature').fill('0.2')
-  const cooled = await blueBar.getAttribute('aria-valuenow')
-  expect(Number(cooled)).toBeGreaterThan(71)
-
-  await page.goto('/#about')
-  await expect(page.getByRole('heading', { level: 2, name: /about/i })).toBeVisible()
-  await expect(page).toHaveURL(/#about$/)
-})
-
-test('keyboard nav advances scene-by-scene', async ({ page }) => {
-  await page.goto('/#prompt')
-  // Default is Prompt; one settled ArrowDown should land on Tokenize.
-  await arrowDownTo(page, '#tokenize')
-})
-
-test('skip link is the first focusable element', async ({ page }) => {
-  // This test asserts the top-of-page skip affordance; a fresh (hash-less) entry
-  // now lands on the prologue at scroll-top, where the skip link is first-focusable.
-  // (A station deep-link scrolls the page, moving Chromium's focus start point.)
-  await page.goto('/')
-  await page.locator('body').press('Tab')
-  await expect(page.locator(':focus')).toHaveText(/skip to content/i)
+  test('hero map stations route to plates', async ({ page }) => {
+    await page.goto('/')
+    await page.waitForLoadState('networkidle')
+    await page.locator('#home a[data-route="plate-iv"]').first().click()
+    await expect.poll(() => page.evaluate(() => window.location.hash)).toBe('#/plate-iv')
+  })
 })

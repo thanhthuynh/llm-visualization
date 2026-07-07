@@ -3,7 +3,7 @@ import type { SectionId } from '@/plates/plates.config'
 /**
  * The 17 gazetteer entries, in the reference's row-major (alphabetized) order.
  * Terms, plate refs, and definitions are transcribed verbatim from the design
- * reference (`design_handoff_atlas_website/The Atlas - Website.dc.html`,
+ * reference (the design handoff (kept in maintainer notes),
  * `#gazetteer`). All copy is final; every entry cross-links to its plate.
  */
 export interface GazetteerEntry {

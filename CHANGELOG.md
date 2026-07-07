@@ -53,6 +53,14 @@ Full product replacement: "Inside an LLM" → **The Atlas**, a nautical-chart-th
 - **Added** `ColophonPlate` (*About the Atlas*): premise, HOW TO READ THESE CHARTS legend, colophon card, and the clickable IN THIS EDITION plate index.
 - Shell test queries scoped to header/rail/dividers now that hero and colophon legitimately repeat those strings.
 
+### M6 — Motion, a11y, analytics, ship
+
+- **Added** `useAtlasEntrance`: per-section entrance grammar (sheet 620ms rise, SVG dash-draw 760ms with 40ms stagger, circle pop 520ms with 26ms stagger; IntersectionObserver 0.15, once per section) + ambient loops (gold dashed routes flow at ~14px/s, hollow halo circles pulse 2.4s). Entrances run on `motion`; ambient loops on the Web Animations API (motion's `animate()` does not reliably loop `stroke-dashoffset`). Everything is skipped under `prefers-reduced-motion` — verified statically visible.
+- **Changed** analytics to the Atlas taxonomy (5 of ≤15 events): `scene-reached` re-pointed at the 11 section ids via `useTrackSceneReach`; `cta-rail-jump`, `cta-nav`, `cta-route-link`, `cta-decode-control` fire declaratively via `data-umami-event` attributes.
+- **Changed** test suites to the Atlas: per-plate vitest-axe suite + app-shell axe; Playwright specs rewritten (a11y sweep across all 11 sections, happy path, navigation shell incl. reduced-motion keyboard determinism, Plate IV·Detail decode controls). 134 unit/a11y tests + 24 e2e tests green.
+- **Removed** all dead old-site code: `src/scenes`, `src/prologue`, old components/contexts/hooks, `src/data` datasets, `src/utils`, old motion module, ~75 obsolete test files; dropped unused `d3-scale`, `d3-scale-chromatic`, `zod` dependencies and the d3 vendor chunk.
+- **Changed** `index.html` meta/title to The Atlas; `CLAUDE.md`/`README.md` rewritten to describe the shipped product (all-illustrative honesty discipline); design-handoff paths scrubbed from source comments and gitignored.
+
 ---
 
 ## [2026-06-23] — One-scroll cutover (Sub-Plan E)
