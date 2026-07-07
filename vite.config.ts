@@ -29,7 +29,6 @@ export default defineConfig({
             return 'vendor-react'
           }
           if (/[\\/]node_modules[\\/]motion[\\/]/.test(id)) return 'vendor-motion'
-          if (/[\\/]node_modules[\\/]d3-/.test(id)) return 'vendor-d3'
           return undefined
         },
       },

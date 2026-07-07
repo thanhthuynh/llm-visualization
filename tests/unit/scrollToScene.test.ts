@@ -1,46 +1,83 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import { scrollToScene, prefersReducedMotion } from '@/app/scrollToScene'
+import { setStageZoom } from '@/app/stageZoom'
 import { __setReducedMotion } from '../setup'
-import { scrollToScene } from '@/app/scrollToScene'
 
-describe('scrollToScene', () => {
-  let el: HTMLDivElement
-  let scrollSpy: ReturnType<typeof vi.fn>
+function mountTarget(id: string, top: number): HTMLElement {
+  const el = document.createElement('section')
+  el.id = id
+  vi.spyOn(el, 'getBoundingClientRect').mockReturnValue({ top } as DOMRect)
+  document.body.appendChild(el)
+  return el
+}
 
-  beforeEach(() => {
-    el = document.createElement('div')
-    el.id = 'x'
-    document.body.appendChild(el)
-    scrollSpy = vi.fn()
-    el.scrollIntoView = scrollSpy
-  })
-
+describe('scrollToScene — header-offset scrolling', () => {
   afterEach(() => {
-    el.remove()
+    document.body.innerHTML = ''
+    setStageZoom(1)
+    vi.restoreAllMocks()
   })
 
-  it('calls scrollIntoView with smooth behavior when smooth:true and reduced-motion is OFF', () => {
-    __setReducedMotion(false)
-    scrollToScene('x', { smooth: true })
-    expect(scrollSpy).toHaveBeenCalledOnce()
-    expect(scrollSpy).toHaveBeenCalledWith({ behavior: 'smooth', block: 'start' })
+  it('scrolls to the element top minus header height × zoom + 26px gap', () => {
+    const scrollTo = vi.fn()
+    vi.stubGlobal('scrollTo', scrollTo)
+    Object.defineProperty(window, 'scrollY', { value: 200, configurable: true })
+    mountTarget('plate-iii', 1000)
+    setStageZoom(1)
+
+    scrollToScene('plate-iii')
+    // 1000 + 200 - (60 × 1 + 26) = 1114
+    expect(scrollTo).toHaveBeenCalledWith({ top: 1114, behavior: 'auto' })
   })
 
-  it('calls scrollIntoView with auto behavior when smooth:true but reduced-motion is ON', () => {
+  it('accounts for the stage zoom in the header offset', () => {
+    const scrollTo = vi.fn()
+    vi.stubGlobal('scrollTo', scrollTo)
+    Object.defineProperty(window, 'scrollY', { value: 0, configurable: true })
+    mountTarget('plate-i', 500)
+    setStageZoom(0.5)
+
+    scrollToScene('plate-i')
+    // 500 + 0 - (60 × 0.5 + 26) = 444
+    expect(scrollTo).toHaveBeenCalledWith({ top: 444, behavior: 'auto' })
+  })
+
+  it('clamps to the top of the document', () => {
+    const scrollTo = vi.fn()
+    vi.stubGlobal('scrollTo', scrollTo)
+    Object.defineProperty(window, 'scrollY', { value: 0, configurable: true })
+    mountTarget('home', 10)
+
+    scrollToScene('home')
+    expect(scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'auto' })
+  })
+
+  it('scrolls smoothly on request but instantly under reduced motion', () => {
+    const scrollTo = vi.fn()
+    vi.stubGlobal('scrollTo', scrollTo)
+    Object.defineProperty(window, 'scrollY', { value: 0, configurable: true })
+    mountTarget('gazetteer', 2000)
+
+    scrollToScene('gazetteer', { smooth: true })
+    expect(scrollTo).toHaveBeenLastCalledWith(expect.objectContaining({ behavior: 'smooth' }))
+
     __setReducedMotion(true)
-    scrollToScene('x', { smooth: true })
-    expect(scrollSpy).toHaveBeenCalledOnce()
-    expect(scrollSpy).toHaveBeenCalledWith({ behavior: 'auto', block: 'start' })
+    scrollToScene('gazetteer', { smooth: true })
+    expect(scrollTo).toHaveBeenLastCalledWith(expect.objectContaining({ behavior: 'auto' }))
   })
 
-  it('calls scrollIntoView with auto behavior when no smooth option is passed', () => {
-    __setReducedMotion(false)
-    scrollToScene('x')
-    expect(scrollSpy).toHaveBeenCalledOnce()
-    expect(scrollSpy).toHaveBeenCalledWith({ behavior: 'auto', block: 'start' })
+  it('no-ops when the element is not mounted', () => {
+    const scrollTo = vi.fn()
+    vi.stubGlobal('scrollTo', scrollTo)
+    scrollToScene('missing')
+    expect(scrollTo).not.toHaveBeenCalled()
   })
+})
 
-  it('does not throw and does not call scrollIntoView when the element is missing', () => {
-    expect(() => scrollToScene('missing')).not.toThrow()
-    expect(scrollSpy).not.toHaveBeenCalled()
+describe('prefersReducedMotion', () => {
+  it('reflects the media query at call time', () => {
+    expect(prefersReducedMotion()).toBe(false)
+    __setReducedMotion(true)
+    expect(prefersReducedMotion()).toBe(true)
   })
 })

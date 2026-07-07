@@ -1,136 +1,159 @@
 @import 'tailwindcss';
 
+/* ---------------------------------------------------------------------------
+ * Self-hosted fonts (latin subsets, variable weight axes).
+ * Downloaded from Google Fonts (OFL); served from /public/fonts per the repo
+ * perf budget — no third-party font requests at runtime.
+ * ------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Fraunces';
+  src: url('/fonts/fraunces-latin.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Fraunces';
+  src: url('/fonts/fraunces-italic-latin.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Hanken Grotesk';
+  src: url('/fonts/hanken-grotesk-latin.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Hanken Grotesk';
+  src: url('/fonts/hanken-grotesk-italic-latin.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Spline Sans Mono';
+  src: url('/fonts/spline-sans-mono-latin.woff2') format('woff2');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------------------------------------------------------------------------
+ * The Atlas — design tokens. Dark only; dark IS the design.
+ * Values are the pixel source of truth from the design reference.
+ * ------------------------------------------------------------------------- */
 @theme {
-  --color-bg-base: #0a0a12;
-  --color-surface-card: #16161f;
-  --color-surface-deep: #0e0e18;
-  --color-surface-track: #22222e;
-  --color-rail-inactive: #1e1e2a;
-  --color-bar-inactive: #4a4a5c;
-  --color-border: #2a2a38;
-  --color-text-primary: #f5f5f7;
-  --color-text-muted: #9a9ab0;
+  /* Surfaces */
+  --color-page: #0a111c; /* page background */
+  --color-sheet: #0d1522; /* plate sheet background */
+  --color-panel: #12203a; /* panel fills, used at /30–/50 */
 
-  --color-accent-prompt: #ffc857;
-  --color-accent-tokenize: #6bf178;
-  --color-accent-embed: #4cc9f0;
-  --color-accent-attention: #f72585;
-  --color-accent-predict: #9d4edd;
-  --color-accent-decode: #ff7b00;
-  --color-accent-output: #2ee6d6;
-  --color-accent-window: #6d9eff;
-  --color-accent-system: #b8c4e0;
-  --color-accent-rag: #ff7bae;
-  --color-accent-hallucinate: #ff5c5c;
-  --color-accent-caveat: #fbbf24;
+  /* Accents */
+  --color-gold: #d8a657; /* borders at /50 /45 /30 /28 /25 /22 /16; fills /10 /7 /6 */
+  --color-blue: #5b8fb0;
 
-  --font-display: 'Space Grotesk', system-ui, sans-serif;
-  --font-body: 'Inter', system-ui, sans-serif;
-  --font-mono: 'Space Mono', ui-monospace, monospace;
+  /* Ink ramp (light → dim) */
+  --color-ink-display: #f3ecdc;
+  --color-ink-bright: #ece3d0;
+  --color-ink-body: #a9bad2;
+  --color-ink-soft: #93a6c2;
+  --color-ink-nav: #8fa3bf; /* also the hairline base, used at /18 /22 /28 */
+  --color-ink-muted: #7e93b0;
+  --color-ink-faint: #6f86a5;
+  --color-ink-dim: #5d738f;
 
-  --radius-pill: 999px;
-  --radius-card: 18px;
-  --radius-deep-panel: 16px;
-  --radius-caveat: 12px;
-  --radius-accent-rule: 2px;
-  --radius-rail-active: 14px;
-  --radius-rail-inactive: 10px;
+  /* Type */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono: 'Spline Sans Mono', ui-monospace, monospace;
 
-  --gutter-left: clamp(96px, calc(72px + 2vw), 168px);
-  --gutter-right: clamp(32px, 3vw, 96px);
-  --col-gap: clamp(24px, 3vw, 64px);
-  --col-right: clamp(420px, 30vw, 506px);
-  --stage-min-w: 600px;
-  --stage-h: clamp(640px, 76vh, 820px);
-  --surface-max-w: 506px;
-  --stage-padding: clamp(24px, 3vw, 48px);
+  /* Shadow + radius */
+  --shadow-sheet: 0 2px 10px rgba(0, 0, 0, 0.16);
 
-  --motion-micro: 160ms;
-  --motion-standard: 320ms;
-  --motion-max: 360ms;
-  --motion-stagger: 40ms;
-  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
-  --ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
+  /* Motion (entrance grammar; all gated on prefers-reduced-motion) */
+  --motion-entrance: 620ms; /* sheet fade + rise */
+  --motion-draw: 760ms; /* SVG stroke dash-draw */
+  --motion-pop: 520ms; /* SVG circle scale-in */
+  --motion-hover: 220ms; /* routable-element hover */
 }
 
 html,
 body,
 #root {
-  height: 100%;
-  background: var(--color-bg-base);
-  color: var(--color-text-primary);
+  min-height: 100%;
+  background: var(--color-page);
+  color: var(--color-ink-body);
   font-family: var(--font-body);
-  font-size: 17px;
-  line-height: 27px;
 }
 body {
   margin: 0;
 }
 
-/* single scroll root = the document; snap lives on the root (Phase 0 decision, snap.ts) */
-html {
-  scroll-snap-type: y proximity;
+/* Routable elements (header nav, rail, hero map stations, gazetteer entries,
+ * about index) share one hover grammar. */
+[data-route] {
+  transition:
+    filter var(--motion-hover) ease,
+    transform var(--motion-hover) ease;
 }
-.stations > section {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  min-height: 100vh;
-}
-.prologue-track {
-  scroll-snap-align: none;
-} /* prologue never snaps (Phase 4) */
-.prologue-end-sentinel {
-  scroll-snap-align: start;
+[data-route]:hover {
+  filter: brightness(1.14);
+  transform: translateY(-1px);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+/* Chart-frame primitives shared by every plate sheet (48px survey grid, gold
+ * tick strips). Kept as classes: the repeating-gradient strings are the pixel
+ * source of truth and too unwieldy as inline arbitrary utilities. */
+.survey-grid {
+  background-image:
+    linear-gradient(rgba(143, 163, 191, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(143, 163, 191, 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
 }
-
-/* Responsive: below the xl breakpoint (1280px) the station shell stacks to a
-   single column (see SceneStation). The fixed 3-column grid needs ~1180px, so
-   narrower viewports — phones, portrait tablets, small windows — would otherwise
-   scroll horizontally. Tighten the gutters (the rail is 72px wide), shrink the
-   stage so a stacked section is not absurdly tall, and let the page scroll
-   freely: scroll-snapping tall stacked sections fights natural touch scrolling. */
-@media (max-width: 1279px) {
-  :root {
-    --gutter-left: 84px;
-    --gutter-right: 16px;
-    --stage-h: clamp(360px, 52vh, 520px);
-  }
-  html {
-    scroll-snap-type: none;
-  }
-  .stations > section {
-    scroll-snap-align: none;
-    scroll-snap-stop: normal;
-  }
+.survey-grid-bright {
+  background-image:
+    linear-gradient(rgba(143, 163, 191, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(143, 163, 191, 0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.hero-vignette {
+  background: radial-gradient(125% 90% at 50% -8%, transparent 42%, rgba(0, 0, 0, 0.5) 100%);
+}
+.tick-strip {
+  height: 8px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(216, 166, 87, 0.45) 0 1px,
+    transparent 1px 34px
+  );
 }
 
 .skip-link {
   position: absolute;
-  top: -40px;
+  top: -64px;
   left: 0;
-  background: var(--color-surface-card);
-  color: var(--color-text-primary);
+  background: var(--color-sheet);
+  color: var(--color-ink-bright);
+  border: 1px solid var(--color-gold);
   padding: 8px 12px;
-  border-radius: 6px;
+  border-radius: 4px;
   z-index: 100;
 }
 .skip-link:focus {
   top: 8px;
 }
 
-@keyframes blink-caret {
-  0%,
-  50% {
-    opacity: 1;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
-  51%,
-  100% {
-    opacity: 0;
+  [data-route] {
+    transition: none;
+  }
+  [data-route]:hover {
+    transform: none;
   }
 }

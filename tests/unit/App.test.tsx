@@ -1,127 +1,64 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { render, screen, within } from '@testing-library/react'
 import { Site } from '@/App'
-import { getMountedSceneIds } from '@/scenes/scenes.config'
+import { SECTION_IDS, SECTIONS } from '@/plates/plates.config'
 
-describe('App', () => {
-  it('mounts scenes in config-derived order (DOM order === getMountedSceneIds())', () => {
-    render(<Site />)
-    const main = document.querySelector('main.stations')
-    expect(main).not.toBeNull()
-    const sections = Array.from(main!.querySelectorAll(':scope > section[id]'))
-    const domIds = sections.map((s) => s.id)
-    expect(domIds).toEqual(getMountedSceneIds())
-  })
-  it('mounts the prologue by default, with the rail, topbar wordmark, and stations below', () => {
+describe('Site — Atlas shell', () => {
+  it('renders all 11 sections with canonical ids in scroll order', () => {
     const { container } = render(<Site />)
-    expect(screen.getByRole('navigation', { name: /scenes/i })).toBeInTheDocument()
-    expect(screen.getAllByText(/inside an llm/i).length).toBeGreaterThan(0)
-    // No hash → the animated prologue mounts (reduced-motion off in jsdom).
-    expect(container.querySelector('.prologue-track')).not.toBeNull()
-    // Stations still mount below the prologue.
-    expect(screen.getByRole('heading', { level: 2, name: /prompt input/i })).toBeInTheDocument()
-  })
-  it('renders all fourteen mounted scene headings', () => {
-    render(<Site />)
-    expect(screen.getByRole('heading', { level: 2, name: /around the model/i })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { level: 2, name: /context window/i })).toBeInTheDocument()
-    expect(
-      screen.getByRole('heading', { level: 2, name: /the system prompt/i }),
-    ).toBeInTheDocument()
-    expect(
-      screen.getByRole('heading', { level: 2, name: /retrieval \(rag\)/i }),
-    ).toBeInTheDocument()
-    expect(screen.getByRole('heading', { level: 2, name: /hallucination/i })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { level: 2, name: /prompt input/i })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { level: 2, name: /tokenization/i })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { level: 2, name: /embeddings/i })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { level: 2, name: /attention/i })).toBeInTheDocument()
-    expect(
-      screen.getByRole('heading', { level: 2, name: /next-token prediction/i }),
-    ).toBeInTheDocument()
-    expect(screen.getByRole('heading', { level: 2, name: /decoding loop/i })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { level: 2, name: /output assembly/i })).toBeInTheDocument()
-    expect(
-      screen.getByRole('heading', { level: 2, name: /claude vs chatgpt/i }),
-    ).toBeInTheDocument()
-    expect(
-      screen.getByRole('heading', { level: 2, name: /about this explainer/i }),
-    ).toBeInTheDocument()
-  })
-  it('includes a skip-to-content link pointing at the intro anchor', () => {
-    render(<Site />)
-    const link = screen.getByRole('link', { name: /skip to content/i })
-    expect(link).toBeInTheDocument()
-    expect(link).toHaveAttribute('href', '#intro')
-  })
-  it('drives the TopBar pill from the active scene prompt', () => {
-    render(<Site />)
-    expect(screen.getAllByText(/the sky is/i).length).toBeGreaterThan(0)
-  })
-})
-
-describe('App — deep-link via hash', () => {
-  beforeEach(() => history.replaceState(null, '', '/'))
-  afterEach(() => history.replaceState(null, '', '/'))
-
-  it('activates the decode scene when the initial URL is /#decode', () => {
-    history.replaceState(null, '', '/#decode')
-    render(<Site />)
-    const rail = screen.getByRole('navigation', { name: /scenes/i })
-    expect(within(rail).getByRole('button', { name: /decode/i })).toHaveAttribute(
-      'aria-current',
-      'step',
-    )
+    const sections = Array.from(container.querySelectorAll('section[id]'))
+    expect(sections.map((s) => s.id)).toEqual([...SECTION_IDS])
   })
 
-  it('activates the compare scene when the initial URL is /#compare', () => {
-    history.replaceState(null, '', '/#compare')
-    render(<Site />)
-    const rail = screen.getByRole('navigation', { name: /scenes/i })
-    expect(within(rail).getByRole('button', { name: /^compare$/i })).toHaveAttribute(
-      'aria-current',
-      'step',
-    )
-  })
-
-  it('activates the about scene when the initial URL is /#about', () => {
-    history.replaceState(null, '', '/#about')
-    render(<Site />)
-    const rail = screen.getByRole('navigation', { name: /scenes/i })
-    expect(within(rail).getByRole('button', { name: /^about$/i })).toHaveAttribute(
-      'aria-current',
-      'step',
-    )
-  })
-
-  it('falls back to the prologue/intro for an unknown scene hash', () => {
-    history.replaceState(null, '', '/#nonexistent')
+  it('gives every section landmark a unique aria-label', () => {
     const { container } = render(<Site />)
-    // Unknown hash → showPrologue:true → the prologue mounts; no station is the active fallback.
-    expect(container.querySelector('.prologue-track')).not.toBeNull()
+    const labels = Array.from(container.querySelectorAll('section[id]')).map((s) =>
+      s.getAttribute('aria-label'),
+    )
+    expect(labels).toEqual(SECTIONS.map((s) => s.title))
+    expect(new Set(labels).size).toBe(labels.length)
   })
 
-  it('falls back to the prologue/intro when there is no hash', () => {
-    history.replaceState(null, '', '/')
+  it('renders a single main landmark and a skip link', () => {
     const { container } = render(<Site />)
-    expect(container.querySelector('.prologue-track')).not.toBeNull()
+    expect(container.querySelectorAll('main')).toHaveLength(1)
+    expect(container.querySelector('a.skip-link')).not.toBeNull()
   })
 
-  it('scrolls the deep-linked scene into view on mount', () => {
-    history.replaceState(null, '', '/#decode')
-    const spy = vi.spyOn(Element.prototype, 'scrollIntoView')
-    render(<Site />)
-    const decodeSection = document.getElementById('decode')
-    expect(decodeSection).not.toBeNull()
-    expect(spy.mock.instances).toContain(decodeSection)
-    spy.mockRestore()
+  it('renders the three volume dividers in order between section groups', () => {
+    const { container } = render(<Site />)
+    const dividers = Array.from(container.querySelectorAll('main > div[aria-hidden="true"]'))
+    expect(dividers.map((d) => d.textContent)).toEqual([
+      'VOLUME I · FOUNDATIONS',
+      'VOLUME II · AGENTS',
+      'APPENDIX · REFERENCE',
+    ])
   })
 
-  it('does not scroll on mount when there is no deep-link (activeId stays at intro)', () => {
-    history.replaceState(null, '', '/')
-    const spy = vi.spyOn(Element.prototype, 'scrollIntoView')
+  it('renders the sticky header with brand and CHARTS · GLOSSARY · ABOUT nav', () => {
     render(<Site />)
-    expect(spy).not.toHaveBeenCalled()
-    spy.mockRestore()
+    const header = within(screen.getByRole('banner'))
+    expect(header.getByText('The Atlas')).toBeInTheDocument()
+    expect(header.getByText('CHARTS').closest('a')).toHaveAttribute('href', '#/home')
+    expect(header.getByText('GLOSSARY').closest('a')).toHaveAttribute('href', '#/gazetteer')
+    expect(header.getByText('ABOUT').closest('a')).toHaveAttribute('href', '#/about')
+  })
+
+  it('renders the station rail with 11 stations and group captions', () => {
+    render(<Site />)
+    const rail = screen.getByLabelText('Stations')
+    const inRail = within(rail)
+    expect(rail.querySelectorAll('a[data-route]')).toHaveLength(SECTION_IDS.length)
+    expect(inRail.getByText('VOLUME I')).toBeInTheDocument()
+    expect(inRail.getByText('VOLUME II')).toBeInTheDocument()
+    expect(inRail.getByText('REFERENCE')).toBeInTheDocument()
+    expect(inRail.getByText('IV·D · SOUNDED')).toBeInTheDocument()
+  })
+
+  it('marks the CHARTS nav item active for the initial home section', () => {
+    render(<Site />)
+    const header = within(screen.getByRole('banner'))
+    expect(header.getByText('CHARTS').closest('a')).toHaveAttribute('aria-current', 'true')
+    expect(header.getByText('GLOSSARY').closest('a')).not.toHaveAttribute('aria-current')
   })
 })

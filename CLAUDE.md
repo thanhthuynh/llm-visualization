@@ -1,10 +1,10 @@
-# CLAUDE.md — Inside an LLM (Interactive Explainer)
+# CLAUDE.md — The Atlas (Interactive Explainer)
 
-Agent-facing entry doc. Public pitch + screenshots live in [README.md](README.md); product intent + decisions in [docs/PRD.md](docs/PRD.md); per-area source-tree maps in [docs/CODEMAPS/](docs/CODEMAPS/).
+Agent-facing entry doc. Public pitch + run/test/build commands live in [README.md](README.md); per-PR release log in [CHANGELOG.md](CHANGELOG.md). The design handoff that specified this build is not committed (see over-reveal filter below).
 
 ## What this repo is
 
-A single-page React + TypeScript explainer of what happens between "you typed a prompt" and "the answer streamed out" of an LLM. One cinematic prologue overture, then 14 stations across two parts — **Part 1 · Around the model** (interlude + Context Window + System Prompt + Retrieval/RAG + Hallucination) and **Part 2 · Inside the model** (Prompt → Tokenize → Embed → Attention → Predict → Decode → Output) — plus Compare and About. Each station has a Surface beat and a Deep beat behind a per-scene depth toggle. One scrolling page, hash anchors per station, no router.
+**The Atlas** — a nautical-chart-themed, single-page scrolling explainer of LLM internals. A language model is treated as territory to be surveyed: every concept is a numbered chart plate across two volumes — **Volume I · Foundations** (I Boundaries of Memory / context window, II Standing Orders / system prompt, III Bearings from Afar / retrieval, IV The Inference Passage + IV·Detail The Passage Sounded / inference with live decode controls) and **Volume II · Agents** (V The Self-Directed Survey / agents, VI The Scouting Party / subagents, VII The Circuit / loops) — followed by a **Gazetteer** (17-term glossary) and a **Colophon** (about). One scrolling page, hash slugs `#/{id}` per section, no router. Dark only — dark IS the design.
 
 ## Stack (lock these in your mental model)
 
@@ -12,11 +12,10 @@ A single-page React + TypeScript explainer of what happens between "you typed a 
 |---|---|---|
 | Build | Vite 7 | `npm run dev` → `localhost:5173` |
 | UI | React 19 | Function components only |
-| Types | TypeScript 5.7 **strict** | `exactOptionalPropertyTypes` on; `noUncheckedIndexedAccess` NOT enabled — narrow indexed access by convention; no `any` in app code (use `unknown` + narrowing) |
-| Styles | Tailwind v4 with `@theme` tokens | Canonical theme classes preferred; arbitrary-form is fallback |
-| Motion | `motion` (React-native) only | **No GSAP, no Three.js, no Framer Motion** |
-| Math/scales | `d3-scale`, `d3-scale-chromatic` | No other D3 modules |
-| Validation | Zod | Every dataset validated at load |
+| Types | TypeScript 5.7 **strict** | `exactOptionalPropertyTypes` on; `noUncheckedIndexedAccess` NOT enabled — narrow indexed access by convention; no `any` in app code |
+| Styles | Tailwind v4 with `@theme` tokens | Atlas tokens in `src/index.css`; canonical theme classes first, arbitrary-value utilities for one-off geometry |
+| Motion | `motion` (entrances) + Web Animations API (ambient loops) | **No GSAP, no Three.js, no anime.js** |
+| Fonts | Self-hosted Fraunces · Hanken Grotesk · Spline Sans Mono | Latin variable woff2 in `public/fonts/`; no third-party font requests |
 | Analytics | Umami Cloud | Cookieless; wrapper no-ops without `window.umami` |
 | Unit + a11y-unit | Vitest + jsdom + `vitest-axe` | `npm test`, `npm run a11y` |
 | E2E + a11y-e2e | Playwright + `@axe-core/playwright` | `npm run e2e`, `npm run a11y:e2e` |
@@ -30,68 +29,51 @@ A single-page React + TypeScript explainer of what happens between "you typed a 
 | `npm run dev` | Vite dev server | Local feature work |
 | `npm run build` | Typecheck + production build to `dist/` | Before any release-readiness claim |
 | `npm run preview` | Serve built `dist/` | Smoke-check the actual prod artifact |
-| `npm run typecheck` | `tsc --noEmit` | Before commit |
+| `npm run typecheck` | `tsc --noEmit` (app + node configs) | Before commit |
 | `npm run lint` | ESLint — zero errors, zero warnings | Before commit |
-| `npm run format` | Prettier write across `src/` | Before commit |
+| `npm run format` | Prettier write across `src/`, `tests/`, `e2e/` | Before commit |
 | `npm test` | Vitest unit + a11y-unit | After any component change |
-| `npm run test:watch` | Vitest watch mode | During TDD |
-| `npm run test:coverage` | v8 coverage | Spot-checks only; no hard threshold enforced |
-| `npm run e2e` | Playwright full suite (Chromium) | Before merging anything that touches scenes, scroll, or the prologue |
-| `npm run a11y` | vitest-axe per-scene + app-shell | After any landmark/label change |
-| `npm run a11y:e2e` | Playwright + axe across all stations | Before claiming the audit still passes |
+| `npm run e2e` | Playwright full suite (Chromium) | Before merging anything touching plates, nav, or motion |
+| `npm run a11y` | vitest-axe per plate + app shell | After any landmark/label change |
+| `npm run a11y:e2e` | Playwright + axe across all 11 sections | Before claiming the audit still passes |
 
 ## Architecture in 60 seconds
 
-- **`src/scenes/scenes.config.ts` is the single source of truth.** It declares all station IDs, accent colors, order, and metadata. Any new station starts there; the scene component, hash anchor, and nav follow.
-- **No routing library.** One scrolling page, hash anchors per station, one `useHashSync` hook in `src/app/`.
-- **Scroll-snap stations, not scroll-scrubbing.** Each scene plays its entrance once on entry, then hands control to the user. Don't add scroll-tied animations.
-- **Two reading paths via per-scene depth toggle.** Surface for intuition, Deep for receipts. State lives in `DepthContext` (`src/app/`).
-- **Top-level dirs (see [docs/CODEMAPS/](docs/CODEMAPS/) for detail):**
-  - `app/` — providers + cross-cutting hooks (hash-sync, keyboard, scroll-spy)
-  - `components/` — primitives (Chip, DataBar, CaveatNote, ProgressRail, TopBar, …)
-  - `scenes/` — 14-station scene components + `scenes.config.ts`
-  - `prologue/` — the cinematic intro track + beats
+- **`src/plates/plates.config.ts` is the single source of truth.** It declares the 11 canonical section ids (`home`, `plate-i`…`plate-vii`, `plate-iv-detail`, `gazetteer`, `about`), rail labels/groups, header-nav mapping, and volume-divider placement. Section ids double as hash slugs (`#/{id}`).
+- **Fixed 1280px design canvas.** Every screen is a 1280×960 `<PlateSheet>`; `useScaleToFit` scales the whole stage with CSS `zoom` (layout-affecting, so document height stays correct). The station rail hides below 1100px viewports.
+- **No routing library.** Scroll-spy = the *last section whose top passed the viewport midpoint* (rAF-throttled scroll listener, not IntersectionObserver); `useHashSync` mirrors the active section to the URL via `replaceState`; keyboard pages with ←/k and →/j; `scrollToScene` offsets by header height × stage zoom + 26px.
+- **Top-level dirs:**
+  - `app/` — nav context + cross-cutting hooks (hash-sync, scroll-spy, keyboard, scale-to-fit, stage zoom)
+  - `components/` — shell + frame primitives (PlateSheet/TitleRow/Lede/Footer, AtlasHeader, StationRail, RouteLink, AtlasSection, VolumeDivider)
+  - `plates/` — the 11 screen components + `plates.config.ts` + `nextToken.ts` (pure decode math) + `gazetteer.data.ts`
+  - `motion/` — `useAtlasEntrance` (entrance + ambient grammar)
   - `analytics/` — Umami wrapper, event taxonomy, scene-reach hook
-  - `data/` — Zod-validated dataset loader + `prompts/{sky,cat,conditioning,retrieval-toy,hallucination-case}.json`
 
 ## Conventions that bite if you ignore them
 
-- **Tailwind canonical theme classes first.** `bg-surface-card` not `bg-(--color-surface-card)`. Arbitrary-form is the documented fallback. Inline `style={{...}}` is reserved for runtime-computed values (CSS-var passthrough), arbitrary `gridTemplateColumns` Tailwind can't express, or one-off `calc()`. See [docs/tailwind-migration/cheat-sheet.md](docs/tailwind-migration/cheat-sheet.md). As of the one-scroll cutover there are 34 inline `style={{...}}` blocks across 19 files (all categorized under cheat-sheet Categories 1–3; `src/landing/` has been removed).
-- **Per-scene unique landmark labels.** Every scene's section uses a unique `aria-labelledby` or `aria-label`. Duplicates fail the `vitest-axe` `landmark-unique` rule.
-- **Motion budget ≤360 ms per transition.** Every animation respects `prefers-reduced-motion`. The prologue is the site entry experience — its beats are scroll-driven (not a continuous loop); a static fallback renders under `prefers-reduced-motion`. There is no ambient continuous-motion loop anywhere in the app.
-- **Analytics hard ceiling: ≤15 named events.** Currently 7 (see `src/analytics/events.ts`; Sub-Plan B pruned 3 dead landing events from 10). Adding an event needs a justification. Button clicks should use Umami's `data-umami-event="..."` attribute, not JS. Scene-reach uses the `useTrackSceneReach` hook with once-per-session dedupe.
-- **Zod at the boundary.** Every dataset loaded from `src/data/` is validated. Treat external input as `unknown` until narrowed.
-- **TS strict; treat indexed access defensively.** `noUncheckedIndexedAccess` is NOT enabled, so the compiler won't force it — but narrow array/record access with a guard rather than `!` by convention.
+- **Theme tokens first, never raw hex in TSX.** Colors come from the `@theme` tokens (`text-gold`, `text-blue`, `bg-sheet`, `bg-panel/40`, the `text-ink-*` ramp; hairlines are `border-ink-nav/18` etc). Exceptions: SVG stroke/fill attributes and gradient strings transcribed from the design reference (comment them).
+- **Per-section unique landmark labels.** `<AtlasSection>` gives every section a unique `aria-label`; duplicates fail the vitest-axe landmark-unique rule.
+- **Motion grammar is fixed.** Entrance per section (IO threshold 0.15, once, never re-run): sheet 620ms rise, SVG dash-draw 760ms/40ms stagger, circle pop 520ms/26ms stagger. Ambient loops: gold dashed routes flow at ~14px/s (WAAPI), hollow halo circles pulse 2.4s. ALL of it is skipped under `prefers-reduced-motion` — content fully visible statically. Don't add scroll-tied animation.
+- **Analytics hard ceiling: ≤15 named events.** Currently 5 (see `src/analytics/events.ts`). `scene-reached` fires from `useTrackSceneReach` (once per section per session); all click events use Umami's `data-umami-event` attributes, not JS calls.
+- **Keyboard nav must not eat form controls.** ←/k →/j paging ignores INPUT/TEXTAREA/SELECT — the Plate IV·Detail sliders depend on this.
 
-## Provenance discipline (this is the project's primary success criterion)
+## Honesty discipline (primary success criterion)
 
-Every number, embedding coordinate, attention weight, and probability shown on this site comes from **GPT-2 small**, run offline. **They are illustrative.** Frontier providers (Claude, ChatGPT) do not expose token-level attention, embedding coordinates, or full next-token distributions for arbitrary input, so this site cannot honestly visualize their internals.
+**Every number on this site is illustrative.** Token counts, similarity scores, attention weights, embedding bars, the candidate logits behind the Plate IV·Detail controls (`"A" 3.0 · "The" 2.3 · "In" 1.4 · "Each" 0.9 · "Tokens" 0.7 · "Think" 0.2`) — all of them are fixed design-reference values, not measurements of any real model. Rules:
 
-Rules:
-
-- Any Deep panel that could be misread as measuring a frontier model carries an amber `CaveatNote` component. Do not remove or weaken these.
-- The `Compare` scene tags every claim row as **(a) confirmed**, **(b) reasonably inferable**, or **(c) widely reported**, with a `lastUpdated` stamp. If you add a row, you must pick a tier honestly. (c) is acceptable; quietly upgrading to (a) is not.
-- The `About` scene names the model, the dataset URL, and the illustrative-vs-measured discipline in-app. Do not let copy elsewhere blur this line.
-- Acceptance criterion: a technical reader cannot catch the site in a misleading claim. If you're unsure whether a visualization implies more than it can honestly show, add a CaveatNote.
+- Keep the `// illustrative — design-reference values, not measured` comments next to hardcoded data. Add the same comment to any new illustrative data.
+- The decode math (`src/plates/nextToken.ts`) is real math over illustrative inputs: exact softmax with temperature clamped to ≥0.05, descending sort, `cum < topP` nucleus rule, greedy ⇒ rank 1. Change it only with unit tests proving the distribution.
+- Do not add copy implying any value was measured from a real model. A technical reader must not be able to catch the site in a misleading claim.
 
 ## What NOT to commit (over-reveal filter)
 
-- **Figma file IDs.** Always reference design source of truth as "the project's private Figma file (link kept in maintainer notes)". The ID was scrubbed from working tree on 2026-06-04 (see `docs/audits/2026-06-04-doc-drift.md` companion work).
-- **Internal planning artifacts.** No `.claude/plans/*` paths, no PRP-style internal artifacts, no operator notes.
-- **Absolute paths under `/Users/...` or any developer home dir.** Use repo-relative paths.
-- **Vendor account UUIDs.** The Umami site ID lives only in `.env.example` as a contract — never inline in docs or code.
-- **Untriaged inline `style={{}}` blocks in new components.** Either categorize under cheat-sheet Categories 1–3 in the same PR, or migrate to Tailwind utilities.
-
-Run this before any doc commit: `grep -rn "<token>" --include="*.md"` for each of the above. Working-tree clean is the bar; git history is not rewritten.
+- **The design handoff package** (`design_handoff_atlas_website/`, root-level prototype files). It stays untracked; reference it as "the design handoff (kept in maintainer notes)".
+- **Internal planning artifacts.** No `.claude/plans/*` paths, no operator notes.
+- **Absolute paths under `/Users/...`** — use repo-relative paths in docs and code.
+- **Vendor account UUIDs.** The Umami site ID lives only in `.env.example` as a contract.
 
 ## Where to go next
 
-- Public pitch + run/test/build commands: [README.md](README.md)
-- Per-area source maps: [docs/CODEMAPS/](docs/CODEMAPS/) (generated 2026-06-04)
-- Product intent, decisions, success metrics: [docs/PRD.md](docs/PRD.md)
-- A11y audit + remaining contrast findings: [docs/a11y/2026-06-01-audit.md](docs/a11y/2026-06-01-audit.md)
-- Tailwind migration discipline + remaining exceptions: [docs/tailwind-migration/cheat-sheet.md](docs/tailwind-migration/cheat-sheet.md)
-- Doc drift audit (latest): [docs/audits/2026-06-04-doc-drift.md](docs/audits/2026-06-04-doc-drift.md)
-- Per-PR release log: [CHANGELOG.md](CHANGELOG.md)
-- Brand voice (design-historical; the landing page was dissolved into the prologue): [docs/landing-page-brand-voice.md](docs/landing-page-brand-voice.md)
-- Landing-page design direction (design-historical; the landing page was dissolved into the prologue): [docs/landing-page-design-direction.md](docs/landing-page-design-direction.md)
+- Public pitch + commands: [README.md](README.md)
+- Per-PR / per-milestone release log: [CHANGELOG.md](CHANGELOG.md)
+- Historical docs from the previous product ("Inside an LLM": PRD, a11y audits, Tailwind migration notes) live under `docs/` — they describe the pre-Atlas site and are kept for provenance, not as current guidance.

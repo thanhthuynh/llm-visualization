@@ -6,6 +6,63 @@ PR numbers are canonical.
 
 ---
 
+## [Unreleased] — The Atlas rebuild (branch `feat/atlas-rebuild`)
+
+Full product replacement: "Inside an LLM" → **The Atlas**, a nautical-chart-themed single-page explainer of LLM internals (7 plates + Plate IV·Detail in two volumes, gazetteer, colophon). Recreated natively from the design handoff in the existing Vite + React 19 + TS strict + Tailwind v4 stack. One commit per milestone.
+
+### M0 — Theme + scaffold
+
+- **Added** Atlas `@theme` design tokens (page/sheet/panel surfaces, gold + blue accents, 8-step ink ramp, Fraunces/Hanken Grotesk/Spline Sans Mono families, sheet shadow, motion durations). Dark only — no light mode.
+- **Added** self-hosted variable fonts (latin subsets, `public/fonts/*.woff2`) replacing all third-party Google Fonts requests; preloads in `index.html`.
+- **Added** `src/plates/plates.config.ts` — successor to `scenes.config.ts`: 11 canonical section ids (`home`, `plate-i`…`plate-vii`, `plate-iv-detail`, `gazetteer`, `about`), rail labels/groups, header-nav mapping, volume-divider placement.
+- **Added** `<PlateSheet>` chart frame (1280×960 sheet, 48px survey grid, double gold frame at insets 34/42, tick strips, chart/hero variants) plus `PlateTitleRow`/`PlateLede`/`PlateFooter`, `<VolumeDivider>`, `<AtlasSection>` (unique landmark labels).
+- **Changed** `App.tsx` to the Atlas scroll column (1280 canvas, 36px section gap, volume dividers); placeholder plate components stubbed for the M2–M5 workstreams.
+- **Changed** `npm run lint` to ignore the vendored design-handoff prototype files.
+
+### M1 — Shell + navigation
+
+- **Added** sticky `<AtlasHeader>` (brand mark + CHARTS · GLOSSARY · ABOUT, active item follows the scroll-spy section's nav group) and fixed `<StationRail>` (11 stations under VOLUME I / VOLUME II / REFERENCE captions, gold active marker, hidden below 1100px).
+- **Added** `<RouteLink>` (real `#/{id}` anchors with offset-aware smooth scrolling), `AtlasNav` context, `useScaleToFit` (CSS `zoom` scales the 1280px canvas to the viewport; rail-aware available width).
+- **Changed** hook internals per the handoff spec: `useScrollSpy` now uses the viewport-midpoint rule behind rAF (was IntersectionObserver), `useHashSync` writes `#/{id}` slugs via replaceState, `useKeyboardNav` pages with ←/k and →/j (was ↑/↓), `scrollToScene` offsets by header height × stage zoom + 26px (was scrollIntoView).
+- **Changed** hook unit tests to the new behaviors; shell tests cover header/rail rendering and active-state mapping.
+
+### M2 — Volume I plates
+
+- **Added** `PlateI` (*The Boundaries of Memory*): 128K context-window transect — axis, six-segment bar (System/Retrieved/Conversation/Input/Reserved-hatch/Open) with leader lines and token counts, three-column notes grid, `1 SQUARE = 1,024 TOKENS` footer.
+- **Added** `PlateII` (*Standing Orders*): pinned SYSTEM message stack + six order entries + `COST · 412 TOKENS` callout.
+- **Added** `PlateIII` (*Bearings from Afar*): 760×360 vector-space SVG (solid near-docs vs dashed far-docs with similarity scores), `RETRIEVED → CONTEXT` panel, five-step retrieval pipeline strip.
+- All copy verbatim from the design reference; all numbers illustrative and commented as such. Render tests per plate.
+
+### M3 — The Inference Passage + Plate IV·Detail
+
+- **Added** `PlateIV` (*The Inference Passage*): seven stations on a dashed gold route with abstract glyph cards (text lines, token chips, embedding/attention heat grids, probability bars, nucleus rows, output caret) and the token scale-bar footer.
+- **Added** `PlateIVDetail` (*The Passage, Sounded*): the prompt "What is a token?" charted across seven positioned cards on a 1088×586 canvas with a dashed connecting polyline, plus live **temperature / top-p / decode** controls that recompute the Prediction and Sampling cards instantly.
+- **Added** `nextToken.ts` — pure next-token distribution math matching the prototype exactly: `softmax(logit / max(T, 0.05))`, descending sort, `cum < topP` nucleus rule, greedy ⇒ rank 1; fixed illustrative candidate logits (A 3.0 · The 2.3 · In 1.4 · Each 0.9 · Tokens 0.7 · Think 0.2). 9 unit tests cover sharpening, flattening, nucleus boundaries, greedy strings, and bar widths.
+
+### M4 — Volume II plates
+
+- **Added** `PlateV` (*The Self-Directed Survey*): the reason → act → observe agent loop as dashed gold arcs with GOAL/ANSWER arrows, the five-instrument panel, and the three-step run log.
+- **Added** `PlateVI` (*The Scouting Party*): lead-agent fan-out/fan-in — dashed gold dispatch curves and solid blue findings curves (stretched-viewBox rendering faithfully preserved), three isolated-context subagent cards with RETURNS token bars.
+- **Added** `PlateVII` (*The Circuit*): the closed loop with turn markers, the three-turn iterations table, and the goal-met / step-limit / no-progress stop conditions.
+- SVG marker ids namespaced per plate (`pv-`/`pvi-`/`pvii-`) so arrowheads can't collide on the one-scroll page. 22 render tests.
+
+### M5 — Reference screens
+
+- **Added** `HomePlate` hero: kicker, display H1, stat block, and the chart-panel route map — SVG route network plus station rings, the Plate IV gateway diamond, and the Plate V bullseye, with seven clickable station labels routing to their plates.
+- **Added** `GazetteerPlate` + `gazetteer.data.ts`: 17 alphabetized entries (term · plate ref · one-line definition), every entry a cross-link to its plate; the `17 ENTRIES` footer count derives from the data.
+- **Added** `ColophonPlate` (*About the Atlas*): premise, HOW TO READ THESE CHARTS legend, colophon card, and the clickable IN THIS EDITION plate index.
+- Shell test queries scoped to header/rail/dividers now that hero and colophon legitimately repeat those strings.
+
+### M6 — Motion, a11y, analytics, ship
+
+- **Added** `useAtlasEntrance`: per-section entrance grammar (sheet 620ms rise, SVG dash-draw 760ms with 40ms stagger, circle pop 520ms with 26ms stagger; IntersectionObserver 0.15, once per section) + ambient loops (gold dashed routes flow at ~14px/s, hollow halo circles pulse 2.4s). Entrances run on `motion`; ambient loops on the Web Animations API (motion's `animate()` does not reliably loop `stroke-dashoffset`). Everything is skipped under `prefers-reduced-motion` — verified statically visible.
+- **Changed** analytics to the Atlas taxonomy (5 of ≤15 events): `scene-reached` re-pointed at the 11 section ids via `useTrackSceneReach`; `cta-rail-jump`, `cta-nav`, `cta-route-link`, `cta-decode-control` fire declaratively via `data-umami-event` attributes.
+- **Changed** test suites to the Atlas: per-plate vitest-axe suite + app-shell axe; Playwright specs rewritten (a11y sweep across all 11 sections, happy path, navigation shell incl. reduced-motion keyboard determinism, Plate IV·Detail decode controls). 134 unit/a11y tests + 24 e2e tests green.
+- **Removed** all dead old-site code: `src/scenes`, `src/prologue`, old components/contexts/hooks, `src/data` datasets, `src/utils`, old motion module, ~75 obsolete test files; dropped unused `d3-scale`, `d3-scale-chromatic`, `zod` dependencies and the d3 vendor chunk.
+- **Changed** `index.html` meta/title to The Atlas; `CLAUDE.md`/`README.md` rewritten to describe the shipped product (all-illustrative honesty discipline); design-handoff paths scrubbed from source comments and gitignored.
+
+---
+
 ## [2026-06-23] — One-scroll cutover (Sub-Plan E)
 
 **PR [#20](https://github.com/thanhthuynh/llm-visualization/pull/20) · `feat(cutover): Sub-Plan E — test canonicalization, OG/meta, CLAUDE.md corrections, docs/provenance sweep`**
