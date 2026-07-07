@@ -39,6 +39,13 @@ Full product replacement: "Inside an LLM" → **The Atlas**, a nautical-chart-th
 - **Added** `PlateIVDetail` (*The Passage, Sounded*): the prompt "What is a token?" charted across seven positioned cards on a 1088×586 canvas with a dashed connecting polyline, plus live **temperature / top-p / decode** controls that recompute the Prediction and Sampling cards instantly.
 - **Added** `nextToken.ts` — pure next-token distribution math matching the prototype exactly: `softmax(logit / max(T, 0.05))`, descending sort, `cum < topP` nucleus rule, greedy ⇒ rank 1; fixed illustrative candidate logits (A 3.0 · The 2.3 · In 1.4 · Each 0.9 · Tokens 0.7 · Think 0.2). 9 unit tests cover sharpening, flattening, nucleus boundaries, greedy strings, and bar widths.
 
+### M4 — Volume II plates
+
+- **Added** `PlateV` (*The Self-Directed Survey*): the reason → act → observe agent loop as dashed gold arcs with GOAL/ANSWER arrows, the five-instrument panel, and the three-step run log.
+- **Added** `PlateVI` (*The Scouting Party*): lead-agent fan-out/fan-in — dashed gold dispatch curves and solid blue findings curves (stretched-viewBox rendering faithfully preserved), three isolated-context subagent cards with RETURNS token bars.
+- **Added** `PlateVII` (*The Circuit*): the closed loop with turn markers, the three-turn iterations table, and the goal-met / step-limit / no-progress stop conditions.
+- SVG marker ids namespaced per plate (`pv-`/`pvi-`/`pvii-`) so arrowheads can't collide on the one-scroll page. 22 render tests.
+
 ---
 
 ## [2026-06-23] — One-scroll cutover (Sub-Plan E)
