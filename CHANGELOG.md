@@ -33,6 +33,12 @@ Full product replacement: "Inside an LLM" → **The Atlas**, a nautical-chart-th
 - **Added** `PlateIII` (*Bearings from Afar*): 760×360 vector-space SVG (solid near-docs vs dashed far-docs with similarity scores), `RETRIEVED → CONTEXT` panel, five-step retrieval pipeline strip.
 - All copy verbatim from the design reference; all numbers illustrative and commented as such. Render tests per plate.
 
+### M3 — The Inference Passage + Plate IV·Detail
+
+- **Added** `PlateIV` (*The Inference Passage*): seven stations on a dashed gold route with abstract glyph cards (text lines, token chips, embedding/attention heat grids, probability bars, nucleus rows, output caret) and the token scale-bar footer.
+- **Added** `PlateIVDetail` (*The Passage, Sounded*): the prompt "What is a token?" charted across seven positioned cards on a 1088×586 canvas with a dashed connecting polyline, plus live **temperature / top-p / decode** controls that recompute the Prediction and Sampling cards instantly.
+- **Added** `nextToken.ts` — pure next-token distribution math matching the prototype exactly: `softmax(logit / max(T, 0.05))`, descending sort, `cum < topP` nucleus rule, greedy ⇒ rank 1; fixed illustrative candidate logits (A 3.0 · The 2.3 · In 1.4 · Each 0.9 · Tokens 0.7 · Think 0.2). 9 unit tests cover sharpening, flattening, nucleus boundaries, greedy strings, and bar widths.
+
 ---
 
 ## [2026-06-23] — One-scroll cutover (Sub-Plan E)
