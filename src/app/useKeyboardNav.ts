@@ -5,10 +5,15 @@ interface Handlers {
   onNext: () => void
 }
 
-const PREV_KEYS = new Set(['ArrowUp', 'PageUp'])
-const NEXT_KEYS = new Set(['ArrowDown', 'PageDown'])
+const PREV_KEYS = new Set(['ArrowLeft', 'k'])
+const NEXT_KEYS = new Set(['ArrowRight', 'j'])
 const INTERACTIVE = new Set(['INPUT', 'TEXTAREA', 'SELECT'])
 
+/**
+ * Section paging: ←/k previous, →/j next. Ignored while focus is in a form
+ * control (the Plate IV·Detail sliders) or editable content; natural page
+ * scrolling (↑/↓/PageUp/PageDown/space) stays untouched.
+ */
 export function useKeyboardNav({ onPrev, onNext }: Handlers): void {
   useEffect(() => {
     function handle(event: globalThis.KeyboardEvent) {

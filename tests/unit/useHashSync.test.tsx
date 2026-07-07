@@ -1,40 +1,47 @@
-/* eslint-disable no-undef */
-import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { render, act } from '@testing-library/react'
-import { useHashSync } from '@/app/useHashSync'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import { renderHook } from '@testing-library/react'
+import { useHashSync, parseSectionHash, SECTION_JUMP_EVENT } from '@/app/useHashSync'
 
-function Probe({ active }: { active: string }) {
-  useHashSync(active)
-  return null
-}
+describe('parseSectionHash', () => {
+  it('strips the #/ prefix', () => {
+    expect(parseSectionHash('#/plate-iv')).toBe('plate-iv')
+  })
+  it('accepts a legacy bare-# prefix', () => {
+    expect(parseSectionHash('#gazetteer')).toBe('gazetteer')
+  })
+  it('lowercases and trims', () => {
+    expect(parseSectionHash('#/PLATE-I ')).toBe('plate-i')
+  })
+})
 
 describe('useHashSync', () => {
-  beforeEach(() => history.replaceState(null, '', '/'))
-
-  it('writes the active id to the URL hash', () => {
-    render(<Probe active="predict" />)
-    expect(window.location.hash).toBe('#predict')
+  afterEach(() => {
+    window.history.replaceState(null, '', '/')
   })
 
-  it('emits a scene-jump event when the hash changes externally', () => {
-    const handler = vi.fn()
-    window.addEventListener('llm-explainer:scene-jump', handler as EventListener)
-    render(<Probe active="prompt" />)
-    act(() => {
-      window.location.hash = '#attention'
-      window.dispatchEvent(new HashChangeEvent('hashchange'))
+  it('writes the active section as #/{id} via replaceState', () => {
+    renderHook(() => useHashSync('plate-ii'))
+    expect(window.location.hash).toBe('#/plate-ii')
+  })
+
+  it('updates the hash when the active section changes', () => {
+    const { rerender } = renderHook(({ id }) => useHashSync(id), {
+      initialProps: { id: 'home' },
     })
-    expect(handler).toHaveBeenCalled()
-    const detail = (handler.mock.calls[0][0] as CustomEvent).detail
-    expect(detail).toEqual({ id: 'attention' })
-    window.removeEventListener('llm-explainer:scene-jump', handler as EventListener)
+    rerender({ id: 'plate-vii' })
+    expect(window.location.hash).toBe('#/plate-vii')
   })
 
-  it('does not rewrite the URL hash when activeId already matches the hash on mount', () => {
-    history.replaceState(null, '', '/explorer#decode')
-    const spy = vi.spyOn(window.history, 'replaceState')
-    render(<Probe active="decode" />)
-    expect(spy).not.toHaveBeenCalled()
-    spy.mockRestore()
+  it('re-broadcasts external hashchange events as SECTION_JUMP_EVENT', () => {
+    const seen = vi.fn()
+    const listener = (e: Event) => seen((e as CustomEvent<{ id: string }>).detail.id)
+    window.addEventListener(SECTION_JUMP_EVENT, listener)
+
+    renderHook(() => useHashSync('home'))
+    window.history.replaceState(null, '', '#/plate-v')
+    window.dispatchEvent(new Event('hashchange'))
+
+    expect(seen).toHaveBeenCalledWith('plate-v')
+    window.removeEventListener(SECTION_JUMP_EVENT, listener)
   })
 })

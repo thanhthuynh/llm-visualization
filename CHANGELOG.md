@@ -19,6 +19,13 @@ Full product replacement: "Inside an LLM" → **The Atlas**, a nautical-chart-th
 - **Changed** `App.tsx` to the Atlas scroll column (1280 canvas, 36px section gap, volume dividers); placeholder plate components stubbed for the M2–M5 workstreams.
 - **Changed** `npm run lint` to ignore the vendored design-handoff prototype files.
 
+### M1 — Shell + navigation
+
+- **Added** sticky `<AtlasHeader>` (brand mark + CHARTS · GLOSSARY · ABOUT, active item follows the scroll-spy section's nav group) and fixed `<StationRail>` (11 stations under VOLUME I / VOLUME II / REFERENCE captions, gold active marker, hidden below 1100px).
+- **Added** `<RouteLink>` (real `#/{id}` anchors with offset-aware smooth scrolling), `AtlasNav` context, `useScaleToFit` (CSS `zoom` scales the 1280px canvas to the viewport; rail-aware available width).
+- **Changed** hook internals per the handoff spec: `useScrollSpy` now uses the viewport-midpoint rule behind rAF (was IntersectionObserver), `useHashSync` writes `#/{id}` slugs via replaceState, `useKeyboardNav` pages with ←/k and →/j (was ↑/↓), `scrollToScene` offsets by header height × stage zoom + 26px (was scrollIntoView).
+- **Changed** hook unit tests to the new behaviors; shell tests cover header/rail rendering and active-state mapping.
+
 ---
 
 ## [2026-06-23] — One-scroll cutover (Sub-Plan E)

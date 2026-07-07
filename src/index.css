@@ -133,7 +133,7 @@ body {
 
 .skip-link {
   position: absolute;
-  top: -40px;
+  top: -64px;
   left: 0;
   background: var(--color-sheet);
   color: var(--color-ink-bright);

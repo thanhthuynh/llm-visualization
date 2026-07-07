@@ -3,43 +3,44 @@ import { useEffect } from 'react'
 interface UseScrollSpyOptions {
   ids: ReadonlyArray<string>
   onActiveChange: (id: string) => void
-  rootSelector?: string
-  threshold?: number | number[]
 }
 
-export function useScrollSpy({
-  ids,
-  onActiveChange,
-  rootSelector,
-  threshold = 0.5,
-}: UseScrollSpyOptions): void {
+/**
+ * Midpoint scroll-spy: the active section is the *last* one whose top edge has
+ * passed the vertical midpoint of the viewport. Runs on scroll/resize behind
+ * requestAnimationFrame. (IntersectionObserver can't express "last top above
+ * the midpoint", so this is a measured scroll listener by design.)
+ */
+export function useScrollSpy({ ids, onActiveChange }: UseScrollSpyOptions): void {
   useEffect(() => {
-    if (ids.length === 0) return
-    if (typeof window === 'undefined' || typeof window.IntersectionObserver === 'undefined') {
-      return
+    if (ids.length === 0 || typeof window === 'undefined') return
+
+    let raf: number | null = null
+
+    function spy() {
+      const mid = window.innerHeight * 0.5
+      let current: string | null = null
+      for (const id of ids) {
+        const el = document.getElementById(id)
+        if (el && el.getBoundingClientRect().top <= mid) current = id
+      }
+      if (current !== null) onActiveChange(current)
     }
 
-    const elements = ids
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => el !== null)
-    if (elements.length === 0) return
+    function onScroll() {
+      if (raf !== null) return
+      raf = window.requestAnimationFrame(() => {
+        raf = null
+        spy()
+      })
+    }
 
-    const root = rootSelector ? document.querySelector(rootSelector) : null
-
-    const observer = new window.IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting)
-        if (visible.length === 0) return
-        const top = visible.reduce((best, e) =>
-          e.intersectionRatio > best.intersectionRatio ? e : best,
-        )
-        const id = (top.target as HTMLElement).id
-        if (id) onActiveChange(id)
-      },
-      { root, threshold },
-    )
-
-    elements.forEach((el) => observer.observe(el))
-    return () => observer.disconnect()
-  }, [ids, onActiveChange, rootSelector, threshold])
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+      if (raf !== null) window.cancelAnimationFrame(raf)
+    }
+  }, [ids, onActiveChange])
 }
