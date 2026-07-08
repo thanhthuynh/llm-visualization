@@ -6,6 +6,12 @@ PR numbers are canonical.
 
 ---
 
+## [2026-07-08] — Design-handoff visual fixes (Plates VI · VII · Colophon)
+
+Four-point correction pass against the updated design reference (screens 08/09/11). One commit per fix.
+
+- **Fixed** Plate VI (*The Scouting Party*): the fan-out/fan-in route SVG was stretched to fill the flexible diagram area (`preserveAspectRatio="none"` + `h-full`) while the lead/subagent cards sat at fixed pixel positions, so the curves drifted off the cards and collided with the caption. The diagram is now a fixed 1088×470 canvas — SVG at its natural 1:1 viewBox scale, cards and route labels pixel-positioned inside the same canvas — vertically centered in the remaining sheet height, with the caption moved out of the canvas into normal flow below it. Site rule, now commented at the source: never scale a route SVG independently of its pixel-positioned overlays. (Audited the home hero map, Plate V, Plate III, and Plate IV·Detail for the same defect: none drift — their SVGs are either at fixed natural size or share a normalized %-coordinate space with their overlays.)
+
 ## [Unreleased] — The Atlas rebuild (branch `feat/atlas-rebuild`)
 
 Full product replacement: "Inside an LLM" → **The Atlas**, a nautical-chart-themed single-page explainer of LLM internals (7 plates + Plate IV·Detail in two volumes, gazetteer, colophon). Recreated natively from the design handoff in the existing Vite + React 19 + TS strict + Tailwind v4 stack. One commit per milestone.

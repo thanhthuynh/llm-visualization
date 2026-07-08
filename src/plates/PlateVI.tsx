@@ -54,12 +54,13 @@ const RETURN_PATHS = [
 ] as const
 
 function RouteSvg() {
+  // Natural 1:1 viewBox scale inside the fixed 1088×470 canvas — never
+  // stretch a route SVG independently of its pixel-positioned overlays.
   return (
     <svg
       aria-hidden="true"
       viewBox="0 0 1088 470"
-      preserveAspectRatio="none"
-      className="absolute inset-0 h-full w-full"
+      className="absolute inset-0 h-[470px] w-[1088px]"
     >
       <defs>
         <marker id="pvi-arD" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
@@ -159,19 +160,22 @@ export function PlateVI() {
         No single party can chart everything. A lead agent dispatches subagents — each surveys its
         own territory in isolation, then returns with findings to be drawn together.
       </PlateLede>
-      <div className="relative flex-1">
-        <RouteSvg />
-        <LeadAgentCard />
-        {SUBAGENTS.map((subagent) => (
-          <SubagentCard key={subagent.key} subagent={subagent} />
-        ))}
-        <div className="absolute top-[150px] left-[458px] font-mono text-[10px] font-medium tracking-[.08em] text-gold">
-          dispatch ▸
+      <div className="flex min-h-0 flex-1 flex-col items-center justify-center">
+        {/* Fixed 1088×470 canvas: SVG at natural viewBox scale + pixel-positioned overlays */}
+        <div className="relative h-[470px] w-[1088px] flex-none">
+          <RouteSvg />
+          <LeadAgentCard />
+          {SUBAGENTS.map((subagent) => (
+            <SubagentCard key={subagent.key} subagent={subagent} />
+          ))}
+          <div className="absolute top-[150px] left-[458px] font-mono text-[10px] font-medium tracking-[.08em] text-gold">
+            dispatch ▸
+          </div>
+          <div className="absolute top-[250px] left-[452px] font-mono text-[10px] font-medium tracking-[.08em] text-blue">
+            ◂ findings
+          </div>
         </div>
-        <div className="absolute top-[250px] left-[452px] font-mono text-[10px] font-medium tracking-[.08em] text-blue">
-          ◂ findings
-        </div>
-        <div className="absolute top-[430px] right-0 left-0 text-center font-body text-[12px] text-ink-muted">
+        <div className="mt-[22px] text-center font-body text-[12px] text-ink-muted">
           Each scout works in isolation and in parallel, returning only a condensed finding — so the
           lead&apos;s own chart stays clear.
         </div>
