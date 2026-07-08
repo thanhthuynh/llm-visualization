@@ -84,13 +84,13 @@ function CircuitPanel() {
         ))}
         <circle cx="235" cy="150" r="2.5" fill="#d8a657" />
       </svg>
-      <div className="absolute top-[86px] left-[204px] font-display text-[15px] font-medium text-ink-bright">
+      <div className="absolute top-[66px] right-0 left-0 text-center font-display text-[15px] font-medium text-ink-bright">
         Reason
       </div>
-      <div className="absolute top-[278px] left-[352px] font-display text-[15px] font-medium text-ink-bright">
+      <div className="absolute top-[274px] left-[358px] font-display text-[15px] font-medium text-ink-bright">
         Act
       </div>
-      <div className="absolute top-[278px] left-[40px] font-display text-[15px] font-medium text-ink-bright">
+      <div className="absolute top-[274px] left-0 w-[112px] text-right font-display text-[15px] font-medium text-ink-bright">
         Observe
       </div>
       <div className="absolute top-[206px] left-[198px] w-[74px] text-center">
@@ -164,10 +164,12 @@ export function PlateVII() {
         The agent&apos;s route is a circuit, not a line. It runs the same three steps — reason, act,
         observe — turn after turn, until the goal is reached or the journey is called.
       </PlateLede>
-      <div className="relative flex-1">
-        <CircuitPanel />
-        <IterationsPanel />
-        <StopConditionsPanel />
+      <div className="flex min-h-0 flex-1 flex-col items-center justify-center">
+        <div className="relative h-[430px] w-[1088px] flex-none">
+          <CircuitPanel />
+          <IterationsPanel />
+          <StopConditionsPanel />
+        </div>
       </div>
       <PlateFooter
         left="SURVEYED MMXXVI · THE ATLAS"
