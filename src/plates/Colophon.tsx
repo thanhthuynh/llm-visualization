@@ -88,9 +88,9 @@ export function ColophonPlate() {
           <p className="mb-[30px] max-w-[620px] font-body text-[17px] leading-[1.6] text-ink-body">
             The Atlas treats a language model as territory — a place that can be surveyed, charted,
             and walked. Each concept becomes a plate; each process, a route. The aim is simple: to
-            make the unseen machinery of an LLM legible to anyone willing to read a map. Two
-            volumes chart the territory — the foundations of a single response, and the agents
-            built upon them.
+            make the unseen machinery of an LLM legible to anyone willing to read a map. Two volumes
+            chart the territory — the foundations of a single response, and the agents built upon
+            them.
           </p>
           <div className="mb-[14px] font-mono text-[11px] font-medium tracking-[.14em] text-gold">
             THE PREMISE
